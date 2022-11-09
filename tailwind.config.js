@@ -4,6 +4,11 @@ module.exports = {
     theme: {
         colors: {
             darkGreen: "#414F36",
+            beige: '#B4B6A2',
+            black:'#0D0D0D'
+        },
+        fontFamily:{
+          'serif':['Source Serif Pro', 'serif']
         },
         extend: {},
     },

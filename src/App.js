@@ -2,12 +2,14 @@
 import { useState } from 'react';
 import './App.css';
 import BasicInfoForm from './Components/form/BasicInfoForm';
+import BasicInfo from './Components/CV/BasicInfo';
 import Button from './Components/UI/Button';
 import Card from './Components/UI/Card';
 
 
 function App() {
   const [expandedState, setExpandedState] = useState(false)
+  const [basicInfo, setBasicInfo] = useState()
 
 
   const clickHandler = () =>{
@@ -17,6 +19,8 @@ function App() {
 
   const basicFormDataHandler = (data) =>{
     console.log(data)
+    setExpandedState(false)
+    setBasicInfo(data)
   }
 
   return (
@@ -25,6 +29,7 @@ function App() {
   <Card className={expandedState ?'w-3/4 h-4/5 flex justify-center items-center bg-darkGreen':'w-3/4 h-1 bg-darkGreen'}>
     { expandedState && <BasicInfoForm basicFormData={basicFormDataHandler} />}
   </Card>
+  {basicInfo && <BasicInfo {...basicInfo}></BasicInfo>}
 </div>
   );
 }

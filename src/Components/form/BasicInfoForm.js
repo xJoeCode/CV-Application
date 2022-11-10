@@ -10,12 +10,11 @@ export default function BasicInfoForm(props) {
     const {register, formState: { errors }, handleSubmit} = useForm()
 
     useEffect(()=>{
-        console.log(errors)
+        
     })
 
     const submitHandler = (data,e) =>{
         e.preventDefault()
-
         props.basicFormData(data)
     }
 

@@ -5,6 +5,7 @@ import BasicInfoForm from './Components/form/BasicInfoForm';
 import BasicInfo from './Components/CV/BasicInfo';
 import Button from './Components/UI/Button';
 import Card from './Components/UI/Card';
+import EducationInfoForm from './Components/form/EducationInfoForm';
 
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
   <Button bgColor='bg-darkGreen' onClick={clickHandler}>Create Resume</Button>
   <Card className={expandedState ?'w-3/4 h-4/5 flex justify-center items-center bg-darkGreen':'w-3/4 h-1 bg-darkGreen'}>
     { expandedState && <BasicInfoForm basicFormData={basicFormDataHandler} />}
+    <EducationInfoForm></EducationInfoForm>
   </Card>
   {basicInfo && <BasicInfo {...basicInfo}></BasicInfo>}
 </div>

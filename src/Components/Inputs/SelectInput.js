@@ -12,7 +12,7 @@ export default function SelectInput(props){
     return(
         <li className="list-none flex flex-col justify-center items-start m-2">
             <label className="font-serif text-lg  text-[beige]" htmlFor={props.inputData.id}>{props.children}</label>
-            <select className="bg-beige w-30 h-12 text-lg text-darkGreen p-3 font-serif focus: outline-none placeholder:text-[#5C6052] focus:bg-[#8D9539]" {...props.register} {...props.inputData}>  
+            <select className="bg-beige w-30 h-12 text-lg text-darkBlue p-3 font-serif focus: outline-none placeholder:text-[#5C6052] focus:bg-[#8D9539]" {...props.register} {...props.inputData}>  
             {options}
             </select>
         

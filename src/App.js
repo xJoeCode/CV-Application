@@ -1,37 +1,81 @@
 
-import { useState } from 'react';
+import { useState,useReducer } from 'react';
 import './App.css';
 import BasicInfoForm from './Components/form/BasicInfoForm';
 import BasicInfo from './Components/CV/BasicInfo';
 import Button from './Components/UI/Button';
 import Card from './Components/UI/Card';
 import EducationInfoForm from './Components/form/EducationInfoForm';
+import EducationInfo from './Components/CV/EducationInfo';
+import CvContainer from './Components/UI/CvContainer';
 
+function reducer(state,action){
+  if (action.formType === 'SubmittedBasicInfo'){
+    return{
+      data: [action.formData],
+      formType:[state.formType, action.formType],
+      cvDisplay:true
+
+    }
+  }
+  if (action.formType === 'SubmittedEducationInfo'){
+    return{
+      data: [...state.data, action.formData],
+      formType:[state.formType, action.formType],
+      cvDisplay:true
+
+    }
+  }
+
+  if (action.type === 'setDisplay'){
+    return{
+       ...state, ...action
+    }
+  }
+  
+}
 
 function App() {
   const [expandedState, setExpandedState] = useState(false)
-  const [basicInfo, setBasicInfo] = useState()
+  const [formStates,dispatchForms] = useReducer(reducer,{formType:'init'})
+  //const [basicInfo, setBasicInfo] = useState()
 
+  console.log(formStates)
 
-  const clickHandler = () =>{
+  const clickHandler = (data) =>{
     setExpandedState(true)
     expandedState && setExpandedState(!expandedState)
+    dispatchForms({formType:data, type:'setDisplay'})
   }
 
   const basicFormDataHandler = (data) =>{
+    dispatchForms({formType:'SubmittedBasicInfo', formData:data})
     console.log(data)
     setExpandedState(false)
-    setBasicInfo(data)
+    //setBasicInfo(data)
+  }
+
+  const educationFormDataHandler = data =>{
+    dispatchForms({formType:'SubmittedEducationInfo', formData:data})
+    console.log(data)
+    setExpandedState(false)
+    //setBasicInfo(data)
   }
 
   return (
-<div className=' bg-[#B4B6A2] h-screen flex flex-col justify-center items-center'>
-  <Button bgColor='bg-darkGreen' onClick={clickHandler}>Create Resume</Button>
-  <Card className={expandedState ?'w-3/4 h-4/5 flex justify-center items-center bg-darkGreen':'w-3/4 h-1 bg-darkGreen'}>
-    { expandedState && <BasicInfoForm basicFormData={basicFormDataHandler} />}
-    <EducationInfoForm></EducationInfoForm>
+<div className=' bg-beige h-screen flex flex-col justify-center items-center'>
+  {formStates.formType === 'init' && <Button bgColor='bg-[#066D9F]' onClick={()=>clickHandler('displayBasicInfoForm')}>Create Resume</Button>}
+  {formStates.cvDisplay && <Button onClick={()=>clickHandler('displayEducationInfoForm')} bgColor='bg-[#066D9F]'> Add Education </Button>}
+  <Card className={expandedState ?'w-3/4 h-4/5 flex justify-center items-center bg-darkBlue':'w-3/4 h-1 bg-darkBlue'}>
+    { expandedState && formStates.formType.includes('displayBasicInfoForm') && <BasicInfoForm basicFormData={basicFormDataHandler} />}
+    { expandedState && formStates.formType.includes('displayEducationInfoForm') && <EducationInfoForm educationFormData={educationFormDataHandler}></EducationInfoForm>}
+    
   </Card>
-  {basicInfo && <BasicInfo {...basicInfo}></BasicInfo>}
+  {formStates.cvDisplay && <CvContainer>
+    {formStates.cvDisplay && <BasicInfo {...formStates.data[0]}></BasicInfo>}
+    {formStates.cvDisplay && formStates.formType.includes('SubmittedEducationInfo') && <EducationInfo {...formStates.data[1]}></EducationInfo>}
+  </CvContainer>}
+  
 </div>
   );
 }

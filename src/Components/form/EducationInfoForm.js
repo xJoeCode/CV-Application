@@ -6,7 +6,7 @@ import Button from "../UI/Button";
 
 
 
-export default function EducationInfoForm(){
+export default function EducationInfoForm(props){
 
     const {register, formState: { errors }, handleSubmit} = useForm()
 
@@ -15,6 +15,7 @@ export default function EducationInfoForm(){
     const submitHandler = (data,e) =>{
         e.preventDefault()
         console.log(data)
+        props.educationFormData(data)
     }
 
     return(
@@ -22,12 +23,12 @@ export default function EducationInfoForm(){
             <form onSubmit={handleSubmit(submitHandler)} className="flex flex-col">
                 <ul>
                     <Input register={{...register('schoolName', {required:true})}} labelName="School Name" inputData={{ type: "text", id: "School Name", placeholder:"e.g James Cook Univeristy"  }}> </Input>
-                    <Input register={{...register('schoolName', {required:true})}} labelName="School Location" inputData={{ type: "text", id: "School Name", placeholder:"e.g Singapore"  }}> </Input>
+                    <Input register={{...register('schoolLocation', {required:true})}} labelName="School Location" inputData={{ type: "text", id: "School Name", placeholder:"e.g Singapore"  }}> </Input>
                     <SelectInput register={{...register('degree', {required:true})}} inputData={{name:'Degree', id:'degreeSelect', options:{degreeOptions}}}>Degree</SelectInput>
                     <Input register={{...register('graduationStartDate', {required:true})}} labelName="Graduation Start Date" inputData={{ type: "month", id: "graduationStartDate"}}> </Input>
                     <Input register={{...register('graduationEndDate', {required:true})}} labelName="Graduation End Date" inputData={{ type: "month", id: "graduationEndDate"}}> </Input>
                     <Checkbox register={{...register('currentlyAttending', )}} labelName="I currently attend here" inputData={{ type: "checkbox", id: "currentlyAttending"}}> </Checkbox>
-                    <Button onClick={handleSubmit(submitHandler)}>Submit</Button>
+                    <Button bgColor='bg-brightYellow' onClick={handleSubmit(submitHandler)}>Submit</Button>
                 </ul>
                 
             </form>

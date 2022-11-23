@@ -5,7 +5,7 @@ export default function Input(props) {
                 {props.labelName}
             </label>
             <input
-                className="bg-beige w-30 h-12 text-lg p-3 font-serif focus: outline-none text-darkGreen placeholder:text-[#5C6052] focus:bg-[#8D9539]"
+                className="bg-beige w-30 h-12 text-lg p-3 font-serif focus:outline-none text-darkBlue placeholder:text-[#5C6052] "
                 {...props.register}
                 {...props.inputData}
             ></input>

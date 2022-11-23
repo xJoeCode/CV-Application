@@ -41,6 +41,7 @@ function App() {
   //const [basicInfo, setBasicInfo] = useState()
 
   console.log(formStates)
+  
 
   const clickHandler = (data) =>{
     setExpandedState(true)
@@ -62,6 +63,10 @@ function App() {
     //setBasicInfo(data)
   }
 
+  //const schoolData = formStates?.data?.includes('schoolName') && formStates?.data.filter(info => info.includes('schoolName'))
+  const schoolData = formStates.data?.some(entry => entry.schoolName) && formStates.data.filter(entry => entry.schoolName)
+  console.log(schoolData)
+
   return (
 <div className=' bg-beige h-screen flex flex-col justify-center items-center'>
   {formStates.formType === 'init' && <Button bgColor='bg-[#066D9F]' onClick={()=>clickHandler('displayBasicInfoForm')}>Create Resume</Button>}
@@ -73,7 +78,9 @@ function App() {
   </Card>
   {formStates.cvDisplay && <CvContainer>
     {formStates.cvDisplay && <BasicInfo {...formStates.data[0]}></BasicInfo>}
-    {formStates.cvDisplay && formStates.formType.includes('SubmittedEducationInfo') && <EducationInfo {...formStates.data[1]}></EducationInfo>}
+    {formStates.cvDisplay && formStates.formType.includes('SubmittedEducationInfo') && <h1 className='font-serif text-beige text-5xl'>Education</h1>}
+    {/*formStates.cvDisplay && formStates.formType.includes('SubmittedEducationInfo') && <EducationInfo {...schoolData[0]}></EducationInfo>*/}
+    {formStates.cvDisplay && formStates.formType.includes('SubmittedEducationInfo') && schoolData.map(data => (<EducationInfo {...data}></EducationInfo>))}
   </CvContainer>}
   
 </div>

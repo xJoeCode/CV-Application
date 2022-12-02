@@ -10,26 +10,24 @@ import EducationInfo from './Components/CV/EducationInfo';
 import CvContainer from './Components/UI/CvContainer';
 
 function reducer(state,action){
-  if (action.formType === 'SubmittedBasicInfo'){
+  if (action.cvIncludes === 'BasicInfo'){
     return{
       data: [action.formData],
-      formType:[state.formType, action.formType],
-      cvDisplay:true
-
+      cvIncludes:[action.cvIncludes],
+      formType:'nil'
     }
   }
-  if (action.formType === 'SubmittedEducationInfo'){
+  if (action.cvIncludes === 'EducationInfo'){
     return{
       data: [...state.data, action.formData],
-      formType:[state.formType, action.formType],
-      cvDisplay:true
-
+      cvIncludes:[...state.cvIncludes, action.cvIncludes]
     }
   }
+
 
   if (action.type === 'setDisplay'){
     return{
-       ...state, ...action
+         ...state, ...action
     }
   }
   
@@ -37,6 +35,8 @@ function reducer(state,action){
 
 function App() {
   const [expandedState, setExpandedState] = useState(false)
+  const [cvDisplay, setCvDisplay] = useState(false)
+  const [showEditButtons, setShowEditButtons] = useState(false)
   const [formStates,dispatchForms] = useReducer(reducer,{formType:'init'})
   //const [basicInfo, setBasicInfo] = useState()
 
@@ -44,43 +44,57 @@ function App() {
   
 
   const clickHandler = (data) =>{
-    setExpandedState(true)
-    expandedState && setExpandedState(!expandedState)
+    setExpandedState(!expandedState)
+    data !== 'displayBasicInfoForm' && setCvDisplay(prevState => !prevState)
     dispatchForms({formType:data, type:'setDisplay'})
+    
+  }
+
+  const showEditButtonsHandler = (data) =>{
+    setShowEditButtons(!showEditButtons)
   }
 
   const basicFormDataHandler = (data) =>{
-    dispatchForms({formType:'SubmittedBasicInfo', formData:data})
+    dispatchForms({cvIncludes:'BasicInfo', formData:data})
+    setCvDisplay(true)
     console.log(data)
     setExpandedState(false)
     //setBasicInfo(data)
   }
 
   const educationFormDataHandler = data =>{
-    dispatchForms({formType:'SubmittedEducationInfo', formData:data})
+    dispatchForms({cvIncludes:'EducationInfo', formData:data})
+    setCvDisplay(true)
     console.log(data)
     setExpandedState(false)
     //setBasicInfo(data)
   }
 
-  //const schoolData = formStates?.data?.includes('schoolName') && formStates?.data.filter(info => info.includes('schoolName'))
+ 
+
+  
   const schoolData = formStates.data?.some(entry => entry.schoolName) && formStates.data.filter(entry => entry.schoolName)
-  console.log(schoolData)
+  const basicInfoData = formStates.data?.some(entry => entry.name) && formStates.data?.filter((entry => entry.name))
+  //console.log(basicInfoData)
 
   return (
 <div className=' bg-beige h-screen flex flex-col justify-center items-center'>
-  {formStates.formType === 'init' && <Button bgColor='bg-[#066D9F]' onClick={()=>clickHandler('displayBasicInfoForm')}>Create Resume</Button>}
-  {formStates.cvDisplay && <Button onClick={()=>clickHandler('displayEducationInfoForm')} bgColor='bg-[#066D9F]'> Add Education </Button>}
+  {!formStates.cvIncludes?.includes('BasicInfo') && <Button bgColor='bg-[#066D9F]' onClick={()=>clickHandler('displayBasicInfoForm')}>Create Resume</Button>}
+  <div>
+    {formStates.cvIncludes?.includes('BasicInfo') && <Button onClick={()=>clickHandler('displayEducationInfoForm')} bgColor='bg-[#066D9F]'> Add Education </Button>}
+    {formStates.cvIncludes?.includes('BasicInfo') && <Button onClick={showEditButtonsHandler} bgColor='bg-[#066D9F]'> Edit/Remove </Button>}
+  </div>
+  
   <Card className={expandedState ?'w-3/4 h-4/5 flex justify-center items-center bg-darkBlue':'w-3/4 h-1 bg-darkBlue'}>
-    { expandedState && formStates.formType.includes('displayBasicInfoForm') && <BasicInfoForm basicFormData={basicFormDataHandler} />}
-    { expandedState && formStates.formType.includes('displayEducationInfoForm') && <EducationInfoForm educationFormData={educationFormDataHandler}></EducationInfoForm>}
+    { expandedState && formStates.formType ==='displayBasicInfoForm' && <BasicInfoForm formName='Basic Info' basicFormData={basicFormDataHandler} />}
+    { expandedState && formStates.formType ==='editBasicInfoForm' && <BasicInfoForm formName='Edit Basic Info' data={basicInfoData[0]} basicFormData={basicFormDataHandler} />}
+    { expandedState && formStates.formType==='displayEducationInfoForm' && <EducationInfoForm educationFormData={educationFormDataHandler}></EducationInfoForm>}
     
   </Card>
-  {formStates.cvDisplay && <CvContainer>
-    {formStates.cvDisplay && <BasicInfo {...formStates.data[0]}></BasicInfo>}
-    {formStates.cvDisplay && formStates.formType.includes('SubmittedEducationInfo') && <h1 className='font-serif text-beige text-5xl'>Education</h1>}
-    {/*formStates.cvDisplay && formStates.formType.includes('SubmittedEducationInfo') && <EducationInfo {...schoolData[0]}></EducationInfo>*/}
-    {formStates.cvDisplay && formStates.formType.includes('SubmittedEducationInfo') && schoolData.map(data => (<EducationInfo {...data}></EducationInfo>))}
+  {cvDisplay && <CvContainer>
+    {<BasicInfo onClick={()=>clickHandler('editBasicInfoForm')} showButtons={showEditButtons} {...formStates.data[0]}></BasicInfo>}
+    {formStates.cvIncludes.includes('EducationInfo') && <h1 className='font-serif text-beige border-b-2 text-5xl'>Education</h1>}
+    {formStates.cvIncludes.includes('EducationInfo') && schoolData.map(data => (<EducationInfo {...data}></EducationInfo>))}
   </CvContainer>}
   
 </div>

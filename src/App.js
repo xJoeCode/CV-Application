@@ -23,8 +23,6 @@ function reducer(state,action){
       cvIncludes:[...state.cvIncludes, action.cvIncludes]
     }
   }
-
-
   if (action.type === 'setDisplay'){
     return{
          ...state, ...action
@@ -70,23 +68,29 @@ function App() {
     //setBasicInfo(data)
   }
 
+  const cancelFormSubmissionHandler = (data) =>{
+    dispatchForms({formType:data, type:'setDisplay'})
+    setExpandedState(false)
+  }
+
  
 
   
   const schoolData = formStates.data?.some(entry => entry.schoolName) && formStates.data.filter(entry => entry.schoolName)
   const basicInfoData = formStates.data?.some(entry => entry.name) && formStates.data?.filter((entry => entry.name))
-  //console.log(basicInfoData)
+  const mainButtonsDisplay = formStates.cvIncludes?.includes('BasicInfo') && formStates.formType !=='editBasicInfoForm'
+  
 
   return (
 <div className=' bg-beige h-screen flex flex-col justify-center items-center'>
   {!formStates.cvIncludes?.includes('BasicInfo') && <Button bgColor='bg-[#066D9F]' onClick={()=>clickHandler('displayBasicInfoForm')}>Create Resume</Button>}
   <div>
-    {formStates.cvIncludes?.includes('BasicInfo') && <Button onClick={()=>clickHandler('displayEducationInfoForm')} bgColor='bg-[#066D9F]'> Add Education </Button>}
-    {formStates.cvIncludes?.includes('BasicInfo') && <Button onClick={showEditButtonsHandler} bgColor='bg-[#066D9F]'> Edit/Remove </Button>}
+    {mainButtonsDisplay && <Button onClick={()=>clickHandler('displayEducationInfoForm')} bgColor='bg-[#066D9F]'> Add Education </Button>}
+    {mainButtonsDisplay && <Button onClick={showEditButtonsHandler} bgColor='bg-[#066D9F]'> Edit/Remove </Button>}
   </div>
   
   <Card className={expandedState ?'w-3/4 h-4/5 flex justify-center items-center bg-darkBlue':'w-3/4 h-1 bg-darkBlue'}>
-    { expandedState && formStates.formType ==='displayBasicInfoForm' && <BasicInfoForm formName='Basic Info' basicFormData={basicFormDataHandler} />}
+    { expandedState && formStates.formType ==='displayBasicInfoForm' && <BasicInfoForm formName='Basic Info' cancelFormSubmission = {()=>cancelFormSubmissionHandler('init')} basicFormData={basicFormDataHandler} />}
     { expandedState && formStates.formType ==='editBasicInfoForm' && <BasicInfoForm formName='Edit Basic Info' data={basicInfoData[0]} basicFormData={basicFormDataHandler} />}
     { expandedState && formStates.formType==='displayEducationInfoForm' && <EducationInfoForm educationFormData={educationFormDataHandler}></EducationInfoForm>}
     

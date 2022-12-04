@@ -10,12 +10,17 @@ export default function BasicInfoForm(props) {
     const {register, formState: { errors }, setValue, handleSubmit} = useForm()
 
     useEffect(()=>{
-        console.log(props.data)
+        
     })
 
     const submitHandler = (data,e) =>{
         e.preventDefault()
         props.basicFormData(data)
+    }
+
+    const cancelHandler = (e) =>{
+        e.preventDefault()
+        props.cancelFormSubmission()
     }
 
 
@@ -33,7 +38,11 @@ export default function BasicInfoForm(props) {
                 {errors?.phoneNumber?.type === 'pattern' && <p className="text-[#e04040]"> Please Enter a valid Phone Number</p>}
                 <Input register={{...register('address', {required:true, value:props.data?.address})}} labelName="Address" inputData={{ type: "text", id: "address" }}></Input>
                 {errors?.address?.type === 'required' && <p className="text-[#e04040]"> Address field is missing</p>}
-                <Button bgColor='bg-brightYellow'>Submit</Button>
+                <div>
+                    <Button bgColor='bg-brightYellow'>Submit</Button>
+                    <Button onClick={cancelHandler} bgColor='bg-brightYellow'>Cancel</Button>
+                </div>
+                
             </form>
         </div>
     );

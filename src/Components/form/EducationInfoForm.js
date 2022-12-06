@@ -15,7 +15,7 @@ export default function EducationInfoForm(props){
     const submitHandler = (data,e) =>{
         e.preventDefault()
         console.log(data)
-        props.educationFormData(data)
+        props.educationFormData(data,props.id)
     }
 
     const cancelHandler = (e) =>{

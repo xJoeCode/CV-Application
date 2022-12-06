@@ -14,7 +14,7 @@ export default function BaiscInfo(props){
             <p className="font-serif text-beige text-2xl">{props.email}</p>
             <p className="font-serif text-beige text-2xl">{props.phoneNumber}</p>
             <p className="font-serif text-beige text-2xl">{props.address}</p>
-            {props.showButtons && <ButtonSmall onClick={props.onClick}>Edit/ Delete</ButtonSmall>}
+            {props.showButtons && <ButtonSmall onClick={props.onClick}>Edit</ButtonSmall>}
             </div>
         </>
     )

@@ -25,9 +25,8 @@ function reducer(state,action){
     }
   }
   if (action.type === 'deleteEducationInfo'){
-    const newData = state.data.filter(data => data.id === action.formData) 
-    const educationInfoArray = newData.filter(data => data.schoolName)
-    const latestCvIncludes = educationInfoArray.length === 0 ? state.cvIncludes.filter(inclusion => inclusion !== 'EducationInfo') : state.cvIncludes
+    const newData = state.data.filter(data => data.id !== action.formData) 
+    const latestCvIncludes = newData.filter(data => data.schoolName).length === 0 ? state.cvIncludes.filter(inclusion => inclusion !== 'EducationInfo') : state.cvIncludes
     console.log(latestCvIncludes)
     return{
       data: [...newData],
@@ -89,6 +88,7 @@ function App() {
   const editEducationInfoHandler = (schoolId) =>{
     setExpandedState(!expandedState)
     setCvDisplay(prevState => !prevState)
+    setShowEditButtons(!showEditButtons)
     dispatchForms({formType:'editEducationInfoForm', type:'setDisplay'})
     const schoolData = formStates.data?.some(entry => entry.id === schoolId) && formStates.data.filter(entry => entry.id === schoolId)
     const {id} = schoolData[0]
@@ -97,8 +97,8 @@ function App() {
 
   const deleteEducationInfoHandler = (id) =>{
     dispatchForms({type:'deleteEducationInfo', formData:id})
-    setExpandedState(!expandedState)
-    setCvDisplay(true)
+    setShowEditButtons(!showEditButtons)
+
   }
 
  
@@ -122,12 +122,12 @@ function App() {
     { expandedState && formStates.formType ==='displayBasicInfoForm' && <BasicInfoForm formName='Basic Info' cancelFormSubmission = {()=>cancelFormSubmissionHandler('init')} basicFormData={basicFormDataHandler} />}
     { expandedState && formStates.formType ==='editBasicInfoForm' && <BasicInfoForm cancelFormSubmission = {()=>cancelFormSubmissionHandler('nil')} formName='Edit Basic Info' data={basicInfoData[0]} basicFormData={basicFormDataHandler} />}
     { expandedState && formStates.formType==='displayEducationInfoForm' && <EducationInfoForm cancelFormSubmission = {()=>cancelFormSubmissionHandler('nil')} educationFormData={educationFormDataHandler}></EducationInfoForm>}
-    { expandedState && formStates.formType ==='editEducationInfoForm' && <EducationInfoForm deleteEntry={deleteEducationInfoHandler} cancelFormSubmission = {()=>cancelFormSubmissionHandler('nil')} formName='Edit Education Info' data={schoolDataforEdit[0]} educationFormData={educationFormDataHandler} />}
+    { expandedState && formStates.formType ==='editEducationInfoForm' && <EducationInfoForm  cancelFormSubmission = {()=>cancelFormSubmissionHandler('nil')} formName='Edit Education Info' data={schoolDataforEdit[0]} educationFormData={educationFormDataHandler} />}
   </Card>
   {cvDisplay && <CvContainer>
     {<BasicInfo onClick={()=>clickHandler('editBasicInfoForm')} showButtons={showEditButtons} {...formStates.data[0]}></BasicInfo>}
     {formStates.cvIncludes.includes('EducationInfo') && <h1 className='font-serif text-beige border-b-2 text-5xl'>Education</h1>}
-    {formStates.cvIncludes.includes('EducationInfo') && schoolData.map(data => (<EducationInfo onClick={editEducationInfoHandler} showButtons={showEditButtons} {...data}></EducationInfo>))}
+    {formStates.cvIncludes.includes('EducationInfo') && schoolData.map(data => (<EducationInfo handleDelete={deleteEducationInfoHandler} handleEdit={editEducationInfoHandler} showButtons={showEditButtons} {...data}></EducationInfo>))}
   </CvContainer>}
   
 </div>

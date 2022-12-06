@@ -3,8 +3,11 @@ import ButtonSmall from "../UI/ButtonSmall"
 
 export default function EducationInfo(props){
 
-    const clickHandler = () =>{
-        props.onClick(props.id)
+    const editHandler = () =>{
+        props.handleEdit(props.id)
+    }
+    const deleteHandler = () =>{
+        props.handleDelete(props.id)
     }
 
 
@@ -22,7 +25,11 @@ export default function EducationInfo(props){
                     <p className="font-serif text-beige mx-2 text-2xl">{props.graduationStartDate}</p>
                 </li>
             </ul>
-            {props.showButtons && <ButtonSmall onClick={clickHandler}>Edit/ Delete</ButtonSmall>}
+            <div>
+            {props.showButtons && <ButtonSmall onClick={editHandler}>Edit</ButtonSmall>}
+            {props.showButtons && <ButtonSmall onClick={deleteHandler}>Delete</ButtonSmall>}
+            </div>
+            
             
         </div>
     )

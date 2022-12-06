@@ -23,10 +23,7 @@ export default function EducationInfoForm(props){
         props.cancelFormSubmission()
     }
 
-    const deleteEntry = e =>{
-        e.preventDefault()
-        props.deleteEntry(props.id)
-    }
+    
 
     return(
         <div className="font-serif text-6xl m-2 text-[beige]">
@@ -39,7 +36,6 @@ export default function EducationInfoForm(props){
                     <Input register={{...register('graduationEndDate', {required:true, value:props.data?.graduationEndDate})}} labelName="Graduation End Date" inputData={{ type: "date", id: "graduationEndDate"}}> </Input>
                     <Checkbox register={{...register('currentlyAttending',{value:props.data?.currentlyAttending} )}} labelName="I currently attend here" inputData={{ type: "checkbox", id: "currentlyAttending"}}> </Checkbox>
                     <Button bgColor='bg-brightYellow' onClick={handleSubmit(submitHandler)}>Submit</Button>
-                    <Button bgColor='bg-brightYellow' onClick={deleteEntry}>Delete</Button>
                     <Button bgColor='bg-brightYellow' onClick={cancelHandler}>Cancel</Button>
                 </ul>
                 

@@ -4,19 +4,32 @@ import './App.css';
 import BasicInfoForm from './Components/form/BasicInfoForm';
 import BasicInfo from './Components/CV/BasicInfo';
 import Button from './Components/UI/Button';
-import Card from './Components/UI/Card';
+import FormsContainer from './Components/UI/FormsContainer';
 import EducationInfoForm from './Components/form/EducationInfoForm';
 import EducationInfo from './Components/CV/EducationInfo';
 import CvContainer from './Components/UI/CvContainer';
+import WorkHistoryForm from './Components/form/WorkHistoryForm';
+import WorkInfo from './Components/CV/WorkInfo';
 
 function reducer(state,action){
-  if (action.cvIncludes === 'BasicInfo'){
+  if (action.cvIncludes === 'BasicInfo' && state.data){
+    let lastestStateData = state.data.filter(data => !data.name)
+    lastestStateData.push(action.formData)
     return{
-      data: [action.formData],
+      data: [...state.data.filter(data => !data.name), action.formData],
+      cvIncludes:[...state.cvIncludes, action.cvIncludes],
+      formType:'nil'
+    }
+  }
+
+  if (action.cvIncludes === 'BasicInfo' && !state.data){
+    return{
+      data: [ action.formData],
       cvIncludes:[action.cvIncludes],
       formType:'nil'
     }
   }
+
   if (action.cvIncludes === 'EducationInfo'){
     action.formData.id = state.data.length
     return{
@@ -41,6 +54,15 @@ function reducer(state,action){
     return{
       data: [...newData],
       cvIncludes:[...latestCvIncludes]
+    }
+  }
+
+  if (action.cvIncludes === 'WorkInfo'){
+    action.formData.id = state.data.length
+    console.log(action.cvIncludes)
+    return{
+      data: [...state.data, action.formData],
+      cvIncludes:[...state.cvIncludes, action.cvIncludes]
     }
   }
   if (action.type === 'setDisplay'){
@@ -78,17 +100,16 @@ function App() {
     setCvDisplay(true)
     console.log(data)
     setExpandedState(false)
-    //setBasicInfo(data)
+
   }
 
   const educationFormDataHandler =( data,id )=>{
-    console.log(id)
-    id ? dispatchForms({type:'editEducationInfo', formData:data, formId: id}) : dispatchForms({cvIncludes:'EducationInfo', formData:data})
-    //dispatchForms({cvIncludes:'EducationInfo', formData:data})
+    data.schoolName && (id ? dispatchForms({type:'editEducationInfo', formData:data, formId: id}) : dispatchForms({cvIncludes:'EducationInfo', formData:data}))
+    data.jobTitle && (id ? dispatchForms({type:'editWorkInfo', formData:data, formId: id}) : dispatchForms({cvIncludes:'WorkInfo', formData:data}))
     setCvDisplay(true)
     console.log(data)
     setExpandedState(false)
-    //setBasicInfo(data)
+
   }
 
   const cancelFormSubmissionHandler = (data) =>{
@@ -117,6 +138,7 @@ function App() {
 
   const schoolData = formStates.data?.some(entry => entry.schoolName) && formStates.data.filter(entry => entry.schoolName)
   const basicInfoData = formStates.data?.some(entry => entry.name) && formStates.data?.filter((entry => entry.name))
+  const workInfoData = formStates.data?.some(entry => entry.jobTitle) && formStates.data.filter(entry => entry.jobTitle)
   const mainButtonsDisplay = formStates.cvIncludes?.includes('BasicInfo') && formStates.formType !=='editBasicInfoForm' && formStates.formType !=='displayEducationInfoForm'
   const schoolDataforEdit = formStates.data?.some(entry => entry.schoolName) && formStates.data.filter(entry => entry.id === educationId.current)
  
@@ -127,19 +149,23 @@ function App() {
   {!formStates.cvIncludes?.includes('BasicInfo') && <Button bgColor='bg-[#066D9F]' onClick={()=>clickHandler('displayBasicInfoForm')}>Create Resume</Button>}
   <div>
     {mainButtonsDisplay && <Button onClick={()=>clickHandler('displayEducationInfoForm')} bgColor='bg-[#066D9F]'> Add Education </Button>}
+    {mainButtonsDisplay && <Button onClick={()=>clickHandler('displayWorkHistoryForm')} bgColor='bg-[#066D9F]'> Add Work </Button>}
     {mainButtonsDisplay && <Button onClick={showEditButtonsHandler} bgColor='bg-[#066D9F]'> Edit/Remove </Button>}
   </div>
   
-  <Card className={expandedState ?'w-3/4 h-4/5 flex justify-center items-center bg-darkBlue':'w-3/4 h-1 bg-darkBlue'}>
+  <FormsContainer className={expandedState ?'w-3/4 h-4/5 flex justify-center items-center bg-darkBlue':'w-3/4 h-1 bg-darkBlue'}>
     { expandedState && formStates.formType ==='displayBasicInfoForm' && <BasicInfoForm formName='Basic Info' cancelFormSubmission = {()=>cancelFormSubmissionHandler('init')} basicFormData={basicFormDataHandler} />}
     { expandedState && formStates.formType ==='editBasicInfoForm' && <BasicInfoForm cancelFormSubmission = {()=>cancelFormSubmissionHandler('nil')} formName='Edit Basic Info' data={basicInfoData[0]} basicFormData={basicFormDataHandler} />}
     { expandedState && formStates.formType==='displayEducationInfoForm' && <EducationInfoForm cancelFormSubmission = {()=>cancelFormSubmissionHandler('nil')} educationFormData={educationFormDataHandler}></EducationInfoForm>}
     { expandedState && formStates.formType ==='editEducationInfoForm' && <EducationInfoForm id={educationId.current} cancelFormSubmission = {()=>cancelFormSubmissionHandler('nil')} formName='Edit Education Info' data={schoolDataforEdit[0]} educationFormData={educationFormDataHandler} />}
-  </Card>
+    {expandedState && formStates.formType === 'displayWorkHistoryForm' && <WorkHistoryForm workHistoryFormData={educationFormDataHandler} cancelFormSubmission = {()=>cancelFormSubmissionHandler('nil')}></WorkHistoryForm>}
+  </FormsContainer>
   {cvDisplay && <CvContainer>
-    {<BasicInfo onClick={()=>clickHandler('editBasicInfoForm')} showButtons={showEditButtons} {...formStates.data[0]}></BasicInfo>}
+    {<BasicInfo onClick={()=>clickHandler('editBasicInfoForm')} showButtons={showEditButtons} {...basicInfoData[0]}></BasicInfo>}
     {formStates.cvIncludes.includes('EducationInfo') && <h1 className='font-serif text-beige border-b-2 text-5xl'>Education</h1>}
-    {formStates.cvIncludes.includes('EducationInfo') && schoolData.map(data => (<EducationInfo handleDelete={deleteEducationInfoHandler} handleEdit={editEducationInfoHandler} showButtons={showEditButtons} {...data}></EducationInfo>))}
+    {formStates.cvIncludes.includes('EducationInfo') && schoolData.map(data => (<EducationInfo key={data.id} handleDelete={deleteEducationInfoHandler} handleEdit={editEducationInfoHandler} showButtons={showEditButtons} {...data}></EducationInfo>))}
+    {formStates.cvIncludes.includes('WorkInfo') && <h1 className='font-serif text-beige border-b-2 text-5xl'>Work</h1>}
+    {formStates.cvIncludes.includes('WorkInfo') && workInfoData.map(data =>(<WorkInfo key={data.id} {...data} showButtons={showEditButtons}></WorkInfo>))}
   </CvContainer>}
   
 </div>

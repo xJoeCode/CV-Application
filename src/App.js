@@ -104,10 +104,13 @@ function App() {
   }
 
   const educationFormDataHandler =( data,id )=>{
+
+    const dateOptions = { year:'numeric', month:'long', day:'numeric'}
+    data.schoolName && (data.graduationStartDate = (new Date(`${data.graduationStartDate}`)).toLocaleDateString('en-GB', dateOptions)) && (data.graduationEndDate = (new Date(`${data.graduationEndDate}`)).toLocaleDateString('en-GB', dateOptions))
+    data.jobTitle && (data.startDate = (new Date(`${data.startDate}`)).toLocaleDateString('en-GB', dateOptions)) && (data.endDate = (new Date(`${data.endDate}`)).toLocaleDateString('en-GB', dateOptions))
     data.schoolName && (id ? dispatchForms({type:'editEducationInfo', formData:data, formId: id}) : dispatchForms({cvIncludes:'EducationInfo', formData:data}))
     data.jobTitle && (id ? dispatchForms({type:'editWorkInfo', formData:data, formId: id}) : dispatchForms({cvIncludes:'WorkInfo', formData:data}))
     setCvDisplay(true)
-    console.log(data)
     setExpandedState(false)
 
   }

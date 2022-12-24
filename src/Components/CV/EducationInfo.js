@@ -22,7 +22,7 @@ export default function EducationInfo(props){
                     <p className="font-serif text-beige  text-2xl">{`${props.graduationStartDate} -`}</p>
                 </li>
                 <li>
-                    <p className="font-serif text-beige mx-2 text-2xl">{props.graduationStartDate}</p>
+                    <p className="font-serif text-beige mx-2 text-2xl">{props.graduationEndDate}</p>
                 </li>
             </ul>
             <div>

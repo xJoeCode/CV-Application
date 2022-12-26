@@ -5,7 +5,7 @@ export default function Checkbox(props) {
 
     return (
         <li className="list-none flex justify-center items-center m-2">
-            <input 
+            <input onClick={props.onClick}
                 className=" bg-beige w-9 h-9 p-3 font-serif focus: outline-none appearance-none checked:bg-[#FFF924]  border-4 border-black"
                 {...props.register}
                 {...props.inputData}

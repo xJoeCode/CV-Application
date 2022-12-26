@@ -103,10 +103,10 @@ function App() {
 
   }
 
-  const educationFormDataHandler =( data,id )=>{
+  const otherFormsDataHandler =( data,id )=>{
 
     const dateOptions = { year:'numeric', month:'long', day:'numeric'}
-    data.schoolName && (data.graduationStartDate = (new Date(`${data.graduationStartDate}`)).toLocaleDateString('en-GB', dateOptions)) && (data.graduationEndDate = (new Date(`${data.graduationEndDate}`)).toLocaleDateString('en-GB', dateOptions))
+    //data.schoolName && (data.graduationStartDate = (new Date(`${data.graduationStartDate}`)).toLocaleDateString('en-GB', dateOptions)) && (data.graduationEndDate = (new Date(`${data.graduationEndDate}`)).toLocaleDateString('en-GB', dateOptions))
     data.jobTitle && (data.startDate = (new Date(`${data.startDate}`)).toLocaleDateString('en-GB', dateOptions)) && (data.endDate = (new Date(`${data.endDate}`)).toLocaleDateString('en-GB', dateOptions))
     data.schoolName && (id ? dispatchForms({type:'editEducationInfo', formData:data, formId: id}) : dispatchForms({cvIncludes:'EducationInfo', formData:data}))
     data.jobTitle && (id ? dispatchForms({type:'editWorkInfo', formData:data, formId: id}) : dispatchForms({cvIncludes:'WorkInfo', formData:data}))
@@ -159,9 +159,9 @@ function App() {
   <FormsContainer className={expandedState ?'w-3/4 h-4/5 flex justify-center items-center bg-darkBlue':'w-3/4 h-1 bg-darkBlue'}>
     { expandedState && formStates.formType ==='displayBasicInfoForm' && <BasicInfoForm formName='Basic Info' cancelFormSubmission = {()=>cancelFormSubmissionHandler('init')} basicFormData={basicFormDataHandler} />}
     { expandedState && formStates.formType ==='editBasicInfoForm' && <BasicInfoForm cancelFormSubmission = {()=>cancelFormSubmissionHandler('nil')} formName='Edit Basic Info' data={basicInfoData[0]} basicFormData={basicFormDataHandler} />}
-    { expandedState && formStates.formType==='displayEducationInfoForm' && <EducationInfoForm cancelFormSubmission = {()=>cancelFormSubmissionHandler('nil')} educationFormData={educationFormDataHandler}></EducationInfoForm>}
-    { expandedState && formStates.formType ==='editEducationInfoForm' && <EducationInfoForm id={educationId.current} cancelFormSubmission = {()=>cancelFormSubmissionHandler('nil')} formName='Edit Education Info' data={schoolDataforEdit[0]} educationFormData={educationFormDataHandler} />}
-    {expandedState && formStates.formType === 'displayWorkHistoryForm' && <WorkHistoryForm workHistoryFormData={educationFormDataHandler} cancelFormSubmission = {()=>cancelFormSubmissionHandler('nil')}></WorkHistoryForm>}
+    { expandedState && formStates.formType==='displayEducationInfoForm' && <EducationInfoForm cancelFormSubmission = {()=>cancelFormSubmissionHandler('nil')} educationFormData={otherFormsDataHandler}></EducationInfoForm>}
+    { expandedState && formStates.formType ==='editEducationInfoForm' && <EducationInfoForm id={educationId.current} cancelFormSubmission = {()=>cancelFormSubmissionHandler('nil')} formName='Edit Education Info' data={schoolDataforEdit[0]} educationFormData={otherFormsDataHandler} />}
+    {expandedState && formStates.formType === 'displayWorkHistoryForm' && <WorkHistoryForm workHistoryFormData={otherFormsDataHandler} cancelFormSubmission = {()=>cancelFormSubmissionHandler('nil')}></WorkHistoryForm>}
   </FormsContainer>
   {cvDisplay && <CvContainer>
     {<BasicInfo onClick={()=>clickHandler('editBasicInfoForm')} showButtons={showEditButtons} {...basicInfoData[0]}></BasicInfo>}

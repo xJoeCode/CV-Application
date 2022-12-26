@@ -7,7 +7,7 @@ export default function BasicInfoForm(props) {
 
    
 
-    const {register, formState: { errors }, setValue, handleSubmit} = useForm()
+    const {register, formState: { errors },  handleSubmit} = useForm()
 
     useEffect(()=>{
         

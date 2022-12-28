@@ -76,15 +76,15 @@ export default function EducationInfoForm(props){
             <form onSubmit={handleSubmit(submitHandler)} className="flex flex-col">
                 <ul>
                     <Input register={{...register('schoolName', {required:true, value:props.data?.schoolName})}} labelName="School Name" inputData={{ type: "text", id: "School Name", placeholder:"e.g James Cook Univeristy"  }}> </Input>
-                    {errors.schoolName &&  <p className="text-[#e04040] text-xs"> School Name field is missing</p>}
+                    {errors.schoolName &&  <p className="text-[#e04040] text-xs"> School Name field is empty</p>}
                     <Input register={{...register('schoolLocation', {required:true, value:props.data?.schoolLocation})}} labelName="School Location" inputData={{ type: "text", id: "School Name", placeholder:"e.g Singapore"  }}> </Input>
-                    {errors.schoolLocation &&  <p className="text-[#e04040] text-xs"> School Location field is missing</p>}
+                    {errors.schoolLocation &&  <p className="text-[#e04040] text-xs"> School Location field is empty</p>}
                     <SelectInput register={{...register('degree', {required:true, value:props.data?.degree})}} inputData={{name:'Degree', id:'degreeSelect', options:{degreeOptions}}}>Degree</SelectInput>
                     <Input register={{...register('graduationStartDate', {required:true, value:props.data?.graduationStartDate})}} labelName="Graduation Start Date" inputData={{ type: "date", id: "graduationStartDate"}}> </Input>
-                    {errors.graduationStartDate && <p className="text-[#e04040] text-xs"> Graduation Start Date field is missing</p>}
+                    {errors.graduationStartDate && <p className="text-[#e04040] text-xs"> Graduation Start Date field is empty</p>}
                     {watch('currentlyAttending') || <Input register={{...register('graduationEndDate', {required:true, value:props.data?.graduationEndDate})}} labelName="Graduation End Date" inputData={{ type: "date", id: "graduationEndDate"}}> </Input>}
                     {errors.graduationEndDate?.type === 'custom' && <p className="text-[#e04040] text-xs"> {`${errors.graduationEndDate.message}`}</p>}
-                    {errors.graduationEndDate?.type === 'required' && <p className="text-[#e04040] text-xs"> Graduation End Date field is missing</p>}
+                    {errors.graduationEndDate?.type === 'required' && <p className="text-[#e04040] text-xs"> Graduation End Date field is empty</p>}
                     <Checkbox register={{...register('currentlyAttending',{value:props.data?.currentlyAttending} )}} labelName="I currently attend here" inputData={{ type: "checkbox", id: "currentlyAttending"}}> </Checkbox>
                     
                     <Button bgColor='bg-brightYellow' onClick={handleSubmit(submitHandler)}>Submit</Button>

@@ -8,20 +8,14 @@ import React, { useEffect } from "react";
 
 
 export default function EducationInfoForm(props){
+
     const {register, watch, formState: { errors }, setError, clearErrors, handleSubmit} = useForm()
     let {graduationStartDate, graduationEndDate, currentlyAttending} = watch()
 
 
     
-    
-    
     useEffect(()=>{
-        
-        
         console.log(errors)
-
-
-        
     })
     
 
@@ -39,7 +33,7 @@ export default function EducationInfoForm(props){
 
     const submitHandler = (data,e) =>{
         e.preventDefault()
-        
+        console.log(data.graduationStartDate)
          graduationStartDate = new Date(`${data.graduationStartDate}`)
         currentlyAttending ?  graduationEndDate = new Date(): graduationEndDate = new Date(`${data.graduationEndDate}`)
 
@@ -49,8 +43,6 @@ export default function EducationInfoForm(props){
             clearErrors('graduationEndDate')
         }
         
-        
-        console.log(graduationStartDate < graduationEndDate)
 
         const dateOptions = { year:'numeric', month:'long', day:'numeric'}
         data.graduationStartDate = graduationStartDate.toLocaleDateString('en-GB', dateOptions)
@@ -67,8 +59,15 @@ export default function EducationInfoForm(props){
         props.cancelFormSubmission()
     }
 
-    
 
+    let newStartDate = props.data?.graduationStartDate && new Date(`${props.data?.graduationStartDate}`)
+    let newEndDate = props.data?.graduationEndDate && new Date(`${props.data?.graduationEndDate}`)
+
+
+    newStartDate = props.data?.graduationStartDate && {day:`${newStartDate.getDate()}`.padStart(2,'0'), month:`${newStartDate.getMonth()+1}`.padStart(2,'0'), year:`${newStartDate.getFullYear()}`} 
+    newStartDate = props.data?.graduationStartDate && `${newStartDate.year}-${newStartDate.month}-${newStartDate.day}`
+    newEndDate = props.data?.graduationEndDate && {day:`${newEndDate.getDate()}`.padStart(2,'0'), month:`${newEndDate.getMonth()+1}`.padStart(2,'0'), year:`${newEndDate.getFullYear()}`} 
+    newEndDate = props.data?.graduationEndDate && `${newEndDate.year}-${newEndDate.month}-${newEndDate.day}`
     
 
     return(
@@ -80,9 +79,9 @@ export default function EducationInfoForm(props){
                     <Input register={{...register('schoolLocation', {required:true, value:props.data?.schoolLocation})}} labelName="School Location" inputData={{ type: "text", id: "School Name", placeholder:"e.g Singapore"  }}> </Input>
                     {errors.schoolLocation &&  <p className="text-[#e04040] text-xs"> School Location field is empty</p>}
                     <SelectInput register={{...register('degree', {required:true, value:props.data?.degree})}} inputData={{name:'Degree', id:'degreeSelect', options:{degreeOptions}}}>Degree</SelectInput>
-                    <Input register={{...register('graduationStartDate', {required:true, value:props.data?.graduationStartDate})}} labelName="Graduation Start Date" inputData={{ type: "date", id: "graduationStartDate"}}> </Input>
+                    <Input register={{...register('graduationStartDate', {required:true, value:newStartDate})}} labelName="Graduation Start Date" inputData={{ type: "date", id: "graduationStartDate"}}> </Input>
                     {errors.graduationStartDate && <p className="text-[#e04040] text-xs"> Graduation Start Date field is empty</p>}
-                    {watch('currentlyAttending') || <Input register={{...register('graduationEndDate', {required:true, value:props.data?.graduationEndDate})}} labelName="Graduation End Date" inputData={{ type: "date", id: "graduationEndDate"}}> </Input>}
+                    {watch('currentlyAttending') || <Input register={{...register('graduationEndDate', {required:true, value:newEndDate})}} labelName="Graduation End Date" inputData={{ type: "date", id: "graduationEndDate"}}> </Input>}
                     {errors.graduationEndDate?.type === 'custom' && <p className="text-[#e04040] text-xs"> {`${errors.graduationEndDate.message}`}</p>}
                     {errors.graduationEndDate?.type === 'required' && <p className="text-[#e04040] text-xs"> Graduation End Date field is empty</p>}
                     <Checkbox register={{...register('currentlyAttending',{value:props.data?.currentlyAttending} )}} labelName="I currently attend here" inputData={{ type: "checkbox", id: "currentlyAttending"}}> </Checkbox>

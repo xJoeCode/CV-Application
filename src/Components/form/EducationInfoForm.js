@@ -49,7 +49,7 @@ export default function EducationInfoForm(props){
         data.graduationEndDate = graduationEndDate.toLocaleDateString('en-GB', dateOptions)
 
         const customValidation = graduationStartDate < graduationEndDate 
-        customValidation && props.educationFormData(data,props.id)
+        customValidation && props.handleFormData(data,props.id)
         
 
     }
@@ -73,6 +73,7 @@ export default function EducationInfoForm(props){
     return(
         <div className="font-serif text-6xl m-2 text-[beige]">
             <form onSubmit={handleSubmit(submitHandler)} className="flex flex-col">
+            <h1>{props.formName}</h1>
                 <ul>
                     <Input register={{...register('schoolName', {required:true, value:props.data?.schoolName})}} labelName="School Name" inputData={{ type: "text", id: "School Name", placeholder:"e.g James Cook Univeristy"  }}> </Input>
                     {errors.schoolName &&  <p className="text-[#e04040] text-xs"> School Name field is empty</p>}

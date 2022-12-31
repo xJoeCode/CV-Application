@@ -4,17 +4,17 @@ import ButtonSmall from "../UI/ButtonSmall"
 export default function EducationInfo(props){
 
     const editHandler = () =>{
-        props.handleEdit(props.id)
+        props.handleEdit(props.id,'education')
     }
     const deleteHandler = () =>{
-        props.handleDelete(props.id)
+        props.handleDelete(props.id,'education')
     }
 
 
     return(
 
         <div className=" flex flex-col items-center m-3">
-            <h1 className="font-serif text-center text-beige text-2xl">{`School: ${props.schoolName}`}</h1>
+            <p className="font-serif text-center text-beige text-2xl">{`School: ${props.schoolName}`}</p>
             <p className="font-serif text-beige text-center text-2xl">{`Location: ${props.schoolLocation}`}</p>
             <p className="font-serif text-beige text-center text-2xl">{`Qualifications: ${props.degree}`}</p>
             <ul className=" flex justify-center">

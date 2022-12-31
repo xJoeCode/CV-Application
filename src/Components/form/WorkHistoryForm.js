@@ -33,7 +33,7 @@ export default function WorkHistoryForm(props){
         data.startDate = startDate.toLocaleDateString('en-GB', dateOptions)
         data.endDate = endDate.toLocaleDateString('en-GB', dateOptions)
 
-        customValidation && props.workHistoryFormData(data,props.id)
+        customValidation && props.handleFormData(data,props.id)
         
     }
 
@@ -56,8 +56,9 @@ export default function WorkHistoryForm(props){
     return(
         <div className="font-serif text-6xl m-2 text-[beige]">
             <form onSubmit={handleSubmit(submitHandler)} className="flex flex-col">
+                <h1>{props.formName}</h1>
                 <ul>
-                    <Input register={{...register('jobTitle', {required:true, value:props.data?.jobtitle})}} labelName="Job Title" inputData={{ type: "text", id: "jobTitle", placeholder:"e.g Retail Sales Associate"  }}> </Input>
+                    <Input register={{...register('jobTitle', {required:true, value:props.data?.jobTitle})}} labelName="Job Title" inputData={{ type: "text", id: "jobTitle", placeholder:"e.g Retail Sales Associate"  }}> </Input>
                     {errors.jobTitle &&  <p className="text-[#e04040] text-xs"> Job Title field is empty</p>}
                     <Input register={{...register('employer', {required:true, value:props.data?.employer})}} labelName="Employer" inputData={{ type: "text", id: "employer", placeholder:"e.g H&M"  }}> </Input>
                     {errors.employer &&  <p className="text-[#e04040] text-xs"> Employer field is empty</p>}

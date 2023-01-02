@@ -26,7 +26,7 @@ export default function BasicInfoForm(props) {
 
     return (
         <div>
-            <h1 className="font-serif text-6xl m-2 text-center text-[beige]">{props.formName}</h1>
+            <h1 className="font-serif text-6xl m-2 text-center text-ultraDarkBlue">{props.formName}</h1>
             <form onSubmit={handleSubmit(submitHandler)} className="flex flex-col items-center content-between text-center">
                 <Input  register={{...register('name', {required:true, value:props.data?.name})}} labelName="Name" inputData={{ type: "text", id: "name",  }}></Input>
                 {errors?.name?.type === 'required' && <p className="text-[#e04040]"> Name field is missing</p>}
@@ -38,8 +38,8 @@ export default function BasicInfoForm(props) {
                 {errors?.phoneNumber?.type === 'pattern' && <p className="text-[#e04040]"> Please Enter a valid Phone Number</p>}
                 <Input register={{...register('address', {required:true, value:props.data?.address})}} labelName="Address" inputData={{ type: "text", id: "address" }}></Input>
                 {errors?.address?.type === 'required' && <p className="text-[#e04040]"> Address field is missing</p>}
-                <Button bgColor='bg-brightYellow'>Submit</Button>
-                <Button onClick={cancelHandler} bgColor='bg-brightYellow'>Cancel</Button>
+                <Button bgColor='bg-green'>Submit</Button>
+                <Button onClick={cancelHandler} bgColor='bg-green'>Cancel</Button>
             
             </form>
         </div>

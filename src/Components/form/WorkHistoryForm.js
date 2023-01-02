@@ -70,8 +70,8 @@ export default function WorkHistoryForm(props){
                     {errors.endDate?.type === 'required' &&  <p className="text-[#e04040] text-xs"> End Date field is empty</p>}
                     {errors.endDate?.type === 'custom' && <p className="text-[#e04040] text-xs"> {`${errors.endDate.message}`}</p>}
                     <Checkbox register={{...register('currentlyWorking',{value:props.data?.currentlyWorking} )}} labelName="I currently work here" inputData={{ type: "checkbox", id: "currentlyWorking"}}> </Checkbox>
-                    <Button bgColor='bg-brightYellow' onClick={handleSubmit(submitHandler)}>Submit</Button>
-                    <Button bgColor='bg-brightYellow' onClick={cancelHandler}>Cancel</Button>
+                    <Button bgColor='bg-green' onClick={handleSubmit(submitHandler)}>Submit</Button>
+                    <Button bgColor='bg-green' onClick={cancelHandler}>Cancel</Button>
                 </ul>
                 
             </form>

@@ -87,8 +87,8 @@ export default function EducationInfoForm(props){
                     {errors.graduationEndDate?.type === 'required' && <p className="text-[#e04040] text-xs"> Graduation End Date field is empty</p>}
                     <Checkbox register={{...register('currentlyAttending',{value:props.data?.currentlyAttending} )}} labelName="I currently attend here" inputData={{ type: "checkbox", id: "currentlyAttending"}}> </Checkbox>
                     
-                    <Button bgColor='bg-brightYellow' onClick={handleSubmit(submitHandler)}>Submit</Button>
-                    <Button bgColor='bg-brightYellow' onClick={cancelHandler}>Cancel</Button>
+                    <Button bgColor='bg-green' onClick={handleSubmit(submitHandler)}>Submit</Button>
+                    <Button bgColor='bg-green' onClick={cancelHandler}>Cancel</Button>
                 </ul>
                 
             </form>

@@ -1,15 +1,16 @@
 import Input from "../Inputs/Input";
-import {useForm} from 'react-hook-form'
+import {useForm, Controller} from 'react-hook-form'
 import SelectInput from "../Inputs/SelectInput";
 import Checkbox from "../Inputs/Checkbox";
 import Button from "../UI/Button";
 import React, { useEffect } from "react";
+import Select from "react-select";
 
 
 
 export default function EducationInfoForm(props){
 
-    const {register, watch, formState: { errors }, setError, clearErrors, handleSubmit} = useForm()
+    const {register, watch, control, formState: { errors }, setError, clearErrors, handleSubmit} = useForm()
     let {graduationStartDate, graduationEndDate, currentlyAttending} = watch()
 
 
@@ -29,7 +30,7 @@ export default function EducationInfoForm(props){
         return(graduationStartDate <= graduationEndDate)
     }
     
-    const degreeOptions = ['High School Diploma', 'GED', 'Associate of Arts','Associate of Science', 'Associate of Applied Science', 'Bachelor of Arts', 'Bachelor of Science', 'BBA', 'Master of Arts', 'Master of Science', 'MBA', 'PH.D' ]
+    
 
     const submitHandler = (data,e) =>{
         e.preventDefault()
@@ -49,6 +50,7 @@ export default function EducationInfoForm(props){
         data.graduationEndDate = graduationEndDate.toLocaleDateString('en-GB', dateOptions)
 
         const customValidation = graduationStartDate < graduationEndDate 
+        console.log(data)
         customValidation && props.handleFormData(data,props.id)
         
 
@@ -58,6 +60,10 @@ export default function EducationInfoForm(props){
         e.preventDefault()
         props.cancelFormSubmission()
     }
+
+    const degreeOptions = [ 'High School Diploma', 'GED', 'Associate of Arts','Associate of Science', 'Associate of Applied Science', 'Bachelor of Arts', 'Bachelor of Science', 'BBA', 'Master of Arts', 'Master of Science', 'MBA', 'PH.D' ]
+    const degreeOptions2 = degreeOptions.map(options=> ({value:options, label:options}))
+
 
 
     let newStartDate = props.data?.graduationStartDate && new Date(`${props.data?.graduationStartDate}`)
@@ -72,14 +78,17 @@ export default function EducationInfoForm(props){
 
     return(
         <div className="font-serif text-6xl m-2 text-[beige]">
-            <form onSubmit={handleSubmit(submitHandler)} className="flex flex-col">
+            <form  className="flex flex-col">
             <h1>{props.formName}</h1>
                 <ul>
                     <Input register={{...register('schoolName', {required:true, value:props.data?.schoolName})}} labelName="School Name" inputData={{ type: "text", id: "School Name", placeholder:"e.g James Cook Univeristy"  }}> </Input>
                     {errors.schoolName &&  <p className="text-[#e04040] text-xs"> School Name field is empty</p>}
                     <Input register={{...register('schoolLocation', {required:true, value:props.data?.schoolLocation})}} labelName="School Location" inputData={{ type: "text", id: "School Name", placeholder:"e.g Singapore"  }}> </Input>
                     {errors.schoolLocation &&  <p className="text-[#e04040] text-xs"> School Location field is empty</p>}
-                    <SelectInput register={{...register('degree', {required:true, value:props.data?.degree})}} inputData={{name:'Degree', id:'degreeSelect', options:{degreeOptions}}}>Degree</SelectInput>
+                    <li className=" flex flex-col">
+                        <label className="font-serif text-lg  text-ultraDarkBlue" htmlFor='qualifications'>Qualifications</label>
+                        <Controller control={control} id='qualifications' name="qualifications" defaultValue={props.data?.qualifications} render={({field})=><Select {...field}  className="bg-white h-13 text-lg text-darkBlue  font-serif  focus:outline-none placeholder:text-[#5C6052]"  options={degreeOptions2} ></Select>} />
+                    </li>
                     <Input register={{...register('graduationStartDate', {required:true, value:newStartDate})}} labelName="Graduation Start Date" inputData={{ type: "date", id: "graduationStartDate"}}> </Input>
                     {errors.graduationStartDate && <p className="text-[#e04040] text-xs"> Graduation Start Date field is empty</p>}
                     {watch('currentlyAttending') || <Input register={{...register('graduationEndDate', {required:true, value:newEndDate})}} labelName="Graduation End Date" inputData={{ type: "date", id: "graduationEndDate"}}> </Input>}

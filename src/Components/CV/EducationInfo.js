@@ -16,7 +16,7 @@ export default function EducationInfo(props){
         <div className=" flex flex-col items-center m-3">
             <p className="font-serif text-center text-ultraDarkBlue text-xl">{`School: ${props.schoolName}`}</p>
             <p className="font-serif text-ultraDarkBlue text-center text-xl">{`Location: ${props.schoolLocation}`}</p>
-            <p className="font-serif text-ultraDarkBlue text-center text-xl">{`Qualifications: ${props.degree}`}</p>
+            <p className="font-serif text-ultraDarkBlue text-center text-xl">{`Qualifications: ${props.qualifications.value}`}</p>
             <ul className=" flex justify-center">
                 <li>
                     <p className="font-serif text-ultraDarkBlue  text-xl">{`${props.graduationStartDate} -`}</p>

@@ -87,7 +87,7 @@ export default function EducationInfoForm(props){
                     {errors.schoolLocation &&  <p className="text-[#e04040] text-xs"> School Location field is empty</p>}
                     <li className=" flex flex-col">
                         <label className="font-serif text-lg  text-ultraDarkBlue" htmlFor='qualifications'>Qualifications</label>
-                        <Controller control={control} id='qualifications' name="qualifications" defaultValue={props.data?.qualifications} render={({field})=><Select {...field}  className="bg-white h-13 text-lg text-darkBlue  font-serif  focus:outline-none placeholder:text-[#5C6052]"  options={degreeOptions2} ></Select>} />
+                        <Controller control={control} id='qualifications'  name="qualifications" defaultValue={props?.data?.qualifications ?? degreeOptions2[0]} render={({field})=><Select {...field}   className="bg-white h-13 text-lg text-darkBlue  font-serif  focus:outline-none placeholder:text-[#5C6052]"  options={degreeOptions2} ></Select>} />
                     </li>
                     <Input register={{...register('graduationStartDate', {required:true, value:newStartDate})}} labelName="Graduation Start Date" inputData={{ type: "date", id: "graduationStartDate"}}> </Input>
                     {errors.graduationStartDate && <p className="text-[#e04040] text-xs"> Graduation Start Date field is empty</p>}

@@ -211,7 +211,7 @@ function App() {
     {mainButtonsDisplay && <Button onClick={showEditButtonsHandler} bgColor='bg-green'> Edit/Remove </Button>}
   </div>
   
-  <FormsContainer className={expandedState ?'w-3/4 h-4/5 flex justify-center items-center bg-beige':'w-3/4 h-1 bg-beige'}>
+  <FormsContainer className={expandedState ?'w-3/4 h-auto flex justify-center items-center bg-beige':'w-3/4 h-1 bg-beige'}>
     { expandedState && formStates.formType ==='displayBasicInfoForm' && <BasicInfoForm formName='Basic Info' cancelFormSubmission = {()=>cancelFormSubmissionHandler('init')} basicFormData={basicFormDataHandler} />}
     { expandedState && formStates.formType ==='editBasicInfoForm' && <BasicInfoForm cancelFormSubmission = {()=>cancelFormSubmissionHandler('nil')} formName='Edit Basic Info' data={basicInfoData[0]} basicFormData={basicFormDataHandler} />}
     { expandedState && formStates.formType==='displayEducationInfoForm' && <EducationInfoForm cancelFormSubmission = {()=>cancelFormSubmissionHandler('nil')} handleFormData={otherFormsDataHandler}></EducationInfoForm>}

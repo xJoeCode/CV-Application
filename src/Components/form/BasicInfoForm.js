@@ -32,6 +32,11 @@ export default function BasicInfoForm(props) {
         setSocialLinks(prevLinks =>([...prevLinks, uuid()]))
     }
 
+    const deleteSocialLinksHandler = (e) =>{
+        e.preventDefault()
+        setSocialLinks(prevLinks =>([...(prevLinks.slice(0,-1))]))
+    }
+
     const socialWebsites = [{label:'Twitter',value:'Twitter'},{label:'Linkedin', value:'Linkedin'},{label:'Website',value:'Website'}]
 
 
@@ -54,11 +59,12 @@ export default function BasicInfoForm(props) {
                 <ButtonSmall onClick={addSocialLinksHandler}>Add Social Links</ButtonSmall>
                 {socialLinks && socialLinks.map(linkId=>(
                 <div key={linkId} className="flex items-center">
-                <ul className="flex flex-col">
-                    <label className="font-serif text-lg  text-ultraDarkBlue" htmlFor='socialWebsite'>Website</label>
-                    <Controller control={control} id={`socials_${linkId}.website`}  name={`socials_${linkId}.website`} defaultValue={socialWebsites[0]} render={({field})=><Select {...field}   className="bg-white h-13 text-lg text-darkBlue  font-serif  focus:outline-none placeholder:text-[#5C6052]" options={socialWebsites}  ></Select>} />
-                </ul>
-                <Input register={{...register(`socials_${linkId}.link`)}} labelName="Social Link" inputData={{ type: "text", id: "socialLink", required:"required" }} ></Input>
+                    <ul className="flex flex-col m-2 items-start">
+                        <label className="font-serif text-lg  text-ultraDarkBlue" htmlFor='socialWebsite'>Website</label>
+                        <Controller control={control} id={`socials_${linkId}.website`}  name={`socials_${linkId}.website`} defaultValue={socialWebsites[0]} render={({field})=><Select {...field}   className="bg-white h-13 text-lg text-darkBlue  font-serif  focus:outline-none placeholder:text-[#5C6052]" options={socialWebsites}  ></Select>} />
+                    </ul>
+                    <Input register={{...register(`socials_${linkId}.link`)}} labelName="Social Link" inputData={{ type: "text", id: "socialLink", required:"required" }} ></Input>
+                    <ButtonSmall className='relative top-3' onClick={deleteSocialLinksHandler}>Remove</ButtonSmall>
                 </div>))}
                 
                 <Button bgColor='bg-green'>Submit</Button>

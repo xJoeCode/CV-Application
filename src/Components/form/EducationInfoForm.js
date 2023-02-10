@@ -77,7 +77,7 @@ export default function EducationInfoForm(props){
     
 
     return(
-        <div className="font-serif text-6xl m-2 text-[beige]">
+        <div className="font-serif text-6xl m-2 text-ultraDarkBlue">
             <form  className="flex flex-col">
             <h1>{props.formName}</h1>
                 <ul>

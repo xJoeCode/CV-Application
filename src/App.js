@@ -11,7 +11,7 @@ import EducationInfo from './Components/CV/EducationInfo';
 import CvContainer from './Components/UI/CvContainer';
 import WorkHistoryForm from './Components/form/WorkHistoryForm';
 import WorkInfo from './Components/CV/WorkInfo';
-import {motion, AnimatePresence} from 'framer-motion'
+import {motion} from 'framer-motion'
 
 
 function reducer(state,action){

@@ -54,7 +54,7 @@ export default function WorkHistoryForm(props){
     
 
     return(
-        <div className="font-serif text-6xl m-2 text-ultraDarkBlue">
+        <div className="font-serif text-6xl m-2 p-5 text-ultraDarkBlue">
             <form onSubmit={handleSubmit(submitHandler)} className="flex flex-col">
                 <h1>{props.formName}</h1>
                 <ul>

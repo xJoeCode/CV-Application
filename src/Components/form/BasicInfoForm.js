@@ -50,7 +50,7 @@ export default function BasicInfoForm(props) {
 
 
     return (
-        <div>
+        <div className="p-5">
             <h1 className="font-serif text-6xl m-2 text-center text-ultraDarkBlue">{props.formName}</h1>
             <form onSubmit={handleSubmit(submitHandler)} className="flex flex-col items-center content-between text-center">
                 <Input  register={{...register('name', {required:true, value:props.data?.name})}} labelName="Name" inputData={{ type: "text", id: "name",  }}></Input>

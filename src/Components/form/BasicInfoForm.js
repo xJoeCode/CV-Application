@@ -15,8 +15,8 @@ export default function BasicInfoForm(props) {
     const [editedSocialLinks,setEditedSocialLinks]=useState(props.data && Object.entries(props.data)?.filter(entry=>(entry[0].includes('socials_'))))
 
     useEffect(()=>{
-        //props.data && !editedSocialLinks && setEditedSocialLinks(socialsData)
-        console.log(editedSocialLinks)
+
+        console.log(errors)
     })
 
     const submitHandler = (data,e) =>{
@@ -40,7 +40,7 @@ export default function BasicInfoForm(props) {
         console.log(socialsData)
         id && unregister(id)
         socialLinks.length !== 0 ? setSocialLinks(prevLinks =>([...(prevLinks.slice(0,-1))])) : setEditedSocialLinks(prevLinks =>([...(prevLinks.slice(0,-1))]))
-        //socialsData.length === 0 && unregister(id)
+  
     }
 
     const socialWebsites = [{label:'Twitter',value:'Twitter'},{label:'Linkedin', value:'Linkedin'},{label:'Website',value:'Website'}]

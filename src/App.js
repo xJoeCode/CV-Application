@@ -11,6 +11,8 @@ import EducationInfo from './Components/CV/EducationInfo';
 import CvContainer from './Components/UI/CvContainer';
 import WorkHistoryForm from './Components/form/WorkHistoryForm';
 import WorkInfo from './Components/CV/WorkInfo';
+import {motion, AnimatePresence} from 'framer-motion'
+
 
 function reducer(state,action){
   if (action.cvIncludes === 'BasicInfo' && state.data){
@@ -189,6 +191,19 @@ function App() {
 
   }
 
+  const parentAnimation = {
+    hidden:{opacity:0},
+    show:{opacity:1, transition:{staggerChildren:0.3, delay:0.3}}
+}
+
+  const childAnimation = {
+      hidden:{opacity:0, translateY:0},
+      show:{opacity:1, translateY:-15.25},
+      transition:{delay:-0.25}
+  }
+
+
+
  
 
   const schoolData = formStates.data?.some(entry => entry.schoolName) && formStates.data.filter(entry => entry.schoolName)
@@ -213,19 +228,19 @@ function App() {
   <FormsContainer className={expandedState ?'w-3/4 h-auto flex justify-center items-center bg-beige':'w-3/4 h-1 bg-beige'}>
     { expandedState && formStates.formType ==='displayBasicInfoForm' && <BasicInfoForm formName='Basic Info' cancelFormSubmission = {()=>cancelFormSubmissionHandler('init')} basicFormData={basicFormDataHandler} />}
     { expandedState && formStates.formType ==='editBasicInfoForm' && <BasicInfoForm cancelFormSubmission = {()=>cancelFormSubmissionHandler('nil')} formName='Add Basic Info' data={basicInfoData[0]} basicFormData={basicFormDataHandler} />}
-    { expandedState && formStates.formType==='displayEducationInfoForm' && <EducationInfoForm cancelFormSubmission = {()=>cancelFormSubmissionHandler('nil')} formName='Edit Education Info' handleFormData={otherFormsDataHandler}></EducationInfoForm>}
+    { expandedState && formStates.formType==='displayEducationInfoForm' && <EducationInfoForm cancelFormSubmission = {()=>cancelFormSubmissionHandler('nil')} formName='Add Education Info' handleFormData={otherFormsDataHandler}></EducationInfoForm>}
     { expandedState && formStates.formType ==='editEducationInfoForm' && <EducationInfoForm id={formId} cancelFormSubmission = {()=>cancelFormSubmissionHandler('nil')} formName='Edit Education History' data={educationDataforEdit[0]} handleFormData={otherFormsDataHandler} />}
     { expandedState && formStates.formType === 'displayWorkHistoryForm' && <WorkHistoryForm handleFormData={otherFormsDataHandler} formName='Add Work History' cancelFormSubmission = {()=>cancelFormSubmissionHandler('nil')}></WorkHistoryForm>}
     { expandedState && formStates.formType ==='editWorkHistoryForm' && <WorkHistoryForm id={formId} cancelFormSubmission = {()=>cancelFormSubmissionHandler('nil')} formName='Edit Work History' data={workDataforEdit[0]} handleFormData={otherFormsDataHandler} />}
   </FormsContainer>
   {cvDisplay && <CvContainer>
     {<BasicInfo onClick={()=>clickHandler('editBasicInfoForm')} showButtons={showEditButtons} {...basicInfoData[0]}></BasicInfo>}
-    <div className='col-span-3 flex flex-col h-full p-3'>
-      {formStates.cvIncludes.includes('EducationInfo') && <h1 className='font-serif text-ultraDarkBlue mt-2 border-b-2 text-3xl'>Education</h1>}
-      {formStates.cvIncludes.includes('EducationInfo') && schoolData.map(data => (<EducationInfo key={data.id} handleDelete={deleteInfoHandler} handleEdit={editInfoHandler} showButtons={showEditButtons} {...data}></EducationInfo>))}
-      {formStates.cvIncludes.includes('WorkInfo') && <h1 className='font-serif text-ultraDarkBlue mt-2 border-b-2 text-3xl'>Work</h1>}
-      {formStates.cvIncludes.includes('WorkInfo') && workInfoData.map(data =>(<WorkInfo key={data.id} handleEdit={editInfoHandler} handleDelete={deleteInfoHandler} {...data} showButtons={showEditButtons}></WorkInfo>))}
-    </div>
+    <motion.div variants={parentAnimation} initial="hidden" animate="show" className='col-span-3 flex flex-col h-full p-3'>
+      {formStates.cvIncludes.includes('EducationInfo') && <motion.h1 variants={childAnimation} className='font-serif text-ultraDarkBlue mt-2 border-b-2 text-3xl'>Education</motion.h1>}
+      {formStates.cvIncludes.includes('EducationInfo') && schoolData.map(data => (<EducationInfo animation={childAnimation} key={data.id} handleDelete={deleteInfoHandler} handleEdit={editInfoHandler} showButtons={showEditButtons} {...data}></EducationInfo>))}
+      {formStates.cvIncludes.includes('WorkInfo') && <motion.h1 variants={childAnimation} className='font-serif text-ultraDarkBlue mt-2 border-b-2 text-3xl'>Work</motion.h1>}
+      {formStates.cvIncludes.includes('WorkInfo') && workInfoData.map(data =>(<WorkInfo animation={childAnimation} key={data.id} handleEdit={editInfoHandler} handleDelete={deleteInfoHandler} {...data} showButtons={showEditButtons}></WorkInfo>))}
+    </motion.div>
 
   </CvContainer>}
   

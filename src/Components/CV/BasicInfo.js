@@ -1,6 +1,7 @@
 import ButtonSmall from "../UI/ButtonSmall"
 
 
+
 export default function BaiscInfo(props){
 
 

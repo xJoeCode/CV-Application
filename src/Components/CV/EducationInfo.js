@@ -1,4 +1,5 @@
 import ButtonSmall from "../UI/ButtonSmall"
+import {motion} from 'framer-motion'
 
 
 export default function EducationInfo(props){
@@ -11,13 +12,14 @@ export default function EducationInfo(props){
     }
 
 
+
     return(
 
-        <div className=" flex flex-col items-center m-3">
-            <p className="font-serif text-center text-ultraDarkBlue text-xl">{`School: ${props.schoolName}`}</p>
-            <p className="font-serif text-ultraDarkBlue text-center text-xl">{`Location: ${props.schoolLocation}`}</p>
-            <p className="font-serif text-ultraDarkBlue text-center text-xl">{`Qualifications: ${props.qualifications.value}`}</p>
-            <ul className=" flex justify-center">
+        <motion.div variants={props.animation}  className=" flex flex-col items-center m-3">
+            <p  className="font-serif text-center text-ultraDarkBlue text-xl">{`School: ${props.schoolName}`}</p>
+            <p   className="font-serif text-ultraDarkBlue text-center text-xl">{`Location: ${props.schoolLocation}`}</p>
+            <p   className="font-serif text-ultraDarkBlue text-center text-xl">{`Qualifications: ${props.qualifications.value}`}</p>
+            <ul  className=" flex justify-center">
                 <li>
                     <p className="font-serif text-ultraDarkBlue  text-xl">{`${props.graduationStartDate} -`}</p>
                 </li>
@@ -29,8 +31,6 @@ export default function EducationInfo(props){
             {props.showButtons && <ButtonSmall onClick={editHandler}>Edit</ButtonSmall>}
             {props.showButtons && <ButtonSmall onClick={deleteHandler}>Delete</ButtonSmall>}
             </div>
-            
-            
-        </div>
+        </motion.div>
     )
     }

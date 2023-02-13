@@ -1,4 +1,5 @@
 import ButtonSmall from "../UI/ButtonSmall"
+import {motion} from 'framer-motion'
 
 
 export default function WorkInfo(props){
@@ -13,7 +14,7 @@ export default function WorkInfo(props){
 
     return(
 
-        <div className=" flex flex-col items-center m-3">
+        <motion.div variants={props.animation} className=" flex flex-col items-center m-3">
             <h1 className="font-serif text-center text-ultraDarkBlue text-xl">{`Job Title: ${props.jobTitle}`}</h1>
             <p className="font-serif text-ultraDarkBlue text-center text-xl">{`Employer: ${props.employer}`}</p>
             <p className="font-serif text-ultraDarkBlue text-center text-xl">{`Location: ${props.country}`}</p>
@@ -26,11 +27,9 @@ export default function WorkInfo(props){
                 </li>
             </ul>
             <div>
-            {props.showButtons && <ButtonSmall onClick={editHandler}>Edit</ButtonSmall>}
-            {props.showButtons && <ButtonSmall onClick={deleteHandler}>Delete</ButtonSmall>}
+                {props.showButtons && <ButtonSmall onClick={editHandler}>Edit</ButtonSmall>}
+                {props.showButtons && <ButtonSmall onClick={deleteHandler}>Delete</ButtonSmall>}
             </div>
-            
-            
-        </div>
+        </motion.div>
     )
     }

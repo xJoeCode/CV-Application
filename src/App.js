@@ -227,7 +227,7 @@ function App() {
   
   <FormsContainer className={expandedState ?'w-3/4 h-auto flex justify-center items-center bg-beige':'w-3/4 h-1 bg-beige'}>
     { expandedState && formStates.formType ==='displayBasicInfoForm' && <BasicInfoForm formName='Basic Info' cancelFormSubmission = {()=>cancelFormSubmissionHandler('init')} basicFormData={basicFormDataHandler} />}
-    { expandedState && formStates.formType ==='editBasicInfoForm' && <BasicInfoForm cancelFormSubmission = {()=>cancelFormSubmissionHandler('nil')} formName='Add Basic Info' data={basicInfoData[0]} basicFormData={basicFormDataHandler} />}
+    { expandedState && formStates.formType ==='editBasicInfoForm' && <BasicInfoForm cancelFormSubmission = {()=>cancelFormSubmissionHandler('nil')} formName='Edit Basic Info' data={basicInfoData[0]} basicFormData={basicFormDataHandler} />}
     { expandedState && formStates.formType==='displayEducationInfoForm' && <EducationInfoForm cancelFormSubmission = {()=>cancelFormSubmissionHandler('nil')} formName='Add Education Info' handleFormData={otherFormsDataHandler}></EducationInfoForm>}
     { expandedState && formStates.formType ==='editEducationInfoForm' && <EducationInfoForm id={formId} cancelFormSubmission = {()=>cancelFormSubmissionHandler('nil')} formName='Edit Education History' data={educationDataforEdit[0]} handleFormData={otherFormsDataHandler} />}
     { expandedState && formStates.formType === 'displayWorkHistoryForm' && <WorkHistoryForm handleFormData={otherFormsDataHandler} formName='Add Work History' cancelFormSubmission = {()=>cancelFormSubmissionHandler('nil')}></WorkHistoryForm>}

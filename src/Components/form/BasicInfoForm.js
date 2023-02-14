@@ -12,11 +12,11 @@ export default function BasicInfoForm(props) {
 
     const {register, unregister, formState: { errors }, control, handleSubmit} = useForm()
     const [socialLinks,setSocialLinks] = useState([])
-    const [editedSocialLinks,setEditedSocialLinks]=useState(props.data && Object.entries(props.data)?.filter(entry=>(entry[0].includes('socials_'))))
+    const [editedSocialLinks,setEditedSocialLinks]=useState(props.data && Object.entries(props.data)?.filter(entry=>(entry[0].includes('socials_') && entry[1].link)))
 
     useEffect(()=>{
 
-        console.log(errors)
+
     })
 
     const submitHandler = (data,e) =>{
@@ -37,9 +37,10 @@ export default function BasicInfoForm(props) {
 
     const deleteSocialLinksHandler = (data,e,id) =>{
         e.preventDefault()
-        console.log(socialsData)
+        console.log(id)
+        console.log(data)
         id && unregister(id)
-        socialLinks.length !== 0 ? setSocialLinks(prevLinks =>([...(prevLinks.slice(0,-1))])) : setEditedSocialLinks(prevLinks =>([...(prevLinks.slice(0,-1))]))
+        socialLinks.length !== 0 ? setSocialLinks(prevLinks =>([...(prevLinks.slice(0,-1))])) : setEditedSocialLinks(prevLinks =>([...(prevLinks.filter(entry=> !entry[0].includes(id)))]))
   
     }
 

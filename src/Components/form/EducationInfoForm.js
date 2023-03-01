@@ -17,7 +17,7 @@ export default function EducationInfoForm(props){
     
     useEffect(()=>{
         console.log(errors)
-    })
+    },[])
     
 
     const customDateValidation = () =>{

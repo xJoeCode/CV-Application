@@ -6,7 +6,7 @@ export default function BaiscInfo(props){
 
 
     const socials = Object.entries(props).filter(entry=>(entry[0].includes('socials_') && entry[1].link))
-    console.log(socials)
+ 
 
 
     return(

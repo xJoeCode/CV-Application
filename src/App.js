@@ -1,5 +1,5 @@
 
-import { useState,useReducer,useRef } from 'react';
+import { useState,useReducer,useRef,useEffect } from 'react';
 import uuid from 'react-uuid';
 import './App.css';
 import BasicInfoForm from './Components/form/BasicInfoForm';
@@ -104,15 +104,28 @@ function reducer(state,action){
 }
 
 function App() {
+
+  const initState = () => JSON.parse(window.localStorage.getItem('formStates')) || {formType:'init'}
   const [expandedState, setExpandedState] = useState(false)
-  const [cvDisplay, setCvDisplay] = useState(false)
+  const [cvDisplay, setCvDisplay] = useState(() => JSON.parse(window.localStorage.getItem('cvDisplay')) || false)
   const [showEditButtons, setShowEditButtons] = useState(false)
-  const [formStates,dispatchForms] = useReducer(reducer,{formType:'init'})
+  const [formStates,dispatchForms] = useReducer(reducer,initState())
   //const formId = useRef()
   const [formId,setformId] = useState(0)
   //const [basicInfo, setBasicInfo] = useState()
 
-  console.log(formStates)
+  useEffect(() => {
+    if (formStates){
+      let formstatesCopy = {...formStates}
+      formstatesCopy.formType = 'nil' 
+      window.localStorage.setItem('formStates', JSON.stringify(formstatesCopy))
+    }
+    
+    cvDisplay && window.localStorage.setItem('cvDisplay', JSON.stringify(cvDisplay))
+
+  },[formStates, cvDisplay])
+
+  //console.log(formStates)
   
 
   const clickHandler = (data) =>{

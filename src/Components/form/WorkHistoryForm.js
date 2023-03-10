@@ -10,12 +10,12 @@ import Button from "../UI/Button";
 export default function WorkHistoryForm(props){
 
 
-    const {register, formState: { errors }, setError, clearErrors, watch, handleSubmit} = useForm()
+    const {register, setValue, formState: { errors }, setError, clearErrors, watch, handleSubmit} = useForm()
 
 
     useEffect(()=>{
-        console.log(errors)
-    })
+        props.data?.currentlyWorking && setValue('currentlyWorking',true)
+    },[setValue, props.data?.currentlyWorking ])
 
     
     const submitHandler = (data,e) =>{
@@ -69,7 +69,7 @@ export default function WorkHistoryForm(props){
                     {watch('currentlyWorking') || <Input register={{...register('endDate', {required:true, value:newEndDate})}} labelName="End Date" inputData={{ type: "date", id: "endDate"}}> </Input>}
                     {errors.endDate?.type === 'required' &&  <p className="text-[#e04040] text-xs"> End Date field is empty</p>}
                     {errors.endDate?.type === 'custom' && <p className="text-[#e04040] text-xs"> {`${errors.endDate.message}`}</p>}
-                    <Checkbox register={{...register('currentlyWorking',{value:props.data?.currentlyWorking} )}} labelName="I currently work here" inputData={{ type: "checkbox", id: "currentlyWorking"}}> </Checkbox>
+                    <Checkbox register={{...register('currentlyWorking' )}} labelName="I currently work here" inputData={{ type: "checkbox", id: "currentlyWorking"}}> </Checkbox>
                     <Button bgColor='bg-green' onClick={handleSubmit(submitHandler)}>Submit</Button>
                     <Button bgColor='bg-green' onClick={cancelHandler}>Cancel</Button>
                 </ul>

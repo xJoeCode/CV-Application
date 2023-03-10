@@ -1,263 +1,66 @@
 
-import { useState,useReducer,useRef,useEffect } from 'react';
-import uuid from 'react-uuid';
+import { useState } from 'react';
+import { FormsProvider } from './Components/Context/formContext';
 import './App.css';
-import BasicInfoForm from './Components/form/BasicInfoForm';
-import BasicInfo from './Components/CV/BasicInfo';
-import Button from './Components/UI/Button';
 import FormsContainer from './Components/UI/FormsContainer';
-import EducationInfoForm from './Components/form/EducationInfoForm';
-import EducationInfo from './Components/CV/EducationInfo';
 import CvContainer from './Components/UI/CvContainer';
-import WorkHistoryForm from './Components/form/WorkHistoryForm';
-import WorkInfo from './Components/CV/WorkInfo';
-import {motion} from 'framer-motion'
+import MainCv from './Components/Main/MainCv';
+import MainButtons from './Components/Main/MainButtons';
+import MainForms from './Components/Main/MainForms';
+import CreateResumeButtons from './Components/Main/CreateResumeButtons';
 
 
-function reducer(state,action){
-  if (action.cvIncludes === 'BasicInfo' && state.data){
-    let lastestStateData = state.data.filter(data => !data.name)
-    lastestStateData.push(action.formData)
-    return{
-      data: [...state.data.filter(data => !data.name), action.formData],
-      cvIncludes:[...state.cvIncludes, action.cvIncludes],
-      formType:'nil'
-    }
-  }
-
-  if (action.cvIncludes === 'BasicInfo' && !state.data){
-    return{
-      data: [ action.formData],
-      cvIncludes:[action.cvIncludes],
-      formType:'nil'
-    }
-  }
-
-  if (action.cvIncludes === 'EducationInfo'){
-    action.formData.id = uuid()
-    return{
-      data: [...state.data, action.formData, ],
-      cvIncludes:[...state.cvIncludes, action.cvIncludes],
-      formType:'nil'
-    }
-  }
-
-  if (action.type === 'editEducationInfo'){
-    const filteredData = state.data.filter(entry=> entry.id !== action.formId)
-    action.formData.id = uuid()
-    console.log(action.formData)
-    return{
-      data: [...filteredData, action.formData, ],
-      cvIncludes:[...state.cvIncludes],
-      formType:'nil'
-    }
-  }
-
-  if (action.type === 'deleteEducationInfo'){
-    const newData = state.data.filter(data => data.id !== action.formData) 
-    const latestCvIncludes = newData.filter(data => data.schoolName).length === 0 ? state.cvIncludes.filter(inclusion => inclusion !== 'EducationInfo') : state.cvIncludes
-    console.log(latestCvIncludes)
-    return{
-      data: [...newData],
-      cvIncludes:[...latestCvIncludes],
-      formType:'nil'
-    }
-  }
-
-  if (action.cvIncludes === 'WorkInfo'){
-    action.formData.id = `work${state.data.length}`
-    console.log(action.cvIncludes)
-    return{
-      data: [...state.data, action.formData],
-      cvIncludes:[...state.cvIncludes, action.cvIncludes],
-      formType:'nil'
-    }
-  }
-
-  if (action.type === 'editWorkInfo'){
-    const filteredData = state.data.filter(entry=> entry.id !== action.formId)
-    action.formData.id = action.formId
-    return{
-      data: [...filteredData, action.formData, ],
-      cvIncludes:[...state.cvIncludes],
-      formType:'nil'
-    }
-  }
-
-  if (action.type === 'deleteWorkInfo'){
-    const newData = state.data.filter(data => data.id !== action.formData) 
-    const latestCvIncludes = newData.filter(data => data.jobTitle).length === 0 ? state.cvIncludes.filter(inclusion => inclusion !== 'WorkInfo') : state.cvIncludes
-    //console.log(latestCvIncludes)
-    return{
-      data: [...newData],
-      cvIncludes:[...latestCvIncludes],
-      formType:'nil'
-    }
-  }
 
 
-  if (action.type === 'setDisplay'){
-    return{
-         ...state, ...action
-    }
-  }
-}
 
 function App() {
 
-  const initState = () => JSON.parse(window.localStorage.getItem('formStates')) || {formType:'init'}
-  const [expandedState, setExpandedState] = useState(false)
-  const [cvDisplay, setCvDisplay] = useState(() => JSON.parse(window.localStorage.getItem('cvDisplay')) || false)
-  const [showEditButtons, setShowEditButtons] = useState(false)
-  const [formStates,dispatchForms] = useReducer(reducer,initState())
-  //const formId = useRef()
-  const [formId,setformId] = useState(0)
-  //const [basicInfo, setBasicInfo] = useState()
-
-  useEffect(() => {
-    if (formStates){
-      let formstatesCopy = {...formStates}
-      formstatesCopy.formType = 'nil' 
-      window.localStorage.setItem('formStates', JSON.stringify(formstatesCopy))
-    }
-    
-    cvDisplay && window.localStorage.setItem('cvDisplay', JSON.stringify(cvDisplay))
-
-  },[formStates, cvDisplay])
-
-  //console.log(formStates)
   
+  
+  const [cvDisplay, setCvDisplay] = useState(() => JSON.parse(window.localStorage.getItem('cvDisplay')) || false)
+  const [expandedState, setExpandedState] = useState(false)
+  const [showEditButtons, setShowEditButtons] = useState(false)
+  const [formId,setformId] = useState(0)
 
-  const clickHandler = (data) =>{
-    setShowEditButtons(false)
-    setExpandedState(!expandedState)
-    data !== 'displayBasicInfoForm' && setCvDisplay(prevState => !prevState)
-    dispatchForms({formType:data, type:'setDisplay'})
-  }
 
-  const showEditButtonsHandler = (data) =>{
-    setShowEditButtons(!showEditButtons)
-  }
-
-  const basicFormDataHandler = (data) =>{
-    dispatchForms({cvIncludes:'BasicInfo', formData:data})
-    setCvDisplay(true)
-    console.log(data)
-    setExpandedState(false)
-
-  }
-
-  const otherFormsDataHandler =( data,id )=>{
-    console.log(id)
-    const dateOptions = { year:'numeric', month:'long', day:'numeric'}
-    //data.schoolName && (data.graduationStartDate = (new Date(`${data.graduationStartDate}`)).toLocaleDateString('en-GB', dateOptions)) && (data.graduationEndDate = (new Date(`${data.graduationEndDate}`)).toLocaleDateString('en-GB', dateOptions))
-    //data.jobTitle && (data.startDate = (new Date(`${data.startDate}`)).toLocaleDateString('en-GB', dateOptions)) && (data.endDate = (new Date(`${data.endDate}`)).toLocaleDateString('en-GB', dateOptions))
-    data.schoolName && (id ? dispatchForms({type:'editEducationInfo', formData:data, formId: id}) : dispatchForms({cvIncludes:'EducationInfo', formData:data}))
-    data.jobTitle && (id ? dispatchForms({type:'editWorkInfo', formData:data, formId: id}) : dispatchForms({cvIncludes:'WorkInfo', formData:data}))
-    setCvDisplay(true)
-    setExpandedState(false)
-
-  }
-
-  const cancelFormSubmissionHandler = (data) =>{
-    dispatchForms({formType:data, type:'setDisplay'})
-    data !== 'init' && setCvDisplay(true)
-    setExpandedState(false)
-  }
-
-  const editInfoHandler = (formId,type) =>{
-    setExpandedState(!expandedState)
-    setCvDisplay(prevState => !prevState)
-    setShowEditButtons(!showEditButtons)
-
-    if (type === 'education'){
-      dispatchForms({formType:'editEducationInfoForm', type:'setDisplay'})
-      const schoolData =  formStates.data?.some(entry => entry.id === formId) && formStates.data.filter(entry => entry.id === formId)
-      console.log(schoolData)
-      const {id} =  schoolData[0]
-      console.log(id)
-      setformId(id)
-      
+    const ExpandedStateHandler = (options) =>{
+      options === 'swap' && setExpandedState(prevState => !prevState)
+      options === false && setExpandedState(false)
+      options === true && setExpandedState(true)
     }
 
-    if (type === 'work'){
-      dispatchForms({formType:'editWorkHistoryForm', type:'setDisplay'})
-      const workData =  formStates.data?.some(entry => entry.id === formId) && formStates.data.filter(entry => entry.id === formId)
-      const {id} =  workData[0]
+    const CvDisplayHandler= (options) =>{
+      options === 'swap' && setCvDisplay(prevState => !prevState)
+      options === false && setCvDisplay(false)
+      options === true && setCvDisplay(true)
+    }
+
+    const showEditButtonsHandler = (options) =>{
+      options === false && setShowEditButtons(false)
+      options === true && setShowEditButtons(true)
+      options === 'swap' && setShowEditButtons(prevState => !prevState)
+    }
+
+    const setformIdHandler = (id) =>{
       setformId(id)
     }
-    
-  }
-
-  const deleteInfoHandler = (id,type) =>{
-
-    if (type === 'education'){
-      dispatchForms({type:'deleteEducationInfo', formData:id})
-      setShowEditButtons(!showEditButtons)
-    }
-
-    if (type === 'work'){
-      dispatchForms({type:'deleteWorkInfo', formData:id})
-      setShowEditButtons(!showEditButtons)
-    }
-    
-
-  }
-
-  const parentAnimation = {
-    hidden:{opacity:0},
-    show:{opacity:1, transition:{staggerChildren:0.3, delay:0.3}}
-}
-
-  const childAnimation = {
-      hidden:{opacity:0, translateY:0},
-      show:{opacity:1, translateY:-15.25},
-      transition:{delay:-0.25}
-  }
 
 
-
- 
-
-  const schoolData = formStates.data?.some(entry => entry.schoolName) && formStates.data.filter(entry => entry.schoolName)
-  const basicInfoData = formStates.data?.some(entry => entry.name) && formStates.data?.filter((entry => entry.name))
-  const workInfoData = formStates.data?.some(entry => entry.jobTitle) && formStates.data.filter(entry => entry.jobTitle)
-  const mainButtonsDisplay = formStates.cvIncludes?.includes('BasicInfo') && formStates.formType === 'nil' 
-  const educationDataforEdit = formStates.data?.some(entry => entry.schoolName) && formStates.data.filter(entry => entry.id === formId)
-  const workDataforEdit = formStates.data?.some(entry => entry.jobTitle) && formStates.data.filter(entry => entry.id === formId)
- 
- 
   
 
   return (
-<div className=' bg-[#ebebeb] h-screen flex flex-col  justify-center items-center'>
-  {!formStates.cvIncludes?.includes('BasicInfo') && <Button bgColor='bg-green' onClick={()=>clickHandler('displayBasicInfoForm')}>Create Resume</Button>}
-  <div>
-    {mainButtonsDisplay && <Button onClick={()=>clickHandler('displayEducationInfoForm')} bgColor='bg-green'> Add Education </Button>}
-    {mainButtonsDisplay && <Button onClick={()=>clickHandler('displayWorkHistoryForm')} bgColor='bg-green'> Add Work </Button>}
-    {mainButtonsDisplay && <Button onClick={showEditButtonsHandler} bgColor='bg-green'> Edit/Remove </Button>}
-  </div>
-  
+  <FormsProvider>
+  <div className=' bg-[#ebebeb] h-screen flex flex-col  justify-center items-center'>
+  <CreateResumeButtons setShowEditButtons={showEditButtonsHandler} setExpandedState={ExpandedStateHandler} />
+  <MainButtons setShowEditButtons={showEditButtonsHandler} setExpandedState={ExpandedStateHandler} setCvDisplayState={CvDisplayHandler} />
   <FormsContainer className={expandedState ?'w-3/4 h-auto flex justify-center items-center bg-beige':'w-3/4 h-1 bg-beige'}>
-    { expandedState && formStates.formType ==='displayBasicInfoForm' && <BasicInfoForm formName='Basic Info' cancelFormSubmission = {()=>cancelFormSubmissionHandler('init')} basicFormData={basicFormDataHandler} />}
-    { expandedState && formStates.formType ==='editBasicInfoForm' && <BasicInfoForm cancelFormSubmission = {()=>cancelFormSubmissionHandler('nil')} formName='Edit Basic Info' data={basicInfoData[0]} basicFormData={basicFormDataHandler} />}
-    { expandedState && formStates.formType==='displayEducationInfoForm' && <EducationInfoForm cancelFormSubmission = {()=>cancelFormSubmissionHandler('nil')} formName='Add Education Info' handleFormData={otherFormsDataHandler}></EducationInfoForm>}
-    { expandedState && formStates.formType ==='editEducationInfoForm' && <EducationInfoForm id={formId} cancelFormSubmission = {()=>cancelFormSubmissionHandler('nil')} formName='Edit Education History' data={educationDataforEdit[0]} handleFormData={otherFormsDataHandler} />}
-    { expandedState && formStates.formType === 'displayWorkHistoryForm' && <WorkHistoryForm handleFormData={otherFormsDataHandler} formName='Add Work History' cancelFormSubmission = {()=>cancelFormSubmissionHandler('nil')}></WorkHistoryForm>}
-    { expandedState && formStates.formType ==='editWorkHistoryForm' && <WorkHistoryForm id={formId} cancelFormSubmission = {()=>cancelFormSubmissionHandler('nil')} formName='Edit Work History' data={workDataforEdit[0]} handleFormData={otherFormsDataHandler} />}
+    <MainForms formId={formId} setCvDisplay={CvDisplayHandler} expandedState={expandedState} setExpandedState={ExpandedStateHandler} />
   </FormsContainer>
   {cvDisplay && <CvContainer>
-    {<BasicInfo onClick={()=>clickHandler('editBasicInfoForm')} showButtons={showEditButtons} {...basicInfoData[0]}></BasicInfo>}
-    <motion.div variants={parentAnimation} initial="hidden" animate="show" className='col-span-3 flex flex-col h-full p-3'>
-      {formStates.cvIncludes.includes('EducationInfo') && <motion.h1 variants={childAnimation} className='font-serif text-ultraDarkBlue mt-2 border-b-2 text-3xl'>Education</motion.h1>}
-      {formStates.cvIncludes.includes('EducationInfo') && schoolData.map(data => (<EducationInfo animation={childAnimation} key={data.id} handleDelete={deleteInfoHandler} handleEdit={editInfoHandler} showButtons={showEditButtons} {...data}></EducationInfo>))}
-      {formStates.cvIncludes.includes('WorkInfo') && <motion.h1 variants={childAnimation} className='font-serif text-ultraDarkBlue mt-2 border-b-2 text-3xl'>Work</motion.h1>}
-      {formStates.cvIncludes.includes('WorkInfo') && workInfoData.map(data =>(<WorkInfo animation={childAnimation} key={data.id} handleEdit={editInfoHandler} handleDelete={deleteInfoHandler} {...data} showButtons={showEditButtons}></WorkInfo>))}
-    </motion.div>
-
+    <MainCv cvDisplay={cvDisplay} showEditButtons={showEditButtons} setformId={setformIdHandler} setShowEditButtons={showEditButtonsHandler} setExpandedState={ExpandedStateHandler}  setCvDisplay={CvDisplayHandler} />
   </CvContainer>}
-  
 </div>
+</FormsProvider>
   );
 }
 

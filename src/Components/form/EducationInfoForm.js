@@ -3,23 +3,23 @@ import {useForm, Controller} from 'react-hook-form'
 import SelectInput from "../Inputs/SelectInput";
 import Checkbox from "../Inputs/Checkbox";
 import Button from "../UI/Button";
-import React, { useEffect } from "react";
+import  { useEffect } from "react";
 import Select from "react-select";
 
 
 
 export default function EducationInfoForm(props){
 
-    const {register, watch, control, formState: { errors }, setError, clearErrors, handleSubmit} = useForm()
+    const {register, watch, setValue, control, formState: { errors }, setError, clearErrors, handleSubmit} = useForm()
     let {graduationStartDate, graduationEndDate, currentlyAttending} = watch()
 
 
     
     useEffect(()=>{
-        console.log(errors)
-    },[])
+        props.data?.currentlyAttending && setValue('currentlyAttending',true)
+    },[setValue,props.data?.currentlyAttending ])
     
-
+    /*
     const customDateValidation = () =>{
         
         const dateOptions = { year:'numeric', month:'long', day:'numeric'}
@@ -29,7 +29,7 @@ export default function EducationInfoForm(props){
         console.log(graduationStartDate , graduationEndDate)
         return(graduationStartDate <= graduationEndDate)
     }
-    
+    */
     
 
     const submitHandler = (data,e) =>{
@@ -74,7 +74,7 @@ export default function EducationInfoForm(props){
     newStartDate = props.data?.graduationStartDate && `${newStartDate.year}-${newStartDate.month}-${newStartDate.day}`
     newEndDate = props.data?.graduationEndDate && {day:`${newEndDate.getDate()}`.padStart(2,'0'), month:`${newEndDate.getMonth()+1}`.padStart(2,'0'), year:`${newEndDate.getFullYear()}`} 
     newEndDate = props.data?.graduationEndDate && `${newEndDate.year}-${newEndDate.month}-${newEndDate.day}`
-    
+
 
     return(
         <div className="font-serif text-6xl m-2 p-5 text-ultraDarkBlue">
@@ -91,10 +91,10 @@ export default function EducationInfoForm(props){
                     </li>
                     <Input register={{...register('graduationStartDate', {required:true, value:newStartDate})}} labelName="Graduation Start Date" inputData={{ type: "date", id: "graduationStartDate"}}> </Input>
                     {errors.graduationStartDate && <p className="text-[#e04040] text-xs"> Graduation Start Date field is empty</p>}
-                    {watch('currentlyAttending') || <Input register={{...register('graduationEndDate', {required:true, value:newEndDate})}} labelName="Graduation End Date" inputData={{ type: "date", id: "graduationEndDate"}}> </Input>}
+                    { watch('currentlyAttending') || <Input register={{...register('graduationEndDate', {required:true, value:newEndDate})}} labelName="Graduation End Date" inputData={{ type: "date", id: "graduationEndDate"}}> </Input>}
                     {errors.graduationEndDate?.type === 'custom' && <p className="text-[#e04040] text-xs"> {`${errors.graduationEndDate.message}`}</p>}
                     {errors.graduationEndDate?.type === 'required' && <p className="text-[#e04040] text-xs"> Graduation End Date field is empty</p>}
-                    <Checkbox register={{...register('currentlyAttending',{value:props.data?.currentlyAttending} )}} labelName="I currently attend here" inputData={{ type: "checkbox", id: "currentlyAttending"}}> </Checkbox>
+                    <Checkbox register={{...register('currentlyAttending')}} labelName="I currently attend here" inputData={{ type: "checkbox", id: "currentlyAttending"}}> </Checkbox>
                     
                     <Button bgColor='bg-green' onClick={handleSubmit(submitHandler)}>Submit</Button>
                     <Button bgColor='bg-green' onClick={cancelHandler}>Cancel</Button>

@@ -1,6 +1,7 @@
 import {motion} from 'framer-motion'
 
-export default function Button(props) {
+
+function Button(props) {
 
 
 
@@ -17,3 +18,7 @@ export default function Button(props) {
         </motion.button>
     );
 }
+
+
+export default Button
+

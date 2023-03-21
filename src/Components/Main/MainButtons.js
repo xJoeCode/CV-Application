@@ -1,9 +1,9 @@
 import Button from '../UI/Button';
-import {FormsProvider, useForms} from '../Context/formContext'
-import { useState } from 'react';
+import { useForms} from '../Context/formContext'
+import {  memo } from 'react';
 
 
-const MainButtons = (props)=> {
+function MainButtons(props) {
 
     const [formStates, dispatchForms] = useForms()
     
@@ -32,9 +32,9 @@ const MainButtons = (props)=> {
         {mainButtonsDisplay && <Button onClick={showEditButtonsHandler} bgColor='bg-green'> Edit/Remove </Button>}
   </div>
  )   
-
-
 }
+
+MainButtons = memo(MainButtons)
 
 
 export default MainButtons

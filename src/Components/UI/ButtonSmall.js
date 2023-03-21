@@ -1,6 +1,7 @@
 import {motion} from 'framer-motion'
+import { memo } from 'react';
 
-export default function ButtonSmall(props) {
+ function ButtonSmall(props) {
     return (
         <motion.button initial={{opacity:0}} animate={{opacity:1}} 
             onClick={props.onClick}
@@ -10,3 +11,7 @@ export default function ButtonSmall(props) {
         </motion.button>
     );
 }
+
+ButtonSmall = memo(ButtonSmall)
+
+export default ButtonSmall

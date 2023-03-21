@@ -1,5 +1,4 @@
-import {FormsProvider, useForms} from '../Context/formContext'
-import { useState } from 'react'
+import { useForms} from '../Context/formContext'
 import BasicInfoForm from '../form/BasicInfoForm'
 import EducationInfoForm from '../form/EducationInfoForm'
 import WorkHistoryForm from '../form/WorkHistoryForm'
@@ -21,7 +20,6 @@ const MainForms = (props)=> {
       }
 
       const otherFormsDataHandler =( data,id )=>{
-        console.log(id)
         const dateOptions = { year:'numeric', month:'long', day:'numeric'}
         data.schoolName && (id ? dispatchForms({type:'editEducationInfo', formData:data, formId: id}) : dispatchForms({cvIncludes:'EducationInfo', formData:data}))
         data.jobTitle && (id ? dispatchForms({type:'editWorkInfo', formData:data, formId: id}) : dispatchForms({cvIncludes:'WorkInfo', formData:data}))
@@ -37,7 +35,7 @@ const MainForms = (props)=> {
     <>
         { props.expandedState && formStates.formType ==='displayBasicInfoForm' && <BasicInfoForm formName='Basic Info' cancelFormSubmission = {()=>cancelFormSubmissionHandler('init')} basicFormData={basicFormDataHandler} /> }
         { props.expandedState && formStates.formType ==='editBasicInfoForm' && <BasicInfoForm cancelFormSubmission = {()=>cancelFormSubmissionHandler('nil')} formName='Edit Basic Info' data={basicInfoData[0]} basicFormData={basicFormDataHandler} />}
-        { props.expandedState && formStates.formType==='displayEducationInfoForm' && <EducationInfoForm cancelFormSubmission = {()=>cancelFormSubmissionHandler('nil')} formName='Add Education Info' handleFormData={otherFormsDataHandler}></EducationInfoForm>}
+        { props.expandedState && formStates.formType ==='displayEducationInfoForm' && <EducationInfoForm cancelFormSubmission = {()=>cancelFormSubmissionHandler('nil')} formName='Add Education Info' handleFormData={otherFormsDataHandler}></EducationInfoForm>}
         { props.expandedState && formStates.formType ==='editEducationInfoForm' && <EducationInfoForm id={props.formId} cancelFormSubmission = {()=>cancelFormSubmissionHandler('nil')} formName='Edit Education History' data={educationDataforEdit[0]} handleFormData={otherFormsDataHandler} />}
         { props.expandedState && formStates.formType === 'displayWorkHistoryForm' && <WorkHistoryForm handleFormData={otherFormsDataHandler} formName='Add Work History' cancelFormSubmission = {()=>cancelFormSubmissionHandler('nil')}></WorkHistoryForm>}
         { props.expandedState && formStates.formType ==='editWorkHistoryForm' && <WorkHistoryForm id={props.formId} cancelFormSubmission = {()=>cancelFormSubmissionHandler('nil')} formName='Edit Work History' data={workDataforEdit[0]} handleFormData={otherFormsDataHandler} />}

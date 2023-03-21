@@ -1,4 +1,4 @@
-import { useContext, useReducer, createContext } from "react"
+import { useContext, useReducer, createContext, useMemo } from "react"
 import uuid from 'react-uuid';
 
 const FormsContext = createContext()
@@ -98,12 +98,14 @@ function reducer(state,action){
   throw new Error(`Unhandled action type ${action.type}`)
 }
 
-const FormsProvider = (props) => {
+function FormsProvider (props) {
   const initState = () => JSON.parse(window.localStorage.getItem('formStates')) || {formType:'init'}
   const [formStates,dispatchForms] = useReducer(reducer,initState())
-  const value = [formStates, dispatchForms]
+  const value = useMemo(()=>[formStates, dispatchForms],[formStates,dispatchForms])
   return(<FormsContext.Provider value={value}>{props.children}</FormsContext.Provider>)
 }
+
+
 
 const useForms = () =>{
   const context = useContext(FormsContext)
@@ -112,6 +114,8 @@ const useForms = () =>{
   }
   return context
 }
+
+
 
 
 export {FormsProvider, useForms}

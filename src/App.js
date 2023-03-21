@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { FormsProvider } from './Components/Context/formContext';
 import './App.css';
 import FormsContainer from './Components/UI/FormsContainer';
@@ -8,6 +8,7 @@ import MainCv from './Components/Main/MainCv';
 import MainButtons from './Components/Main/MainButtons';
 import MainForms from './Components/Main/MainForms';
 import CreateResumeButtons from './Components/Main/CreateResumeButtons';
+
 
 
 
@@ -22,28 +23,30 @@ function App() {
   const [showEditButtons, setShowEditButtons] = useState(false)
   const [formId,setformId] = useState(0)
 
+ 
 
-    const ExpandedStateHandler = (options) =>{
+
+    const ExpandedStateHandler = useCallback((options) =>{
       options === 'swap' && setExpandedState(prevState => !prevState)
       options === false && setExpandedState(false)
       options === true && setExpandedState(true)
-    }
+    },[])
 
-    const CvDisplayHandler= (options) =>{
+    const CvDisplayHandler= useCallback((options) =>{
       options === 'swap' && setCvDisplay(prevState => !prevState)
       options === false && setCvDisplay(false)
       options === true && setCvDisplay(true)
-    }
+    },[])
 
-    const showEditButtonsHandler = (options) =>{
+    const showEditButtonsHandler = useCallback((options) =>{
       options === false && setShowEditButtons(false)
       options === true && setShowEditButtons(true)
       options === 'swap' && setShowEditButtons(prevState => !prevState)
-    }
+    },[])
 
-    const setformIdHandler = (id) =>{
+    const setformIdHandler = useCallback((id) =>{
       setformId(id)
-    }
+    },[])
 
 
   

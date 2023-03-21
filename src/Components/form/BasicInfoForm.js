@@ -14,10 +14,6 @@ export default function BasicInfoForm(props) {
     const [socialLinks,setSocialLinks] = useState([])
     const [editedSocialLinks,setEditedSocialLinks]=useState(props.data && Object.entries(props.data)?.filter(entry=>(entry[0].includes('socials_') && entry[1].link)))
 
-    useEffect(()=>{
-
-
-    })
 
     const submitHandler = (data,e) =>{
         //console.log(data)
@@ -47,7 +43,7 @@ export default function BasicInfoForm(props) {
     const socialWebsites = [{label:'Twitter',value:'Twitter'},{label:'Linkedin', value:'Linkedin'},{label:'Website',value:'Website'}]
     const socialsData = props.data && Object.entries(props.data)?.filter(entry=>(entry[0].includes('socials_')))
     
-
+    console.log(editedSocialLinks)
 
 
     return (
@@ -68,6 +64,7 @@ export default function BasicInfoForm(props) {
                 {errors?.address?.type === 'required' && <p className="text-[#e04040]"> Address field is missing</p>}
                 <ButtonSmall onClick={addSocialLinksHandler}>Add Social Links</ButtonSmall>
 
+                
                 {socialLinks && socialLinks.map(linkId=>(
                 <div key={linkId} className="flex items-center">
                     <ul className="flex flex-col m-2 items-start">
@@ -81,10 +78,10 @@ export default function BasicInfoForm(props) {
                 {editedSocialLinks && editedSocialLinks.map(entry=>(
                 <div key={entry[0]} className="flex items-center">
                     <ul className="flex flex-col m-2 items-start">
-                        <label className="font-serif text-lg  text-ultraDarkBlue" htmlFor='socialWebsite'>Website</label>
+                        <label className="font-serif text-lg  text-ultraDarkBlue" htmlFor={`${entry[0]}.website`}>Website</label>
                         <Controller control={control} id={`${entry[0]}.website`}  name={`${entry[0]}.website`} defaultValue={entry[1].website} render={({field})=><Select {...field}   className="bg-white h-13 text-lg text-darkBlue  font-serif  focus:outline-none placeholder:text-[#5C6052]" options={socialWebsites}  ></Select>} />
                     </ul>
-                    <Input register={{...register(`${entry[0]}.link`)}} labelName="Social Link" inputData={{ type: "text", id: "socialLink", required:"required", defaultValue:entry[1].link }} ></Input>
+                    <Input register={{...register(`${entry[0]}.link`)}} labelName="Social Link" inputData={{ type: "text", id: `socialLink_${entry[0]}`, required:"required", defaultValue:entry[1].link }} ></Input>
                     <ButtonSmall className='relative top-3' onClick={(e)=>deleteSocialLinksHandler(socialsData,e,entry[0])}>Remove</ButtonSmall>
                 </div>))}
                 

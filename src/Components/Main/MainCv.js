@@ -2,13 +2,13 @@ import {motion} from 'framer-motion'
 import BasicInfo from '../CV/BasicInfo';
 import EducationInfo from '../CV/EducationInfo';
 import WorkInfo from '../CV/WorkInfo';
-import {FormsProvider, useForms} from '../Context/formContext'
-import { useEffect } from 'react';
+import { useForms} from '../Context/formContext'
+import { useCallback, useEffect,  memo } from 'react';
 
 
-const MainCv = (props) =>{
+ function MainCv ({setShowEditButtons,setExpandedState, setCvDisplay, ...props }){
 
-    
+    console.log(props)
 
     const [formStates,dispatchForms] = useForms()
 
@@ -23,17 +23,17 @@ const MainCv = (props) =>{
     
       },[formStates, props.cvDisplay])
 
-    const clickHandler = (data) =>{
-        props.setShowEditButtons(false)
-        props.setExpandedState('swap')
-        data !== 'displayBasicInfoForm' && props.setCvDisplay('swap')
+    const clickHandler = useCallback((data) =>{
+        setShowEditButtons(false)
+        setExpandedState('swap')
+        data !== 'displayBasicInfoForm' && setCvDisplay('swap')
         dispatchForms({formType:data, type:'setDisplay'})
-      }
+      },[setCvDisplay, setExpandedState, setShowEditButtons, dispatchForms])
 
     const editInfoHandler = (formId,type) =>{
-    props.setExpandedState('swap')
-    props.setCvDisplay('swap')
-    props.setShowEditButtons('swap')
+    setExpandedState('swap')
+    setCvDisplay('swap')
+    setShowEditButtons('swap')
 
     if (type === 'education'){
         dispatchForms({formType:'editEducationInfoForm', type:'setDisplay'})
@@ -55,11 +55,11 @@ const MainCv = (props) =>{
     const deleteInfoHandler = (id,type) =>{
     if (type === 'education'){
         dispatchForms({type:'deleteEducationInfo', formData:id})
-        props.setShowEditButtons('swap')
+        setShowEditButtons('swap')
     }
     if (type === 'work'){
         dispatchForms({type:'deleteWorkInfo', formData:id})
-        props.setShowEditButtons('swap')
+        setShowEditButtons('swap')
     }
     }
 
@@ -80,7 +80,7 @@ const MainCv = (props) =>{
 
     return(
         <>
-        {<BasicInfo onClick={()=>clickHandler('editBasicInfoForm')} showButtons={props.showEditButtons} {...basicInfoData[0]}></BasicInfo>}
+        {<BasicInfo onClick={useCallback(()=>clickHandler('editBasicInfoForm'),[clickHandler])} showButtons={props.showEditButtons} {...basicInfoData[0]}></BasicInfo>}
         <motion.div variants={parentAnimation} initial="hidden" animate="show" className='col-span-3 flex flex-col h-full p-3'>
         {formStates.cvIncludes.includes('EducationInfo') && <motion.h1 variants={childAnimation} className='font-serif text-ultraDarkBlue mt-2 border-b-2 text-3xl'>Education</motion.h1>}
         {formStates.cvIncludes.includes('EducationInfo') && schoolData.map(data => (<EducationInfo animation={childAnimation} key={data.id} handleDelete={deleteInfoHandler} handleEdit={editInfoHandler} showButtons={props.showEditButtons} {...data}></EducationInfo>))}
@@ -90,6 +90,8 @@ const MainCv = (props) =>{
         </>
     )
 }
+
+MainCv = memo(MainCv)
 
 
 export default MainCv

@@ -1,11 +1,18 @@
 import Button from '../UI/Button';
 import { useForms} from '../Context/formContext'
+import { useEffect } from 'react';
 import {  memo } from 'react';
 
 
 function MainButtons(props) {
 
+    useEffect(()=>{
+      console.log('end',formStates)
+    })
+
     const [formStates, dispatchForms] = useForms()
+
+    console.log(formStates)
     
     
     const mainButtonsDisplay = formStates.cvIncludes?.includes('BasicInfo') && formStates.formType === 'nil' 

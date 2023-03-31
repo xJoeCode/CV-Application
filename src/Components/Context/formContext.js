@@ -102,7 +102,7 @@ function FormsProvider (props) {
   const initState = () => JSON.parse(window.localStorage.getItem('formStates')) || {formType:'init'}
   const [formStates,dispatchForms] = useReducer(reducer,initState())
   const value = useMemo(()=>[formStates, dispatchForms],[formStates,dispatchForms])
-  return(<FormsContext.Provider value={value}>{props.children}</FormsContext.Provider>)
+  return(<FormsContext.Provider value={props.value? props.value : value}>{props.children}</FormsContext.Provider>)
 }
 
 

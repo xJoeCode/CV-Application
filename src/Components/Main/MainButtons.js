@@ -25,7 +25,6 @@ function MainButtons(props) {
       }
 
       const showEditButtonsHandler = (e) =>{
-        console.log('clicked')
         e.preventDefault()
         props.setShowEditButtons('swap')
       }

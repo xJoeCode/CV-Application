@@ -8,9 +8,11 @@ import { useCallback, useEffect,  memo } from 'react';
 
  function MainCv ({setShowEditButtons,setExpandedState, setCvDisplay, ...props }){
 
-    console.log(props)
+
 
     const [formStates,dispatchForms] = useForms()
+
+    console.log(formStates)
 
     useEffect(() => {
         if (formStates){

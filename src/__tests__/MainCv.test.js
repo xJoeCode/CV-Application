@@ -26,6 +26,9 @@ const customRender = (ui, options) => {
 };
 
 const buildFormData = () => {
+
+    const randomNumber = () => Math.floor(Math.random() * 6) + 1
+
     function basicInfo() {
         return {
             name: faker.name.fullName(),
@@ -36,7 +39,7 @@ const buildFormData = () => {
         };
     }
 
-    function EducationInfo() {
+    function educationInfo() {
         const dateOptions = { year: "numeric", month: "long", day: "numeric" };
 
         return {
@@ -50,18 +53,20 @@ const buildFormData = () => {
         };
     }
 
-    function WorkInfo() {
-
+    function workInfo() {
         const dateOptions = { year: "numeric", month: "long", day: "numeric" };
 
-        return({
+        return {
             location: faker.address.city(),
             currentlyWorking: false,
             employer: faker.name.fullName(),
-            endDate: faker.date.recent().toLocaleDateString("en-GB", dateOptions)
-        })
+            endDate: faker.date.recent().toLocaleDateString("en-GB", dateOptions),
+            id: faker.datatype.uuid(),
+            jobTitle: faker.name.jobTitle(),
+            startDate: faker.date.past().toLocaleDateString("en-GB", dateOptions),
+        };
     }
-    return { basicInfo, EducationInfo };
+    return { basicInfo, educationInfo, workInfo, randomNumber };
 };
 
 test("MainCv Component should render basicinfo component with correct details", () => {
@@ -128,29 +133,20 @@ test("MainCV Component should render educationinfo component when required with 
     const ExpandedStateHandler = jest.fn();
     const CvDisplayHandler = jest.fn();
 
-    const { name, email, profession, phoneNumber, socials_b4fdbfd: website } = buildFormData().basicInfo();
-    const { currentlyAttending, graduationEndDate, graduationStartDate, id, qualifications, schoolLocation, schoolName } =
-        buildFormData().EducationInfo();
+    const basicInfoData = buildFormData().basicInfo();
+    const { name, email, profession, phoneNumber, socials_b4fdbfd: website } = basicInfoData;
+    const educationData = buildFormData().educationInfo();
+    const { currentlyAttending, graduationEndDate, graduationStartDate, id, qualifications, schoolLocation, schoolName } = educationData;
 
     let testData = {
         formType: "nil",
         cvIncludes: ["BasicInfo", "EducationInfo"],
         data: [
             {
-                name: name,
-                email: email,
-                profession: profession,
-                phoneNumber: phoneNumber,
-                socials_b4fdbfd: website,
+                ...basicInfoData,
             },
             {
-                currentlyAttending: currentlyAttending,
-                graduationEndDate: graduationEndDate,
-                graduationStartDate: graduationStartDate,
-                id: id,
-                qualifications: qualifications,
-                schoolLocation: schoolLocation,
-                schoolName: schoolName,
+                ...educationData,
             },
         ],
     };
@@ -195,6 +191,108 @@ test("MainCV Component should render educationinfo component when required with 
     expect(screen.queryByText(`Qualifications: ${qualifications.value}`, { exact: true })).toBeNull();
     expect(screen.queryByText(`${graduationStartDate} -`, { exact: true })).toBeNull();
     expect(screen.queryByText(`${graduationEndDate}`, { exact: true })).toBeNull();
+
+    const testData2 = {
+        formType: "nil",
+        cvIncludes: ["BasicInfo"],
+        data: [
+            {
+                ...basicInfoData,
+            },
+        ],
+    };
+
+    const randomNumber = buildFormData().randomNumber()
+
+    for (let i = 0; i < randomNumber; i++){
+        testData2.cvIncludes.push("EducationInfo")
+        testData2.data.push(buildFormData().educationInfo())
+    }
+
+    rerender(
+        <FormsProvider value={[testData2]}>
+            <MainCv
+                cvDisplay={cvDisplay}
+                showEditButtons={showEditButtons}
+                setformId={setformIdHandler}
+                setShowEditButtons={showEditButtonsHandler}
+                setExpandedState={ExpandedStateHandler}
+                setCvDisplay={CvDisplayHandler}
+            />
+        </FormsProvider>
+    );
+
+    expect(screen.getAllByText(/School:\s[A-Z][\w\s.,-]/).length).toBe(randomNumber)
+    expect(screen.getAllByText(/Location:\s[A-Z][\w\s.,-]/).length).toBe(randomNumber)
+    expect(screen.getAllByText(/Qualifications:\s[A-Z][\w\s.,-]/).length).toBe(randomNumber)
+    
 });
 
-test("MainCV Component should render Workinfo component when required with correct details", () => {});
+test("MainCV Component should render Workinfo component when required with correct details", () => {
+    const cvDisplay = jest.fn();
+    const showEditButtons = jest.fn();
+    const setformIdHandler = jest.fn();
+    const showEditButtonsHandler = jest.fn();
+    const ExpandedStateHandler = jest.fn();
+    const CvDisplayHandler = jest.fn();
+
+    const basicInfoData = buildFormData().basicInfo();
+    const workInfoData = buildFormData().workInfo();
+    const { currentlyWorking, employer, endDate, id, jobTitle, location, startDate } = workInfoData;
+
+    let testData = {
+        formType: "nil",
+        cvIncludes: ["BasicInfo", "WorkInfo"],
+        data: [
+            {
+                ...basicInfoData,
+            },
+            {
+                ...workInfoData,
+            },
+        ],
+    };
+
+    const {rerender} = customRender(
+        <MainCv
+            cvDisplay={cvDisplay}
+            showEditButtons={showEditButtons}
+            setformId={setformIdHandler}
+            setShowEditButtons={showEditButtonsHandler}
+            setExpandedState={ExpandedStateHandler}
+            setCvDisplay={CvDisplayHandler}
+        />,
+        { value: [testData] }
+    );
+
+    expect(screen.getByRole("heading", {name: /work/i,})).not.toBeNull();
+    expect(screen.getByRole("heading", { name: `Job Title: ${jobTitle}` }, { exact: true })).not.toBeNull();
+    expect(screen.getByText(`Employer: ${employer}`, { exact: true })).not.toBeNull();
+    expect(screen.getByText(`Location: ${location}`, { exact: true })).not.toBeNull();
+    expect(screen.getByText(`${startDate} -`, { exact: true })).not.toBeNull();
+    expect(screen.getByText(`${endDate}`, { exact: true })).not.toBeNull();
+
+    testData.cvIncludes.pop()
+
+
+    rerender(
+    <FormsProvider value={[testData]}>
+    <MainCv
+        cvDisplay={cvDisplay}
+        showEditButtons={showEditButtons}
+        setformId={setformIdHandler}
+        setShowEditButtons={showEditButtonsHandler}
+        setExpandedState={ExpandedStateHandler}
+        setCvDisplay={CvDisplayHandler}
+    />
+    </FormsProvider>)
+
+    expect(screen.queryByText("heading", {name: /work/i,})).toBeNull();
+    expect(screen.queryByText("heading", { name: `Job Title: ${jobTitle}` }, { exact: true })).toBeNull();
+    expect(screen.queryByText(`Employer: ${employer}`, { exact: true })).toBeNull();
+    expect(screen.queryByText(`Location: ${location}`, { exact: true })).toBeNull();
+    expect(screen.queryByText(`${startDate} -`, { exact: true })).toBeNull();
+    expect(screen.queryByText(`${endDate}`, { exact: true })).toBeNull();
+
+    
+});

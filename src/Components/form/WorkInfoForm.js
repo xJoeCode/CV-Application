@@ -7,7 +7,7 @@ import Button from "../UI/Button";
 
 
 
-export default function WorkHistoryForm(props){
+export default function WorkInfoForm(props){
 
 
     const {register, setValue, formState: { errors }, setError, clearErrors, watch, handleSubmit} = useForm()

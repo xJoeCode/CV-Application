@@ -1,7 +1,7 @@
 import { useForms} from '../Context/formContext'
 import BasicInfoForm from '../form/BasicInfoForm'
 import EducationInfoForm from '../form/EducationInfoForm'
-import WorkHistoryForm from '../form/WorkInfoForm'
+import WorkInfoForm from '../form/WorkInfoForm'
 
 const MainForms = (props)=> {
 
@@ -37,8 +37,8 @@ const MainForms = (props)=> {
         { props.expandedState && formStates.formType ==='editBasicInfoForm' && <BasicInfoForm cancelFormSubmission = {()=>cancelFormSubmissionHandler('nil')} formName='Edit Basic Info' data={basicInfoData[0]} basicFormData={basicFormDataHandler} />}
         { props.expandedState && formStates.formType ==='displayEducationInfoForm' && <EducationInfoForm cancelFormSubmission = {()=>cancelFormSubmissionHandler('nil')} formName='Add Education Info' handleFormData={otherFormsDataHandler}></EducationInfoForm>}
         { props.expandedState && formStates.formType ==='editEducationInfoForm' && <EducationInfoForm id={props.formId} cancelFormSubmission = {()=>cancelFormSubmissionHandler('nil')} formName='Edit Education History' data={educationDataforEdit[0]} handleFormData={otherFormsDataHandler} />}
-        { props.expandedState && formStates.formType === 'displayWorkHistoryForm' && <WorkHistoryForm handleFormData={otherFormsDataHandler} formName='Add Work History' cancelFormSubmission = {()=>cancelFormSubmissionHandler('nil')}></WorkHistoryForm>}
-        { props.expandedState && formStates.formType ==='editWorkHistoryForm' && <WorkHistoryForm id={props.formId} cancelFormSubmission = {()=>cancelFormSubmissionHandler('nil')} formName='Edit Work History' data={workDataforEdit[0]} handleFormData={otherFormsDataHandler} />}
+        { props.expandedState && formStates.formType === 'displayWorkHistoryForm' && <WorkInfoForm handleFormData={otherFormsDataHandler} formName='Add Work History' cancelFormSubmission = {()=>cancelFormSubmissionHandler('nil')}></WorkInfoForm>}
+        { props.expandedState && formStates.formType ==='editWorkHistoryForm' && <WorkInfoForm id={props.formId} cancelFormSubmission = {()=>cancelFormSubmissionHandler('nil')} formName='Edit Work History' data={workDataforEdit[0]} handleFormData={otherFormsDataHandler} />}
     </>
     )
 }

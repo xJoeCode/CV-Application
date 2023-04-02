@@ -1,7 +1,7 @@
 import { getAllByRole, render, screen, renderHook, act, waitFor, fireEvent } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import MainCv from "./MainCv";
-import { FormsProvider, useForms } from "../Context/formContext";
+import MainCv from "../Components/Main/MainCv";
+import { FormsProvider, useForms } from "../Components/Context/formContext";
 import { faker } from "@faker-js/faker";
 
 const Wrapper = (props) => <FormsProvider>{props.children}</FormsProvider>;
@@ -28,10 +28,10 @@ const customRender = (ui, options) => {
 const buildFormData = () => {
     function basicInfo() {
         return {
-            name: `${faker.name.fullName()}`,
-            email: `${faker.internet.email()}`,
-            profession: `${faker.name.jobTitle()}`,
-            phoneNumber: `${faker.phone.number("+65########")}`,
+            name: faker.name.fullName(),
+            email: faker.internet.email(),
+            profession: faker.name.jobTitle(),
+            phoneNumber: faker.phone.number("+65########"),
             socials_b4fdbfd: { link: `${faker.internet.url()}`, website: { label: "Website", value: "Website" } },
         };
     }
@@ -52,9 +52,14 @@ const buildFormData = () => {
 
     function WorkInfo() {
 
-        return(
-            
-        )
+        const dateOptions = { year: "numeric", month: "long", day: "numeric" };
+
+        return({
+            location: faker.address.city(),
+            currentlyWorking: false,
+            employer: faker.name.fullName(),
+            endDate: faker.date.recent().toLocaleDateString("en-GB", dateOptions)
+        })
     }
     return { basicInfo, EducationInfo };
 };

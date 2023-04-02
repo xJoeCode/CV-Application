@@ -37,7 +37,7 @@ function reducer(state,action){
 
   if (action.type === 'editEducationInfo'){
     const filteredData = state.data.filter(entry=> entry.id !== action.formId)
-    action.formData.id = uuid()
+    action.formData.id = action.formId
     console.log(action.formData)
     return{
       data: [...filteredData, action.formData, ],
@@ -58,7 +58,7 @@ function reducer(state,action){
   }
 
   if (action.cvIncludes === 'WorkInfo'){
-    action.formData.id = `work${state.data.length}`
+    action.formData.id = uuid()
     console.log(action.cvIncludes)
     return{
       data: [...state.data, action.formData],

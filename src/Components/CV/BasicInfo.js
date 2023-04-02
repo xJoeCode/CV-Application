@@ -5,7 +5,7 @@ import { memo } from "react"
 
  function BasicInfo(props){
 
-    console.log(props)
+
     const socials = Object.entries(props).filter(entry=>(entry[0].includes('socials_') && entry[1].link))
  
 

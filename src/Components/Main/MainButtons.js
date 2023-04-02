@@ -12,7 +12,7 @@ function MainButtons(props) {
 
     const [formStates, dispatchForms] = useForms()
 
-    console.log(formStates)
+
     
     
     const mainButtonsDisplay = formStates.cvIncludes?.includes('BasicInfo') && formStates.formType === 'nil' 

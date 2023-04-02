@@ -1,7 +1,7 @@
 import { useForms} from '../Context/formContext'
 import BasicInfoForm from '../form/BasicInfoForm'
 import EducationInfoForm from '../form/EducationInfoForm'
-import WorkHistoryForm from '../form/WorkHistoryForm'
+import WorkHistoryForm from '../form/WorkInfoForm'
 
 const MainForms = (props)=> {
 

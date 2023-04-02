@@ -17,7 +17,7 @@ export default function WorkInfo(props){
         <motion.div variants={props.animation} className=" flex flex-col items-center m-3">
             <h1 className="font-serif text-center text-ultraDarkBlue text-xl">{`Job Title: ${props.jobTitle}`}</h1>
             <p className="font-serif text-ultraDarkBlue text-center text-xl">{`Employer: ${props.employer}`}</p>
-            <p className="font-serif text-ultraDarkBlue text-center text-xl">{`Location: ${props.country}`}</p>
+            <p className="font-serif text-ultraDarkBlue text-center text-xl">{`Location: ${props.location}`}</p>
             <ul className=" flex justify-center">
                 <li>
                     <p className="font-serif text-ultraDarkBlue  text-xl">{`${props.startDate} -`}</p>

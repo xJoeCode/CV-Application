@@ -62,8 +62,8 @@ export default function WorkHistoryForm(props){
                     {errors.jobTitle &&  <p className="text-[#e04040] text-xs"> Job Title field is empty</p>}
                     <Input register={{...register('employer', {required:true, value:props.data?.employer})}} labelName="Employer" inputData={{ type: "text", id: "employer", placeholder:"e.g H&M"  }}> </Input>
                     {errors.employer &&  <p className="text-[#e04040] text-xs"> Employer field is empty</p>}
-                    <Input register={{...register('country', {required:true, value:props.data?.country})}} labelName="Country" inputData={{ type: "text", id: "country", placeholder:"e.g Singapore"  }}> </Input>
-                    {errors.country &&  <p className="text-[#e04040] text-xs"> Country field is empty</p>}
+                    <Input register={{...register('location', {required:true, value:props.data?.location})}} labelName="location" inputData={{ type: "text", id: "location", placeholder:"e.g Singapore"  }}> </Input>
+                    {errors.location &&  <p className="text-[#e04040] text-xs"> Location field is empty</p>}
                     <Input register={{...register('startDate', {required:true, value:newStartDate})}} labelName="Start Date" inputData={{ type: "date", id: "startDate"}}> </Input>
                     {errors.startDate &&  <p className="text-[#e04040] text-xs"> Start Date field is empty</p>}
                     {watch('currentlyWorking') || <Input register={{...register('endDate', {required:true, value:newEndDate})}} labelName="End Date" inputData={{ type: "date", id: "endDate"}}> </Input>}

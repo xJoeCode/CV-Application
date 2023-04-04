@@ -1,4 +1,4 @@
-import { getAllByRole, render, screen, renderHook, act, waitFor, fireEvent, customRender } from "../Utils/test-ultils";
+import { getAllByRole, render, screen, renderHook, act, waitFor, fireEvent, customRender, buildFormData } from "../Utils/test-ultils";
 import userEvent from "@testing-library/user-event";
 import MainCv from "../Components/Main/MainCv";
 import { FormsProvider, useForms } from "../Components/Context/formContext";
@@ -7,52 +7,9 @@ import { faker } from "@faker-js/faker";
 const Wrapper = (props) => <FormsProvider>{props.children}</FormsProvider>;
 
 
-const buildFormData = () => {
-    const randomNumber = () => Math.floor(Math.random() * 6) + 1;
-
-    function basicInfo() {
-        return {
-            name: faker.name.fullName(),
-            email: faker.internet.email(),
-            profession: faker.name.jobTitle(),
-            phoneNumber: faker.phone.number("+65########"),
-            socials_b4fdbfd: { link: `${faker.internet.url()}`, website: { label: "Website", value: "Website" } },
-        };
-    }
-
-    function educationInfo() {
-        const dateOptions = { year: "numeric", month: "long", day: "numeric" };
-
-        return {
-            currentlyAttending: false,
-            graduationEndDate: faker.date.recent().toLocaleDateString("en-GB", dateOptions),
-            graduationStartDate: faker.date.past().toLocaleDateString("en-GB", dateOptions),
-            id: faker.datatype.uuid(),
-            qualifications: { value: `Associate of ${faker.company.bsAdjective()}`, label: `Associate of ${faker.company.bsAdjective()}` },
-            schoolLocation: faker.address.city(),
-            schoolName: faker.company.name(),
-        };
-    }
-
-    function workInfo() {
-        const dateOptions = { year: "numeric", month: "long", day: "numeric" };
-
-        return {
-            location: faker.address.city(),
-            currentlyWorking: false,
-            employer: faker.name.fullName(),
-            endDate: faker.date.recent().toLocaleDateString("en-GB", dateOptions),
-            id: faker.datatype.uuid(),
-            jobTitle: faker.name.jobTitle(),
-            startDate: faker.date.past().toLocaleDateString("en-GB", dateOptions),
-        };
-    }
-    return { basicInfo, educationInfo, workInfo, randomNumber };
-};
-
 describe('MainCv Component',()=>{
 
-    test("MainCv Component should render basicinfo component with correct details", () => {
+    test("MainCv Component should render basicinfo component when required with correct details", () => {
         const cvDisplay = jest.fn();
         const showEditButtons = jest.fn();
         const setformIdHandler = jest.fn();
@@ -213,10 +170,11 @@ describe('MainCv Component',()=>{
             />,
             [testData3]
         );
+        screen.debug()
     
-        expect(screen.getAllByText(/School:\s[A-Z][\w\s.,-]/).length).toBe(randomNumber);
-        expect(screen.getAllByText(/Location:\s[A-Z][\w\s.,-]/).length).toBe(randomNumber);
-        expect(screen.getAllByText(/Qualifications:\s[A-Z][\w\s.,-]/).length).toBe(randomNumber);
+        expect(screen.getAllByText(/School:\s[A-Z][\w\s.',-]/,{exact:true}).length).toBe(randomNumber);
+        expect(screen.getAllByText(/Location:\s[A-Z][\w\s.',-]/,{exact:true}).length).toBe(randomNumber);
+        expect(screen.getAllByText(/Qualifications:\s[A-Z][\w\s.',-]/,{exact:true}).length).toBe(randomNumber);
     });
     
     test("MainCV Component should render Workinfo component when required with correct details", () => {
@@ -324,9 +282,9 @@ describe('MainCv Component',()=>{
             [testData3]
         );
     
-        expect(screen.getAllByText(/Job Title:\s[A-Z][\w\s.,-]/).length).toBe(randomNumber);
-        expect(screen.getAllByText(/Employer:\s[A-Z][\w\s.,-]/).length).toBe(randomNumber);
-        expect(screen.getAllByText(/Location:\s[A-Z][\w\s.,-]/).length).toBe(randomNumber);
+        expect(screen.getAllByText(/Job Title:\s[A-Z][\w\s.',-]/,{exact:true}).length).toBe(randomNumber);
+        expect(screen.getAllByText(/Employer:\s[A-Z][\w\s.',-]/).length).toBe(randomNumber);
+        expect(screen.getAllByText(/Location:\s[A-Z][\w\s.',-]/).length).toBe(randomNumber);
     
     });
 

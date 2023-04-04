@@ -1,7 +1,7 @@
-import { getAllByRole, render, screen, renderHook, act, waitFor, fireEvent } from "@testing-library/react";
+import { getAllByRole, render, screen, renderHook, act, waitFor, fireEvent, customRender } from '../Utils/test-ultils';
 import userEvent from "@testing-library/user-event";
-import MainButtons from "./MainButtons";
-import {FormsProvider, useForms} from '../Context/formContext'
+import MainButtons from "../Components/Main/MainButtons";
+import {FormsProvider, useForms} from '../Components/Context/formContext'
 
 
 
@@ -10,27 +10,6 @@ const Wrapper = (props) => (
 )
 
 
-const customRender = (ui,options) =>{
-
-    let Wrapper = (props) => (
-        <FormsProvider {...options}>{props.children}</FormsProvider>
-    )
-
-    const {rerender} =  render(ui,{wrapper:Wrapper})
-
-    /* apparant its not working
-
-    const customReRender = (ui,options2) =>{
-
-        let customWrapper = (props) => (
-            <FormsProvider {...options2} >{props.children}</FormsProvider>
-        )
-        rerender(ui,{wrapper:customWrapper})
-    }
-    */
-   
-    return {rerender}
-}
 
 const {result} = renderHook(()=>useForms(),{wrapper:Wrapper})
 let [,dispatchForms] = result.current
@@ -47,7 +26,7 @@ describe('MainButtons component',()=>{
         const testData2 = {formType:'displayEducationInfoForm', cvIncludes:[]}
     
     
-        const {rerender} = customRender(<MainButtons setShowEditButtons={showEditButtonsHandler} setExpandedState={ExpandedStateHandler} setCvDisplayState={CvDisplayHandler}/>, {value:[testData,dispatchForms]})
+        const {customReRender} = customRender(<MainButtons setShowEditButtons={showEditButtonsHandler} setExpandedState={ExpandedStateHandler} setCvDisplayState={CvDisplayHandler}/>, {value:[testData,dispatchForms]})
     
     
         const addEducationButton = screen.getByRole('button', {
@@ -66,11 +45,7 @@ describe('MainButtons component',()=>{
         expect(addWorkButton).toBeInTheDocument()
         expect(editRemoveButton).toBeInTheDocument()
     
-        rerender(
-        <FormsProvider value={[testData2,dispatchForms]}>
-            <MainButtons setShowEditButtons={showEditButtonsHandler} setExpandedState={ExpandedStateHandler} setCvDisplayState={CvDisplayHandler}/> 
-        </FormsProvider>
-        )
+        customReRender(<MainButtons setShowEditButtons={showEditButtonsHandler} setExpandedState={ExpandedStateHandler} setCvDisplayState={CvDisplayHandler}/>,[testData2])
     
         expect(addEducationButton).not.toBeInTheDocument()
         expect(addWorkButton).not.toBeInTheDocument()

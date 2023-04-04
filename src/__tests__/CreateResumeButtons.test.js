@@ -1,8 +1,8 @@
-import { getAllByRole, render, screen, renderHook, act, waitFor, fireEvent } from "@testing-library/react";
+import { getAllByRole, render, screen, renderHook, act, waitFor, fireEvent } from "../Utils/test-ultils";
 import userEvent from "@testing-library/user-event";
-import CreateResumeButtons from './CreateResumeButtons'
-import {FormsProvider} from '../Context/formContext'
-import App from "../../App";
+import CreateResumeButtons from '../Components/Main/CreateResumeButtons'
+import {FormsProvider} from '../Components/Context/formContext'
+import App from "../App";
 
 
 const Wrapper = (props) => (

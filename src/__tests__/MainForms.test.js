@@ -1,5 +1,5 @@
 import MainForms from "../Components/Main/MainForms";
-import { getAllByRole, render, screen, renderHook, act, waitFor, fireEvent, customRender } from "../Utils/test-ultils";
+import { getAllByRole, render, screen, renderHook, act, waitFor, fireEvent, customRender, buildFormData } from "../Utils/test-ultils";
 import userEvent from "@testing-library/user-event";
 import { FormsProvider, useForms } from "../Components/Context/formContext";
 
@@ -15,6 +15,8 @@ test("It should render BasicInfoForm component when required", () => {
     const testData1 = {
         formType: "displayBasicInfoForm",
     };
+
+    console.log(testData1)
 
     const { customReRender } = customRender(
         <MainForms formId={formId} setCvDisplay={CvDisplayHandler} expandedState={expandedState} setExpandedState={ExpandedStateHandler} />,
@@ -34,11 +36,28 @@ test("It should render BasicInfoForm component when required", () => {
         })
     ).toBeInTheDocument();
 
+    const basicInfoData = buildFormData().basicInfo();
+    const {name, email, profession, phoneNumber, address, ...socialLink } = basicInfoData
+
     const testData2 = {
         formType: "editBasicInfoForm",
+        data:[{...basicInfoData}]
     };
 
     customReRender(<MainForms formId={formId} setCvDisplay={CvDisplayHandler} expandedState={expandedState} setExpandedState={ExpandedStateHandler} />,[testData2])
+
+    screen.debug()
+    //console.log(socialLink)
+
+    expect(screen.getByRole('textbox', { name: /name/i })).toHaveValue(name)
+    expect(screen.getByRole('textbox', { name: /email/i })).toHaveValue(email)
+    expect(screen.getByRole('textbox', { name: /profession/i })).toHaveValue(profession)
+    expect(screen.getByRole('textbox', { name: /phone number/i })).toHaveValue(phoneNumber)
+    expect(screen.getByRole('textbox', { name: /address/i })).toHaveValue(address)
+    expect(screen.getByRole('textbox', { name: /social link/i })).toHaveValue(socialLink.link)
+    
+
+    
     
 });
 
@@ -50,6 +69,7 @@ test('It should render EducationInfoForm component when required',()=>{
 
     const testData1 = {
         formType: "displayEducationInfoForm",
+        
     };
 
     customRender(

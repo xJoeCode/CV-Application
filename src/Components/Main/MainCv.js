@@ -37,8 +37,7 @@ function MainCv({ setShowEditButtons, setExpandedState, setCvDisplay, ...props }
 
         if (type === "education") {
             dispatchForms({ formType: "editEducationInfoForm", type: "setDisplay" });
-            const schoolData =
-                formStates.data?.some((entry) => entry.id === formId) && formStates.data.filter((entry) => entry.id === formId);
+            const schoolData = formStates.data?.some((entry) => entry.id === formId) && formStates.data.filter((entry) => entry.id === formId);
             console.log(schoolData);
             const { id } = schoolData[0];
             console.log(id);

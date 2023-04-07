@@ -12,7 +12,7 @@ export default function BasicInfoForm(props) {
 
     const {register, unregister, formState: { errors }, control, handleSubmit} = useForm()
     const [socialLinks,setSocialLinks] = useState([])
-    const [editedSocialLinks,setEditedSocialLinks]=useState(props.data && Object.entries(props.data)?.filter(entry=>(entry[0].includes('socials_') && entry[1].link)))
+    const [editedSocialLinks,setEditedSocialLinks]=useState( props.data && Object.entries(props.data)?.filter(entry=>(entry[0].includes('socials_') && entry[1].link)))
 
 
     const submitHandler = (data,e) =>{

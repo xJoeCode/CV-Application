@@ -1,7 +1,6 @@
-import { FormsProvider } from '../Components/Context/formContext'
-import { render } from '@testing-library/react';
-import { faker } from '@faker-js/faker';
-
+import { FormsProvider } from "../Components/Context/formContext";
+import { render } from "@testing-library/react";
+import { faker } from "@faker-js/faker";
 
 const customRender = (ui, options) => {
     let Wrapper = (props) => <FormsProvider {...options}>{props.children}</FormsProvider>;
@@ -32,12 +31,29 @@ const buildFormData = () => {
     function educationInfo() {
         const dateOptions = { year: "numeric", month: "long", day: "numeric" };
 
+        const degreeOptions = [
+            "High School Diploma",
+            "GED",
+            "Associate of Arts",
+            "Associate of Science",
+            "Associate of Applied Science",
+            "Bachelor of Arts",
+            "Bachelor of Science",
+            "BBA",
+            "Master of Arts",
+            "Master of Science",
+            "MBA",
+            "PH.D",
+        ];
+
+        const degree =(degreeOptions[Math.floor(Math.random()*degreeOptions.length)])
+
         return {
             currentlyAttending: false,
             graduationEndDate: faker.date.recent().toLocaleDateString("en-GB", dateOptions),
             graduationStartDate: faker.date.past().toLocaleDateString("en-GB", dateOptions),
             id: faker.datatype.uuid(),
-            qualifications: { value: `Associate of ${faker.company.bsAdjective()}`, label: `Associate of ${faker.company.bsAdjective()}` },
+            qualifications: { value: degree, label: degree },
             schoolLocation: faker.address.city(),
             schoolName: faker.company.name(),
         };
@@ -59,5 +75,5 @@ const buildFormData = () => {
     return { basicInfo, educationInfo, workInfo, randomNumber };
 };
 
-export * from '@testing-library/react'
-export {customRender, buildFormData}
+export * from "@testing-library/react";
+export { customRender, buildFormData };

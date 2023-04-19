@@ -1,9 +1,32 @@
 # React CV Builder cum Previewer
 
-live preview: https://xjoecode.github.io/CV-Application/
+
 
 A basic react application to build and preview your CV.
 Add basic, education and work details and edit or remove them as you like
 
+## live preview
+https://xjoecode.github.io/CV-Application/
 
-Built with react and other react libraries including framer motion for animation, react hook form for forms
+## Getting Started
+To run the project locally, follow these steps:
+
+Clone the repository to your local machine.
+Navigate to the project directory and run npm install to install all dependencies.
+Run npm start to start the development server.
+
+## Built With
+- HTML
+- CSS
+- React.js
+- Tailwind CSS
+- Firebase API (WIP)
+- Framer Motion
+- React Testing Library
+- React Hook Forms
+- React Query (WIP)
+- React Router (WIP)
+
+## Features
+- Authentication (WIP)
+

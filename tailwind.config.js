@@ -10,12 +10,20 @@ module.exports = {
             darkYellow:'#8E8A00',
             brightYellow:'#FCF600',
             brightPink: '#B48A8D',
-            green:'#7A9975'
+            pastelPink: '#f4ccc7',
+            pastelGreen: '#cfe0c4',
+            green:'#7A9975',
+            white:'#ebebeb',
         },
         fontFamily:{
-          'serif':['Source Serif Pro', 'serif']
+          'serif':['Source Serif Pro', 'serif'],
+          'railway':['Raleway', 'sans-serif']
         },
-        extend: {},
+        extend: {
+            backgroundImage: {
+                'documentsBg': "url('/media/joseph/Main2/CV-Application/src/Components/Assets/documentsBg.svg')",
+              }
+        },
     },
     plugins: [],
 };

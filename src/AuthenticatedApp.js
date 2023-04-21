@@ -61,7 +61,6 @@ function AuthenticatedApp() {
         <Logo />
     </div>
   <div className=' bg-[#ebebeb] h-screen flex flex-col  justify-center items-center'>
-  
   <CreateResumeButtons setShowEditButtons={showEditButtonsHandler} setExpandedState={ExpandedStateHandler} />
   <MainButtons setShowEditButtons={showEditButtonsHandler} setExpandedState={ExpandedStateHandler} setCvDisplayState={CvDisplayHandler} />
   <FormsContainer className={expandedState ?'w-3/4 h-auto flex justify-center items-center bg-beige':'w-3/4 h-1 bg-beige'}>

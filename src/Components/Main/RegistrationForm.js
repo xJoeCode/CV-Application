@@ -1,33 +1,47 @@
-import Input from "./Components/Inputs/Input";
+import Input from "../Inputs/Input";
 import {useForm} from 'react-hook-form'
-import Button from "./Components/UI/Button";
+import Button from "../UI/Button";
 import { useEffect } from "react";
-import { useQuery } from '@tanstack/react-query'
-import { useState } from "react";
-import client from "./Utils/api-client";
-import { createUserWithEmailAndPassword} from 'firebase/auth'
-import { useAccount } from "./Components/Context/accountContext";
+import { useAccount } from "../Context/accountContext";
+import { useRegisterUserQuery } from "../../features/api/apiSlice";
 
 
 
 
-function UnAuthenticatedApp (props) {
+export default function RegistrationForm (props) {
 
     const {register, formState:{errors}, handleSubmit, setError} = useForm()
-    const { setAcc,userPass, setUserPass}= useAccount()
+    const { acc, setAcc,userPass, setUserPass}= useAccount()
 
+
+    /*
     const {data} = useQuery({
         queryKey:['users',userPass],
         queryFn: () => client('createuser', props.auth, userPass.email, userPass.password, setError),
         enabled: Boolean(userPass)
     })
+    */
+
+    const {data, isloading, isSuccess, error:registrationError} = useRegisterUserQuery({auth:props.auth, email:userPass?.email, password:userPass?.password, setError:setError},{skip:Boolean(!userPass)})
 
     useEffect(()=>{
+        console.log(data)
+        console.log(isloading)
+        console.log(isSuccess)
+        console.log('userpass',userPass)
+        console.log('error',registrationError)
+       
         if (!data){
             return
         }
-        setAcc(data)
-    },[data])
+
+        if (data){
+            setAcc(data)
+
+        }
+
+    },[data,acc,setAcc])
+
 
     
    
@@ -35,9 +49,9 @@ function UnAuthenticatedApp (props) {
     const submitHandler = async ({email,password},e) =>{
         console.log(errors)
         e.preventDefault()
-        //const data = await client('createuser', props.auth, email, password, setError)
         //setUser(data.user)
         setUserPass({email,password})
+
         
         
     }
@@ -61,4 +75,3 @@ function UnAuthenticatedApp (props) {
     )
 }
 
-export default UnAuthenticatedApp

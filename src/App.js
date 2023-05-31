@@ -5,7 +5,6 @@ import { initializeApp} from 'firebase/app'
 import {getAuth} from 'firebase/auth'
 import { QueryClient, QueryClientProvider} from '@tanstack/react-query'
 import { useAccount } from "./Components/Context/accountContext";
-import MainNavigation from "./Components/Main/MainNavigation";
 
 
 const queryClient = new QueryClient()
@@ -36,7 +35,6 @@ function App() {
   return (
     <>
     <QueryClientProvider client={queryClient}>
-      <MainNavigation/>
       {acc ? <AuthenticatedApp/> : <UnAuthenticatedApp auth={auth} />}
     </QueryClientProvider>
   </>

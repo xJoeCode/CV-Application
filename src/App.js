@@ -1,6 +1,6 @@
 
 import AuthenticatedApp from "./AuthenticatedApp"
-import UnAuthenticatedApp from "./UnAuthenticatedApp.js";
+import UnAuthenticatedApp from "./UnauthenticatedApp"
 import { initializeApp} from 'firebase/app'
 import {getAuth} from 'firebase/auth'
 import { QueryClient, QueryClientProvider} from '@tanstack/react-query'

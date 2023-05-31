@@ -3,12 +3,16 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import {AccountProvider} from './Components/Context/accountContext'
+import { Provider } from 'react-redux';
+import { store } from './store';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <AccountProvider>
+      <Provider store={store}>
       <App />
+      </Provider>
     </AccountProvider>
   </React.StrictMode>
 );

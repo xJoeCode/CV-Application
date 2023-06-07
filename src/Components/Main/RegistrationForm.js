@@ -25,11 +25,7 @@ export default function RegistrationForm (props) {
     const {data, isloading, isSuccess, error:registrationError} = useRegisterUserQuery({auth:props.auth, email:userPass?.email, password:userPass?.password, setError:setError},{skip:Boolean(!userPass)})
 
     useEffect(()=>{
-        console.log(data)
-        console.log(isloading)
-        console.log(isSuccess)
-        console.log('userpass',userPass)
-        console.log('error',registrationError)
+
        
         if (!data){
             return
@@ -57,19 +53,20 @@ export default function RegistrationForm (props) {
     }
 
     return(
-        <div className="bg-[#ebebeb] h-screen flex  flex-row  justify-center items-center'">
-        
-        <form onSubmit={handleSubmit(submitHandler)}>
-            <h1 className=" font-serif m-8 capitalize text-ultraDarkBlue text-3xl"> Register</h1>  
-            <Input  register={{...register('email', {required:true, pattern:/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/})}} labelName="Email" inputData={{ type: "email", id: "email" }}></Input>
-            {errors?.email?.type === 'required' && <p className="text-[#e04040]"> Email field is missing</p>}
-            {errors?.email?.type === 'pattern' && <p className="text-[#e04040]"> Please Enter a valid Email</p>}
-            {errors?.email?.type === 'custom' && <p className="text-[#e04040]"> {errors.email.message}</p>}
-            <Input  register={{...register('password', {required:true, minLength:6})}} labelName="Password" inputData={{ type: "password", id: "password", placeholder:'Min 6 characters' }}></Input>
-            {errors?.password?.type === 'required' && <p className="text-[#e04040]"> Password field is missing</p>}
-            {errors?.password?.type === 'minLength' && <p className="text-[#e04040]"> Please Enter a Password with minimum 6 characters</p>}
-            <Button onClick={handleSubmit(submitHandler)} bgColor='bg-green'>Submit</Button>
-        </form>
+        <div className=" w-screen h-max flex justify-center items-start">
+            <div className="bg-[#ebebeb] p-6 mt-6 w-max h-max shadow-xl rounded-lg flex  flex-row  justify-center items-center'">
+                <form onSubmit={handleSubmit(submitHandler)}>
+                    <h1 className=" font-serif m-8 capitalize text-center text-ultraDarkBlue text-3xl"> Register</h1>  
+                    <Input  register={{...register('email', {required:true, pattern:/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/})}} labelName="Email" inputData={{ type: "email", id: "email" }}></Input>
+                    {errors?.email?.type === 'required' && <p className="text-[#e04040]"> Email field is missing</p>}
+                    {errors?.email?.type === 'pattern' && <p className="text-[#e04040]"> Please Enter a valid Email</p>}
+                    {errors?.email?.type === 'custom' && <p className="text-[#e04040]"> {errors.email.message}</p>}
+                    <Input  register={{...register('password', {required:true, minLength:6})}} labelName="Password" inputData={{ type: "password", id: "password", placeholder:'Min 6 characters' }}></Input>
+                    {errors?.password?.type === 'required' && <p className="text-[#e04040]"> Password field is missing</p>}
+                    {errors?.password?.type === 'minLength' && <p className="text-[#e04040]"> Please Enter a Password with minimum 6 characters</p>}
+                    <Button onClick={handleSubmit(submitHandler)} bgColor='bg-green'>Submit</Button>
+                </form>
+            </div>
         </div>
         
     )

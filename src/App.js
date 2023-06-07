@@ -1,10 +1,12 @@
 
 import AuthenticatedApp from "./AuthenticatedApp"
-import UnAuthenticatedApp from "./UnauthenticatedApp"
+import UnAuthenticatedApp from "./UnAuthenticatedApp"
 import { initializeApp} from 'firebase/app'
 import {getAuth} from 'firebase/auth'
 import { QueryClient, QueryClientProvider} from '@tanstack/react-query'
 import { useAccount } from "./Components/Context/accountContext";
+import {BrowserRouter, Routes, Route} from "react-router-dom"
+import RegistrationForm from "./Components/Main/RegistrationForm"
 
 
 const queryClient = new QueryClient()
@@ -35,7 +37,9 @@ function App() {
   return (
     <>
     <QueryClientProvider client={queryClient}>
-      {acc ? <AuthenticatedApp/> : <UnAuthenticatedApp auth={auth} />}
+      <BrowserRouter>
+        {acc ? <AuthenticatedApp/> : <UnAuthenticatedApp auth={auth} />}
+      </BrowserRouter>
     </QueryClientProvider>
   </>
   );

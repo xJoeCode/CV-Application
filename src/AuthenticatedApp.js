@@ -12,9 +12,6 @@ import Logo from './Components/UI/Logos/Logo';
 
 
 
-
-
-
 function AuthenticatedApp() {
 
   

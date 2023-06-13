@@ -6,7 +6,7 @@ import {getAuth} from 'firebase/auth'
 import { QueryClient, QueryClientProvider} from '@tanstack/react-query'
 import { useAccount } from "./Components/Context/accountContext";
 import {BrowserRouter, Routes, Route} from "react-router-dom"
-import RegistrationForm from "./Components/Main/RegistrationForm"
+import {useEffect} from 'react'
 
 
 const queryClient = new QueryClient()
@@ -24,11 +24,12 @@ const app = initializeApp(firebaseConfig)
 
 
 function App() {
-
-  const { acc } =useAccount()
-
-
+  const { acc, setAcc } =useAccount()
   const auth = getAuth()
+
+  useEffect(()=>{
+    window.localStorage.getItem('currentUser') && setAcc(JSON.parse(window.localStorage.getItem('currentUser')))
+  },[setAcc])
 
 
 

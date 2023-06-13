@@ -3,10 +3,10 @@ import {useForm} from 'react-hook-form'
 import Button from "../UI/Button";
 import { useEffect } from "react";
 import { useAccount } from "../Context/accountContext";
-import { useRegisterUserQuery } from "../../features/api/apiSlice";
 import {motion, AnimatePresence} from 'framer-motion'
 import {useLocation} from 'react-router-dom'
 import client from "../../Utils/api-client";
+import { useNavigate } from "react-router-dom"
 
 
 
@@ -14,6 +14,7 @@ export default function RegistrationForm (props) {
 
     const {register, formState:{errors}, handleSubmit, setError} = useForm()
     const { acc, setAcc,userPass, setUserPass}= useAccount()
+    const navigate = useNavigate()
 
 
     /*
@@ -44,12 +45,14 @@ export default function RegistrationForm (props) {
             console.log(userCredential)
             setAcc(userCredential)
             setUserPass(null)
+            window.localStorage.setItem("currentUser", JSON.stringify(userCredential))
+            navigate("/")
             }
             fetchUserCredential()
         }
 
 
-    },[props.auth,setError,userPass,acc,setAcc, setUserPass])
+    },[props.auth,setError,userPass,acc,setAcc, setUserPass, navigate])
 
 
 

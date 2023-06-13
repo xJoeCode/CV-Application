@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { useAccount } from "../Context/accountContext";
 import client from "../../Utils/api-client";
 import {AnimatePresence, motion} from "framer-motion"
+import { useNavigate } from "react-router-dom"
 
 
 
@@ -13,15 +14,11 @@ export default function SignInForm (props) {
 
     const {register, formState:{errors}, handleSubmit, setError} = useForm()
     const { acc, setAcc,userPass, setUserPass}= useAccount()
+    const navigate = useNavigate()
 
 
     
-
-    
-
     useEffect(()=>{
-
-       
         if (!userPass){
             return
             }
@@ -36,12 +33,14 @@ export default function SignInForm (props) {
             console.log(userCredential)
             setAcc(userCredential)
             setUserPass(null)
+            window.localStorage.setItem("currentUser", JSON.stringify(userCredential))
+            navigate("/")
             }
             fetchUserCredential()
         }
 
 
-    },[props.auth,setError,userPass,acc,setAcc, setUserPass])
+    },[props.auth,setError,userPass,acc,setAcc, setUserPass,navigate])
     
    
 
@@ -50,8 +49,6 @@ export default function SignInForm (props) {
         e.preventDefault()
         setUserPass({email,password})
 
-        
-        
     }
 
     return(

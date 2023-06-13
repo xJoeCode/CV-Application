@@ -21,7 +21,7 @@ function AuthenticatedApp() {
   const [expandedState, setExpandedState] = useState(false)
   const [showEditButtons, setShowEditButtons] = useState(false)
   const [formId,setformId] = useState(0)
-  const {acc} = useAccount()
+  const {acc, setAcc} = useAccount()
 
  
     console.log(acc)
@@ -48,13 +48,24 @@ function AuthenticatedApp() {
       setformId(id)
     },[])
 
+    const signOut = () =>{
+      setAcc(null)
+      window.localStorage.removeItem('currentUser')
+    }
+
 
   
 
   return (
   <FormsProvider>
-    <div className='w-full h-auto bg-[#ebebeb] m-0 p-0 '>
+    <div className='flex w-full h-auto bg-[#ebebeb] m-0 p-0 '>
         <Logo />
+        <div className='flex flex-col justify-center'>
+        <p>Welcome</p>
+        <p>${acc.email}</p>
+        <a className=' text-[#e04040] cursor-pointer' onClick={signOut} href="/">Sign Out</a>
+        </div>
+        
     </div>
   <div className=' bg-[#ebebeb] h-screen flex flex-col  justify-center items-center'>
   

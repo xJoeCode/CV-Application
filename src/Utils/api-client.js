@@ -1,26 +1,54 @@
-import { createUserWithEmailAndPassword} from 'firebase/auth'
-import { filterProps } from 'framer-motion'
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword} from 'firebase/auth'
 
 
 
-export default function client(option,auth,email,password,customFn){
+
+export default async function client(option,auth,email,password,setError){
+
+
 
 if(option === 'createuser'){
 
-    createUserWithEmailAndPassword(auth, email, password).then(userCredential=>{
-        console.log(userCredential)
-        return userCredential.user
-        })
-        .catch((error)=>{
-          if (error.message.includes('email-already-in-use')){
-            //customFn('email',{type:'custom', message:'Email Already in Use'})
-            return(error.message)
-          }
-          throw error.message
-        })
-    
 
+  try{
+    const userCredential = await createUserWithEmailAndPassword(auth,email,password)
+    return userCredential.user
+  }
+
+  catch(error){
+    if (error.message.includes('email-already-in-use')){
+      setError('email',{type:'custom', message:'Email Already in Use'})
+    } else {
+      throw new Error(error.message)
+    }
+  }
+   
+
+    
 }
+
+  if (option === "signIn"){
+
+    try{
+      const userCredential = await signInWithEmailAndPassword(auth,email,password)
+      return userCredential.user
+    }
+
+    catch(error){
+      if (error.message.includes('user-not-found')){
+        setError('email',{type:'custom', message:'User not Found'})
+      } 
+
+      if (error.message.includes('wrong-password')){
+        setError('password',{type:'custom', message:'Wrong Password'})
+      }
+      
+      else {
+        throw new Error(error.message)
+      }
+      
+    }
+  }
 
 
 }

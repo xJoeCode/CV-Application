@@ -9,6 +9,7 @@ import MainButtons from './Components/Main/MainButtons';
 import MainForms from './Components/Main/MainForms';
 import CreateResumeButtons from './Components/Main/CreateResumeButtons';
 import Logo from './Components/UI/Logos/Logo';
+import { useAccount } from './Components/Context/accountContext';
 
 
 
@@ -20,9 +21,10 @@ function AuthenticatedApp() {
   const [expandedState, setExpandedState] = useState(false)
   const [showEditButtons, setShowEditButtons] = useState(false)
   const [formId,setformId] = useState(0)
+  const {acc} = useAccount()
 
  
-
+    console.log(acc)
 
     const ExpandedStateHandler = useCallback((options) =>{
       options === 'swap' && setExpandedState(prevState => !prevState)

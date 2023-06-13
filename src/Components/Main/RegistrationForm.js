@@ -4,7 +4,9 @@ import Button from "../UI/Button";
 import { useEffect } from "react";
 import { useAccount } from "../Context/accountContext";
 import { useRegisterUserQuery } from "../../features/api/apiSlice";
-
+import {motion, AnimatePresence} from 'framer-motion'
+import {useLocation} from 'react-router-dom'
+import client from "../../Utils/api-client";
 
 
 
@@ -22,39 +24,47 @@ export default function RegistrationForm (props) {
     })
     */
 
-    const {data, isloading, isSuccess, error:registrationError} = useRegisterUserQuery({auth:props.auth, email:userPass?.email, password:userPass?.password, setError:setError},{skip:Boolean(!userPass)})
+     //const {data, isLoading, isSuccess, error:registrationError} = useRegisterUserQuery({auth:props.auth, email:userPass?.email, password:userPass?.password, setError, setAcc:setAcc, setUserPass},{skip:Boolean(!userPass)})
+
 
     useEffect(()=>{
 
        
-        if (!data){
+        if (!userPass){
             return
+            }
+
+        console.log(acc)
+        
+
+        if (userPass){
+
+
+            const fetchUserCredential = async() => { const userCredential = await client('createuser', props.auth, userPass.email, userPass.password, setError)
+            console.log(userCredential)
+            setAcc(userCredential)
+            setUserPass(null)
+            }
+            fetchUserCredential()
         }
 
-        if (data){
-            setAcc(data)
 
-        }
-
-    },[data,acc,setAcc])
+    },[props.auth,setError,userPass,acc,setAcc, setUserPass])
 
 
-    
+
+ 
    
 
-    const submitHandler = async ({email,password},e) =>{
+    const submitHandler = ({email,password},e) =>{
         console.log(errors)
         e.preventDefault()
-        //setUser(data.user)
         setUserPass({email,password})
-
-        
-        
     }
 
     return(
-        <div className=" w-screen h-max flex justify-center items-start">
-            <div className="bg-[#ebebeb] p-6 mt-6 w-max h-max shadow-xl rounded-lg flex  flex-row  justify-center items-center'">
+            
+            <motion.div initial={{translateY:-500}} animate={{translateY:0}} transition={{duration:0.8, type:"spring", ease:"easeInOut"}} className="bg-[#ebebeb] p-6 mt-6 w-max h-max shadow-xl rounded-lg flex  flex-row  justify-center items-center'">
                 <form onSubmit={handleSubmit(submitHandler)}>
                     <h1 className=" font-serif m-8 capitalize text-center text-ultraDarkBlue text-3xl"> Register</h1>  
                     <Input  register={{...register('email', {required:true, pattern:/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/})}} labelName="Email" inputData={{ type: "email", id: "email" }}></Input>
@@ -66,9 +76,8 @@ export default function RegistrationForm (props) {
                     {errors?.password?.type === 'minLength' && <p className="text-[#e04040]"> Please Enter a Password with minimum 6 characters</p>}
                     <Button onClick={handleSubmit(submitHandler)} bgColor='bg-green'>Submit</Button>
                 </form>
-            </div>
-        </div>
-        
+            </motion.div>
+
     )
 }
 

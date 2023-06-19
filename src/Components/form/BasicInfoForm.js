@@ -49,17 +49,17 @@ export default function BasicInfoForm(props) {
         <div className="p-5">
             <h1 className="font-serif text-6xl m-2 text-center text-ultraDarkBlue">{props.formName}</h1>
             <form onSubmit={handleSubmit(submitHandler)} className="flex flex-col items-center content-between text-center">
-                <Input  register={{...register('name', {required:true})}} labelName="Name" inputData={{ type: "text", id: "name", value:props.data?.name }}></Input>
+                <Input  register={{...register('name', {required:true})}} labelName="Name" inputData={{ type: "text", id: "name", defaultValue:props.data?.name }}></Input>
                 {errors?.name?.type === 'required' && <p className="text-[#e04040]"> Name field is missing</p>}
-                <Input register={{...register('email', {required:true, pattern:/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/})}} labelName="Email" inputData={{ type: "text", id: "email", value:props.data?.email}}></Input>
+                <Input register={{...register('email', {required:true, pattern:/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/})}} labelName="Email" inputData={{ type: "text", id: "email", defaultValue:props.data?.email}}></Input>
                 {errors?.email?.type === 'required' && <p className="text-[#e04040]"> Email field is missing</p>}
                 {errors?.email?.type === 'pattern' && <p className="text-[#e04040]"> Please Enter a valid Email</p>}
-                <Input register={{...register('profession', {required:true})}} labelName="Profession" inputData={{ type: "text", id: "profession", value:props.data?.profession }}></Input>
+                <Input register={{...register('profession', {required:true})}} labelName="Profession" inputData={{ type: "text", id: "profession", defaultValue:props.data?.profession }}></Input>
                 {errors?.email?.type === 'required' && <p className="text-[#e04040]"> Profession field is missing</p>}
-                <Input register={{...register('phoneNumber', {required:true, pattern:/^[+]*[6|8|9]\d{7}|\+65[6|8|9]\d{7}|\+65\s[6|8|9]\d{7}/})}} labelName="Phone Number" inputData={{ type: "tel", id: "phoneNUmber", required: "required", value:props.data?.phoneNumber }}></Input>
+                <Input register={{...register('phoneNumber', {required:true, pattern:/^[+]*[6|8|9]\d{7}|\+65[6|8|9]\d{7}|\+65\s[6|8|9]\d{7}/})}} labelName="Phone Number" inputData={{ type: "tel", id: "phoneNUmber", required: "required", defaultValue:props.data?.phoneNumber }}></Input>
                 {errors?.phoneNumber?.type === 'required' && <p className="text-[#e04040]"> Phone Number field is missing</p>}
                 {errors?.phoneNumber?.type === 'pattern' && <p className="text-[#e04040]"> Please Enter a valid Phone Number</p>}
-                <Input register={{...register('address', {required:true})}} labelName="Address" inputData={{ type: "text", id: "address", value:props.data?.address }}></Input>
+                <Input register={{...register('address', {required:true})}} labelName="Address" inputData={{ type: "text", id: "address", defaultValue:props.data?.address }}></Input>
                 {errors?.address?.type === 'required' && <p className="text-[#e04040]"> Address field is missing</p>}
                 <ButtonSmall onClick={addSocialLinksHandler}>Add Social Links</ButtonSmall>
 

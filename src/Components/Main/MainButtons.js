@@ -7,7 +7,7 @@ import {  memo } from 'react';
 function MainButtons(props) {
 
     useEffect(()=>{
-      console.log('end',formStates)
+      console.log('formStates',formStates)
     })
 
     const [formStates, dispatchForms] = useForms()

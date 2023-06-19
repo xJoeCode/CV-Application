@@ -59,10 +59,15 @@ export default function RegistrationForm (props) {
  
    
 
-    const submitHandler = ({email,password},e) =>{
+    const submitHandler = ({email,password, confirmPassword},e) =>{
         console.log(errors)
+        console.log(confirmPassword)
         e.preventDefault()
-        setUserPass({email,password})
+        if (password !== confirmPassword){
+            setError('confirmPassword',{type:'custom', message:'Passwords do not match'})
+        } else {
+            setUserPass({email,password})
+        }
     }
 
     return(
@@ -77,6 +82,9 @@ export default function RegistrationForm (props) {
                     <Input  register={{...register('password', {required:true, minLength:6})}} labelName="Password" inputData={{ type: "password", id: "password", placeholder:'Min 6 characters' }}></Input>
                     {errors?.password?.type === 'required' && <p className="text-[#e04040]"> Password field is missing</p>}
                     {errors?.password?.type === 'minLength' && <p className="text-[#e04040]"> Please Enter a Password with minimum 6 characters</p>}
+                    <Input  register={{...register('confirmPassword', {required:true})}} labelName="Confirm Password" inputData={{ type: "password", id: "confirmPassword"}}></Input>
+                    {errors?.confirmPassword?.type === 'required' && <p className="text-[#e04040]"> Password confirmation field is missing</p>}
+                    {errors?.confirmPassword?.type === 'custom' && <p className="text-[#e04040]"> {errors.confirmPassword.message}</p>}
                     <Button onClick={handleSubmit(submitHandler)} bgColor='bg-green'>Submit</Button>
                 </form>
             </motion.div>

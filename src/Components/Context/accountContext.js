@@ -7,7 +7,8 @@ function AccountProvider (props) {
 
     const [userPass, setUserPass] = useState(null)
     const [acc, setAcc] = useState(null)
-    const value = {userPass, setUserPass, acc,setAcc}
+    const [db,setDb] = useState(null)
+    const value = {userPass, setUserPass, acc,setAcc, db,setDb}
 
     return(<AccountContext.Provider value={props.value? props.value : value}>{props.children}</AccountContext.Provider>)
   }

@@ -1,14 +1,23 @@
 import { useForms} from '../Context/formContext'
+import {useAccount} from '../Context/accountContext'
 import BasicInfoForm from '../form/BasicInfoForm'
 import EducationInfoForm from '../form/EducationInfoForm'
 import WorkInfoForm from '../form/WorkInfoForm'
+import {useEffect, useState} from 'react'
+import {useUpdateResumeMutation} from '../../features/api/apiSlice'
+import useDbStatusState from '../../hooks/useDbStatusState'
+
 
 const MainForms = (props)=> {
 
+    const {acc} = useAccount()
     const [formStates,dispatchForms] = useForms()
+    const {setDbStatus} = useDbStatusState({formStates})
+
 
     const basicFormDataHandler = (data) =>{
         dispatchForms({cvIncludes:'BasicInfo', formData:data})
+        setDbStatus('mutate')
         props.setCvDisplay(true)
         props.setExpandedState(false)
       }
@@ -23,6 +32,7 @@ const MainForms = (props)=> {
         const dateOptions = { year:'numeric', month:'long', day:'numeric'}
         data.schoolName && (id ? dispatchForms({type:'editEducationInfo', formData:data, formId: id}) : dispatchForms({cvIncludes:'EducationInfo', formData:data}))
         data.jobTitle && (id ? dispatchForms({type:'editWorkInfo', formData:data, formId: id}) : dispatchForms({cvIncludes:'WorkInfo', formData:data}))
+        setDbStatus('mutate')
         props.setCvDisplay(true)
         props.setExpandedState(false)
       }

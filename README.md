@@ -20,13 +20,13 @@ Run npm start to start the development server.
 - CSS
 - React.js
 - Tailwind CSS
-- Firebase API (WIP)
+- Firebase API 
 - Framer Motion
 - React Testing Library
 - React Hook Forms
-- React Query (WIP)
-- React Router (WIP)
+- RTK Query 
+- React Router 
 
 ## Features
-- Authentication (WIP)
+- Authentication 
 

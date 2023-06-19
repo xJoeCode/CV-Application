@@ -11,9 +11,10 @@ function reducer(state,action){
   if (action.cvIncludes === 'BasicInfo' && state.data){
     let lastestStateData = state.data.filter(data => !data.name)
     lastestStateData.push(action.formData)
+    let latestCvInlcudesData = state.cvIncludes.includes('BasicInfo') ? [] : [action.cvIncludes]
     return{
       data: [...state.data.filter(data => !data.name), action.formData],
-      cvIncludes:[...state.cvIncludes, action.cvIncludes],
+      cvIncludes:[...state.cvIncludes, ...latestCvInlcudesData],
       formType:'nil'
     }
   }

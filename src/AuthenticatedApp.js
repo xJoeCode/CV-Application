@@ -10,10 +10,11 @@ import MainForms from './Components/Main/MainForms';
 import CreateResumeButtons from './Components/Main/CreateResumeButtons';
 import Logo from './Components/UI/Logos/Logo';
 import { useAccount } from './Components/Context/accountContext';
+import { collection, addDoc } from "firebase/firestore"; 
 
 
 
-function AuthenticatedApp() {
+function AuthenticatedApp(props) {
 
   
   
@@ -24,7 +25,8 @@ function AuthenticatedApp() {
   const {acc, setAcc} = useAccount()
 
  
-    console.log(acc)
+    console.log('current account details',acc)
+    console.log(cvDisplay)
 
     const ExpandedStateHandler = useCallback((options) =>{
       options === 'swap' && setExpandedState(prevState => !prevState)
@@ -62,7 +64,7 @@ function AuthenticatedApp() {
         <Logo />
         <div className='flex flex-col justify-center'>
         <p>Welcome</p>
-        <p>${acc.email}</p>
+        <p>{acc.email}</p>
         <a className=' text-[#e04040] cursor-pointer' onClick={signOut} href="/">Sign Out</a>
         </div>
         
@@ -72,10 +74,10 @@ function AuthenticatedApp() {
   <CreateResumeButtons setShowEditButtons={showEditButtonsHandler} setExpandedState={ExpandedStateHandler} />
   <MainButtons setShowEditButtons={showEditButtonsHandler} setExpandedState={ExpandedStateHandler} setCvDisplayState={CvDisplayHandler} />
   <FormsContainer className={expandedState ?'w-3/4 h-auto flex justify-center items-center bg-beige':'w-3/4 h-1 bg-beige'}>
-    <MainForms formId={formId} setCvDisplay={CvDisplayHandler} expandedState={expandedState} setExpandedState={ExpandedStateHandler} />
+    <MainForms db={props.db} formId={formId} setCvDisplay={CvDisplayHandler} expandedState={expandedState} setExpandedState={ExpandedStateHandler} />
   </FormsContainer>
   {cvDisplay && <CvContainer>
-    <MainCv cvDisplay={cvDisplay} showEditButtons={showEditButtons} setformId={setformIdHandler} setShowEditButtons={showEditButtonsHandler} setExpandedState={ExpandedStateHandler}  setCvDisplay={CvDisplayHandler} />
+    <MainCv db={props.db} cvDisplay={cvDisplay} showEditButtons={showEditButtons} setformId={setformIdHandler} setShowEditButtons={showEditButtonsHandler} setExpandedState={ExpandedStateHandler}  setCvDisplay={CvDisplayHandler} />
   </CvContainer>}
 </div>
 </FormsProvider>

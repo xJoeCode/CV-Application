@@ -4,9 +4,12 @@ import EducationInfo from "../CV/EducationInfo";
 import WorkInfo from "../CV/WorkInfo";
 import { useForms } from "../Context/formContext";
 import { useCallback, useEffect, memo } from "react";
+import useDbStatusState from "../../hooks/useDbStatusState";
 
-function MainCv({ setShowEditButtons, setExpandedState, setCvDisplay, ...props }) {
+function MainCv({ setShowEditButtons, setExpandedState, setCvDisplay,db, ...props }) {
     const [formStates, dispatchForms] = useForms();
+    const {setDbStatus} = useDbStatusState({formStates})
+
 
     console.log(formStates);
 
@@ -57,10 +60,12 @@ function MainCv({ setShowEditButtons, setExpandedState, setCvDisplay, ...props }
         if (type === "education") {
             dispatchForms({ type: "deleteEducationInfo", formData: id });
             setShowEditButtons("swap");
+            setDbStatus('mutate')
         }
         if (type === "work") {
             dispatchForms({ type: "deleteWorkInfo", formData: id });
             setShowEditButtons("swap");
+            setDbStatus('mutate')
         }
     };
 

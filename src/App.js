@@ -3,13 +3,14 @@ import AuthenticatedApp from "./AuthenticatedApp"
 import UnAuthenticatedApp from "./UnAuthenticatedApp"
 import { initializeApp} from 'firebase/app'
 import {getAuth} from 'firebase/auth'
-import { QueryClient, QueryClientProvider} from '@tanstack/react-query'
+import { getFirestore } from "firebase/firestore"
+import useDbStatusState from './hooks/useDbStatusState'
 import { useAccount } from "./Components/Context/accountContext";
 import {BrowserRouter, Routes, Route} from "react-router-dom"
 import {useEffect} from 'react'
 
 
-const queryClient = new QueryClient()
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyC3fKVvQFGpFDX7VTHG426tfjcI5XifH8k",
@@ -21,27 +22,24 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig)
+const db = getFirestore(app)
 
 
 function App() {
-  const { acc, setAcc } =useAccount()
+  const { acc, setAcc, setDb } = useAccount()
   const auth = getAuth()
+
 
   useEffect(()=>{
     window.localStorage.getItem('currentUser') && setAcc(JSON.parse(window.localStorage.getItem('currentUser')))
-  },[setAcc])
-
-
-
-  
+    setDb(db)
+  },[setAcc,setDb])
 
   return (
     <>
-    <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        {acc ? <AuthenticatedApp/> : <UnAuthenticatedApp auth={auth} />}
-      </BrowserRouter>
-    </QueryClientProvider>
+    <BrowserRouter>
+      {acc ? <AuthenticatedApp db={db} /> : <UnAuthenticatedApp auth={auth} />}
+    </BrowserRouter>
   </>
   );
 }

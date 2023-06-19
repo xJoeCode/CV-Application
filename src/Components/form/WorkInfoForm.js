@@ -58,15 +58,15 @@ export default function WorkInfoForm(props){
             <form onSubmit={handleSubmit(submitHandler)} className="flex flex-col">
                 <h1>{props.formName}</h1>
                 <ul>
-                    <Input register={{...register('jobTitle', {required:true})}} labelName="Job Title" inputData={{ type: "text", id: "jobTitle", placeholder:"e.g Retail Sales Associate", value:props.data?.jobTitle  }}> </Input>
+                    <Input register={{...register('jobTitle', {required:true})}} labelName="Job Title" inputData={{ type: "text", id: "jobTitle", placeholder:"e.g Retail Sales Associate", defaultValue:props.data?.jobTitle  }}> </Input>
                     {errors.jobTitle &&  <p className="text-[#e04040] text-xs"> Job Title field is empty</p>}
-                    <Input register={{...register('employer', {required:true})}} labelName="Employer" inputData={{ type: "text", id: "employer", placeholder:"e.g H&M", value:props.data?.employer  }}> </Input>
+                    <Input register={{...register('employer', {required:true})}} labelName="Employer" inputData={{ type: "text", id: "employer", placeholder:"e.g H&M", defaultValue:props.data?.employer  }}> </Input>
                     {errors.employer &&  <p className="text-[#e04040] text-xs"> Employer field is empty</p>}
-                    <Input register={{...register('location', {required:true})}} labelName="location" inputData={{ type: "text", id: "location", placeholder:"e.g Singapore", value:props.data?.location  }}> </Input>
+                    <Input register={{...register('location', {required:true})}} labelName="location" inputData={{ type: "text", id: "location", placeholder:"e.g Singapore", defaultValue:props.data?.location  }}> </Input>
                     {errors.location &&  <p className="text-[#e04040] text-xs"> Location field is empty</p>}
-                    <Input register={{...register('startDate', {required:true})}} labelName="Start Date" inputData={{ type: "date", id: "startDate", value:newStartDate}}> </Input>
+                    <Input register={{...register('startDate', {required:true})}} labelName="Start Date" inputData={{ type: "date", id: "startDate", defaultValue:newStartDate}}> </Input>
                     {errors.startDate &&  <p className="text-[#e04040] text-xs"> Start Date field is empty</p>}
-                    {watch('currentlyWorking') || <Input register={{...register('endDate', {required:true})}} labelName="End Date" inputData={{ type: "date", id: "endDate", value:newEndDate}}> </Input>}
+                    {watch('currentlyWorking') || <Input register={{...register('endDate', {required:true})}} labelName="End Date" inputData={{ type: "date", id: "endDate", defaultValue:newEndDate}}> </Input>}
                     {errors.endDate?.type === 'required' &&  <p className="text-[#e04040] text-xs"> End Date field is empty</p>}
                     {errors.endDate?.type === 'custom' && <p className="text-[#e04040] text-xs"> {`${errors.endDate.message}`}</p>}
                     <Checkbox register={{...register('currentlyWorking' )}} labelName="I currently work here" inputData={{ type: "checkbox", id: "currentlyWorking"}}> </Checkbox>

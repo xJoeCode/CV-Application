@@ -2,6 +2,7 @@ import { createApi, fakeBaseQuery } from '@reduxjs/toolkit/query/react'
 import client from '../../Utils/api-client'
 import { createUserWithEmailAndPassword} from 'firebase/auth'
 import { useQuery } from 'react-query'
+import { collection, addDoc, setDoc, getDoc, doc } from "firebase/firestore"; 
 
 export const apiSlice = createApi({
     reducerPath:'api',
@@ -49,9 +50,25 @@ export const apiSlice = createApi({
                 console.log(userCredential)
                 return {data:userCredential}
             }
+        }),
+        updateResume: build.mutation({
+            async queryFn(arg){
+                const {db,formStates,acc } = arg
+
+                try{
+                        await setDoc(doc(db,acc,acc),{
+                            ...formStates
+                        })
+                        return {data:'ok'}
+                }
+                catch(error){
+                    console.log(error)
+                }
+            }
+
         })
     })
 
 })
 
-export const {useRegisterUserQuery, useSignInQuery} = apiSlice
+export const {useRegisterUserQuery, useSignInQuery, useUpdateResumeMutation} = apiSlice

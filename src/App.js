@@ -4,12 +4,9 @@ import UnAuthenticatedApp from "./UnAuthenticatedApp"
 import { initializeApp} from 'firebase/app'
 import {getAuth} from 'firebase/auth'
 import { getFirestore } from "firebase/firestore"
-import useDbStatusState from './hooks/useDbStatusState'
 import { useAccount } from "./Components/Context/accountContext";
 import {BrowserRouter, Routes, Route} from "react-router-dom"
 import {useEffect} from 'react'
-
-
 
 
 const firebaseConfig = {
@@ -28,8 +25,7 @@ const db = getFirestore(app)
 function App() {
   const { acc, setAcc, setDb } = useAccount()
   const auth = getAuth()
-
-
+  
   useEffect(()=>{
     window.localStorage.getItem('currentUser') && setAcc(JSON.parse(window.localStorage.getItem('currentUser')))
     setDb(db)

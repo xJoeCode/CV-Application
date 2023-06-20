@@ -66,9 +66,26 @@ export const apiSlice = createApi({
                 }
             }
 
+        }),
+        getResume: build.query({
+            async queryFn(arg){
+                const {db, collection, docId } = arg
+                const resumeRef = doc(db, collection, docId)
+
+                try{
+                    const resumeSnap = await getDoc(resumeRef)
+                    if (resumeSnap.exists()){
+                        return {data:resumeSnap.data()}
+                    } else {
+                        return {data:'No such Document'}
+                    }
+                } catch(error){
+                    throw new Error(error.message)
+                }
+            }
         })
     })
 
 })
 
-export const {useRegisterUserQuery, useSignInQuery, useUpdateResumeMutation} = apiSlice
+export const {useRegisterUserQuery, useSignInQuery, useUpdateResumeMutation, useGetResumeQuery} = apiSlice

@@ -10,7 +10,6 @@ import useDbStatusState from '../../hooks/useDbStatusState'
 
 const MainForms = (props)=> {
 
-    const {acc} = useAccount()
     const [formStates,dispatchForms] = useForms()
     const {setDbStatus} = useDbStatusState({formStates})
 

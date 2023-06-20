@@ -5,23 +5,30 @@ import WorkInfo from "../CV/WorkInfo";
 import { useForms } from "../Context/formContext";
 import { useCallback, useEffect, memo } from "react";
 import useDbStatusState from "../../hooks/useDbStatusState";
+import { useAccount } from "../Context/accountContext";
 
-function MainCv({ setShowEditButtons, setExpandedState, setCvDisplay,db, ...props }) {
+function MainCv({ setShowEditButtons, setExpandedState, setCvDisplay,cvDisplay, ...props }) {
     const [formStates, dispatchForms] = useForms();
     const {setDbStatus} = useDbStatusState({formStates})
+    const {acc, setAcc, db} = useAccount()
+
 
 
     console.log(formStates);
 
     useEffect(() => {
+
         if (formStates) {
             let formstatesCopy = { ...formStates };
             formstatesCopy.formType = "nil";
             window.localStorage.setItem("formStates", JSON.stringify(formstatesCopy));
         }
 
-        props.cvDisplay && window.localStorage.setItem("cvDisplay", JSON.stringify(props.cvDisplay));
-    }, [formStates, props.cvDisplay]);
+        if (cvDisplay){
+            window.localStorage.setItem("cvDisplay", JSON.stringify(cvDisplay))
+        }
+
+    }, [formStates,cvDisplay,dispatchForms]);
 
     const clickHandler = useCallback(
         (data) => {
@@ -94,6 +101,7 @@ function MainCv({ setShowEditButtons, setExpandedState, setCvDisplay,db, ...prop
                 ></BasicInfo>
             }
             <motion.div variants={parentAnimation} initial="hidden" animate="show" className="col-span-3 flex flex-col h-full p-3">
+                
                 {formStates.cvIncludes.includes("EducationInfo") && (
                     <motion.h1 variants={childAnimation} className="font-serif text-ultraDarkBlue mt-2 border-b-2 text-3xl">
                         Education

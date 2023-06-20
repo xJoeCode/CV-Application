@@ -1,4 +1,5 @@
 import { useContext, useReducer, createContext, useMemo } from "react"
+import { useGetResumeQuery } from "../../features/api/apiSlice";
 import uuid from 'react-uuid';
 
 const FormsContext = createContext()
@@ -8,6 +9,7 @@ const FormsContext = createContext()
 
 
 function reducer(state,action){
+
   if (action.cvIncludes === 'BasicInfo' && state.data){
     let lastestStateData = state.data.filter(data => !data.name)
     lastestStateData.push(action.formData)
@@ -89,10 +91,16 @@ function reducer(state,action){
     }
   }
 
-
   if (action.type === 'setDisplay'){
     return{
          ...state, ...action
+    }
+  }
+
+  if (action.type === 'loadFromDb'){
+
+    return {
+      ...action.data
     }
   }
 

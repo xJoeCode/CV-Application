@@ -1,18 +1,13 @@
 import MainBackground from "./Components/UI/MainBackground"
-import { useAccount } from "./Components/Context/accountContext"
-import {Link, Routes, Route, useLocation} from 'react-router-dom'
+import { Routes, Route} from 'react-router-dom'
 import MainAuthButtons from "./Components/Main/MainAuthButtons"
 import RegistrationForm from "./Components/Main/RegistrationForm"
 import SignInForm from "./Components/Main/SignInForm"
-import {AnimatePresence} from "framer-motion"
 
 
 
 
 export default function UnAuthenticatedApp(props){
-
-    const location = useLocation()
-
 
 
 

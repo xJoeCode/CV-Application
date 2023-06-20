@@ -1,5 +1,5 @@
 
-import { useState, useCallback, lazy } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { FormsProvider } from './Components/Context/formContext';
 import './App.css';
 import FormsContainer from './Components/UI/FormsContainer';
@@ -10,7 +10,9 @@ import MainForms from './Components/Main/MainForms';
 import CreateResumeButtons from './Components/Main/CreateResumeButtons';
 import Logo from './Components/UI/Logos/Logo';
 import { useAccount } from './Components/Context/accountContext';
-import { collection, addDoc } from "firebase/firestore"; 
+import ResumeLoader from './Components/Main/ResumeLoader';
+import { useGetResumeQuery } from './features/api/apiSlice';
+
 
 
 
@@ -22,11 +24,23 @@ function AuthenticatedApp(props) {
   const [expandedState, setExpandedState] = useState(false)
   const [showEditButtons, setShowEditButtons] = useState(false)
   const [formId,setformId] = useState(0)
-  const {acc, setAcc} = useAccount()
+  const {acc, setAcc, db} = useAccount()
+  const {isLoading,status,error,data,isSuccess}= useGetResumeQuery({db,collection:acc.email, docId:acc.email},{skip:Boolean(!acc)})
+
+
+
 
  
     console.log('current account details',acc)
-    console.log(cvDisplay)
+
+
+
+
+    useEffect(()=>{
+      if (data && data !== 'No such Document'){
+
+      }
+    },[data])
 
     const ExpandedStateHandler = useCallback((options) =>{
       options === 'swap' && setExpandedState(prevState => !prevState)
@@ -53,6 +67,8 @@ function AuthenticatedApp(props) {
     const signOut = () =>{
       setAcc(null)
       window.localStorage.removeItem('currentUser')
+      window.localStorage.removeItem('formStates')
+      window.localStorage.removeItem('cvDisplay')
     }
 
 
@@ -71,13 +87,14 @@ function AuthenticatedApp(props) {
     </div>
   <div className=' bg-[#ebebeb] h-screen flex flex-col  justify-center items-center'>
   
+  <ResumeLoader setCvDisplay={setCvDisplay} />
   <CreateResumeButtons setShowEditButtons={showEditButtonsHandler} setExpandedState={ExpandedStateHandler} />
   <MainButtons setShowEditButtons={showEditButtonsHandler} setExpandedState={ExpandedStateHandler} setCvDisplayState={CvDisplayHandler} />
   <FormsContainer className={expandedState ?'w-3/4 h-auto flex justify-center items-center bg-beige':'w-3/4 h-1 bg-beige'}>
-    <MainForms db={props.db} formId={formId} setCvDisplay={CvDisplayHandler} expandedState={expandedState} setExpandedState={ExpandedStateHandler} />
+    <MainForms formId={formId} setCvDisplay={CvDisplayHandler} expandedState={expandedState} setExpandedState={ExpandedStateHandler} />
   </FormsContainer>
   {cvDisplay && <CvContainer>
-    <MainCv db={props.db} cvDisplay={cvDisplay} showEditButtons={showEditButtons} setformId={setformIdHandler} setShowEditButtons={showEditButtonsHandler} setExpandedState={ExpandedStateHandler}  setCvDisplay={CvDisplayHandler} />
+    <MainCv cvDisplay={cvDisplay} showEditButtons={showEditButtons} setformId={setformIdHandler} setShowEditButtons={showEditButtonsHandler} setExpandedState={ExpandedStateHandler}  setCvDisplay={CvDisplayHandler} />
   </CvContainer>}
 </div>
 </FormsProvider>

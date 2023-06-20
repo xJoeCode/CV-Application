@@ -16,8 +16,8 @@ export default function MainAuthButtons(){
     return(
         <>
         <div className="w-full h-screen flex justify-center items-center" >
-            <div  className={pathname !== '/' ? " bg-beige w-4/5 h-3/5 flex flex-row justify-center items-center rounded-md shadow-xl" : " bg-beige w-1/5 h-3/5 flex flex-col justify-center items-center rounded-md shadow-xl"}>
-                <div  className={pathname !== '/' ?'flex bg-brightPink h-full flex-col justify-center w-2/5' : 'flex h-full flex-col justify-center'}>
+            <div  className={pathname !== '/CV-Application' ? " bg-beige w-4/5 h-3/5 flex flex-row justify-center items-center rounded-md shadow-xl" : " bg-beige w-1/5 h-3/5 flex flex-col justify-center items-center rounded-md shadow-xl"}>
+                <div  className={pathname !== '/CV-Application' ?'flex bg-brightPink h-full flex-col justify-center w-2/5' : 'flex h-full flex-col justify-center'}>
                     
                         <Link to='register'>
                             <Button2

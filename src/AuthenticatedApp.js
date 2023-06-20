@@ -11,7 +11,8 @@ import CreateResumeButtons from './Components/Main/CreateResumeButtons';
 import Logo from './Components/UI/Logos/Logo';
 import { useAccount } from './Components/Context/accountContext';
 import ResumeLoader from './Components/Main/ResumeLoader';
-import { useGetResumeQuery } from './features/api/apiSlice';
+import { useNavigate } from "react-router-dom"
+
 
 
 
@@ -24,8 +25,9 @@ function AuthenticatedApp(props) {
   const [expandedState, setExpandedState] = useState(false)
   const [showEditButtons, setShowEditButtons] = useState(false)
   const [formId,setformId] = useState(0)
-  const {acc, setAcc, db} = useAccount()
-  const {isLoading,status,error,data,isSuccess}= useGetResumeQuery({db,collection:acc.email, docId:acc.email},{skip:Boolean(!acc)})
+  const {acc, setAcc} = useAccount()
+  const navigate = useNavigate()
+
 
 
 
@@ -36,11 +38,6 @@ function AuthenticatedApp(props) {
 
 
 
-    useEffect(()=>{
-      if (data && data !== 'No such Document'){
-
-      }
-    },[data])
 
     const ExpandedStateHandler = useCallback((options) =>{
       options === 'swap' && setExpandedState(prevState => !prevState)
@@ -66,6 +63,7 @@ function AuthenticatedApp(props) {
 
     const signOut = () =>{
       setAcc(null)
+      navigate("/CV-Application")
       window.localStorage.removeItem('currentUser')
       window.localStorage.removeItem('formStates')
       window.localStorage.removeItem('cvDisplay')

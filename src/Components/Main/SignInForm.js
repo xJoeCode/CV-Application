@@ -34,7 +34,7 @@ export default function SignInForm (props) {
             setAcc(userCredential)
             setUserPass(null)
             window.localStorage.setItem("currentUser", JSON.stringify(userCredential))
-            navigate("/")
+            navigate("/CV-Application")
             }
             fetchUserCredential()
         }

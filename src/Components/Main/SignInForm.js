@@ -3,9 +3,9 @@ import {useForm} from 'react-hook-form'
 import Button from "../UI/Button";
 import { useEffect } from "react";
 import { useAccount } from "../Context/accountContext";
-import client from "../../Utils/api-client";
-import {AnimatePresence, motion} from "framer-motion"
+import { motion} from "framer-motion"
 import { useNavigate } from "react-router-dom"
+import { useLazySignInQuery } from "../../features/api/apiSlice";
 
 
 
@@ -15,36 +15,38 @@ export default function SignInForm (props) {
     const {register, formState:{errors}, handleSubmit, setError} = useForm()
     const { acc, setAcc,userPass, setUserPass}= useAccount()
     const navigate = useNavigate()
+    const [signIn, result] =useLazySignInQuery()
 
 
-    
     useEffect(()=>{
-        if (!userPass){
-            return
-            }
 
-        console.log(acc)
-        
+        const {isSuccess, data:userCredential, isError, error} = result
 
-        if (userPass){
-
-
-            const fetchUserCredential = async() => { const userCredential = await client('signIn', props.auth, userPass.email, userPass.password, setError)
-            console.log(userCredential)
-            setAcc(userCredential)
+        if(userPass){
+            signIn({auth:props.auth, email:userPass?.email, password:userPass?.password})
             setUserPass(null)
-            window.localStorage.setItem("currentUser", JSON.stringify(userCredential))
-            navigate("/CV-Application")
-            }
-            fetchUserCredential()
         }
 
+        if(isSuccess){
+            setAcc(userCredential.user)
+            window.localStorage.setItem("currentUser", JSON.stringify(userCredential))
+            navigate("/CV-Application")
+        }
 
-    },[props.auth,setError,userPass,acc,setAcc, setUserPass,navigate])
-    
-   
+        if(isError){
+            console.log(error)
+            if(error.message.includes('wrong-password')){
+                setError('password',{type:'custom', message:'Wrong Password. Please try again.'})
+            }
+            if(error.message.includes('user-not-found')){
+                setError('email',{type:'custom', message:'User not Found'})
+            }
+        }
 
-    const submitHandler = async ({email,password},e) =>{
+    },[navigate,props.auth,result,setAcc,setUserPass,signIn,userPass,setError])
+
+
+    const submitHandler = ({email,password},e) =>{
         console.log(errors)
         e.preventDefault()
         setUserPass({email,password})

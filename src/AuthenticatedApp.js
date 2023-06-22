@@ -17,7 +17,7 @@ import { useNavigate } from "react-router-dom"
 
 
 
-function AuthenticatedApp(props) {
+function AuthenticatedApp() {
 
   
   
@@ -61,9 +61,9 @@ function AuthenticatedApp(props) {
       setformId(id)
     },[])
 
-    const signOut = () =>{
+    const signOut = (e) =>{
+      e.preventDefault()
       setAcc(null)
-      navigate("/CV-Application")
       window.localStorage.removeItem('currentUser')
       window.localStorage.removeItem('formStates')
       window.localStorage.removeItem('cvDisplay')

@@ -1,7 +1,5 @@
 import { createApi, fakeBaseQuery } from '@reduxjs/toolkit/query/react'
-import client from '../../Utils/api-client'
-import { createUserWithEmailAndPassword} from 'firebase/auth'
-import { useQuery } from 'react-query'
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword} from 'firebase/auth'
 import { collection, addDoc, setDoc, getDoc, doc } from "firebase/firestore"; 
 
 export const apiSlice = createApi({
@@ -12,43 +10,34 @@ export const apiSlice = createApi({
     endpoints: (build) => ({
         registerUser: build.query({
              async queryFn(arg) {
-                const {auth, email, password, setError, SetAcc, setUserPass} = arg
 
-                const createUser = async() => await createUserWithEmailAndPassword(auth,email,password).then((userCredential) =>{
-                    console.log(userCredential.user)
-                    SetAcc(userCredential.user)
-                    setUserPass(null)
-                    return{data: 'okay'}
-                }).catch((error) => {
-                    return {error:error.message}
-                    setError(error.message)
-                })
+                console.log(arg)
+                const {auth, email, password } = arg
 
-                createUser()
 
-                /*
-                try {
-                    const userCredential =  await createUserWithEmailAndPassword(auth,email,password)
-                    console.log(userCredential)
-                    return userCredential
+                try{
+                    const userCredential = await createUserWithEmailAndPassword(auth,email,password)
+                    return {data:userCredential.user}
                 }
                 catch(error){
-                    return({error:error.message})
+                    throw new Error(error.message)
                 }
-                */
                 
-                //return {data:'ok'}
-                
-            },providesTags:['Register']
+            }
             
         }),
         signIn: build.query({
             async queryFn(arg){
-                const {auth, email, password,setError} = arg
+                const {auth, email, password} = arg
 
-                const userCredential = await client('signIn',auth,email,password)
-                console.log(userCredential)
-                return {data:userCredential}
+                try{
+                    const userCredential = await signInWithEmailAndPassword(auth,email,password)
+                    console.log(userCredential)
+                    return {data:userCredential}
+                }
+                catch(error){
+                    throw new Error(error.message)
+                }
             }
         }),
         updateResume: build.mutation({
@@ -62,7 +51,7 @@ export const apiSlice = createApi({
                         return {data:'ok'}
                 }
                 catch(error){
-                    console.log(error)
+                    throw new Error(error.message)
                 }
             }
 
@@ -88,4 +77,4 @@ export const apiSlice = createApi({
 
 })
 
-export const {useRegisterUserQuery, useSignInQuery, useUpdateResumeMutation, useGetResumeQuery} = apiSlice
+export const {useLazyRegisterUserQuery, useLazySignInQuery, useUpdateResumeMutation, useGetResumeQuery} = apiSlice

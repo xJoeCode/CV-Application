@@ -34,7 +34,7 @@ function App() {
   return (
     <>
     <BrowserRouter>
-      {acc ? <AuthenticatedApp db={db} /> : <UnAuthenticatedApp auth={auth} />}
+      {acc ? <AuthenticatedApp /> : <UnAuthenticatedApp auth={auth} />}
     </BrowserRouter>
   </>
   );

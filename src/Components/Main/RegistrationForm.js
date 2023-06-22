@@ -3,10 +3,9 @@ import {useForm} from 'react-hook-form'
 import Button from "../UI/Button";
 import { useEffect } from "react";
 import { useAccount } from "../Context/accountContext";
-import {motion, AnimatePresence} from 'framer-motion'
-import {useLocation} from 'react-router-dom'
-import client from "../../Utils/api-client";
+import {motion} from 'framer-motion'
 import { useNavigate } from "react-router-dom"
+import { useLazyRegisterUserQuery } from "../../features/api/apiSlice";
 
 
 
@@ -25,35 +24,34 @@ export default function RegistrationForm (props) {
     })
     */
 
-     //const {data, isLoading, isSuccess, error:registrationError} = useRegisterUserQuery({auth:props.auth, email:userPass?.email, password:userPass?.password, setError, setAcc:setAcc, setUserPass},{skip:Boolean(!userPass)})
+     const [registerUser, result] = useLazyRegisterUserQuery()
+
+
 
 
     useEffect(()=>{
 
-       
-        if (!userPass){
-            return
-            }
-
-        console.log(acc)
         
+        const {isSuccess, data:userCredential, isError, error} = result
 
-        if (userPass){
-
-
-            const fetchUserCredential = async() => { const userCredential = await client('createuser', props.auth, userPass.email, userPass.password, setError)
-            console.log(userCredential)
-            setAcc(userCredential)
+        if(userPass){
+            registerUser({auth:props.auth, email:userPass?.email, password:userPass?.password })
             setUserPass(null)
-            window.localStorage.setItem("currentUser", JSON.stringify(userCredential))
-            navigate("/CV-Application")
-            }
-            fetchUserCredential()
         }
 
+        if (isSuccess){
+            setAcc(userCredential)
+            window.localStorage.setItem("currentUser", JSON.stringify(userCredential))
+            navigate("/CV-Application")
+        }
 
-    },[props.auth,setError,userPass,acc,setAcc, setUserPass, navigate])
+        if (isError){
+            if(error.message.includes('email-already-in-use')){
+                setError('email',{type:'custom', message:'Email Already in Use'})
+            }
+        }
 
+    },[registerUser,setUserPass,userPass,result,props.auth, setAcc,navigate,setError])
 
 
  

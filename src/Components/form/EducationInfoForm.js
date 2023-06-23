@@ -67,9 +67,9 @@ export default function EducationInfoForm(props){
   
 
     return(
-        <div className="font-serif text-6xl m-2 p-5 text-ultraDarkBlue">
+        <div className="font-serif text-6xl m-2 p-5  text-ultraDarkBlue">
             <form  className="flex flex-col">
-            <h1>{props.formName}</h1>
+            <h1 className=" border-b-4 border-brightPink h-24 pt-6 w-full rounded-2xl">{props.formName}</h1>
                 <ul>
                     <Input register={{...register('schoolName', {required:true})}} labelName="School Name" inputData={{ type: "text", id: "School Name", placeholder:"e.g James Cook Univeristy", value:props.data?.schoolName }}> </Input>
                     {errors.schoolName &&  <p className="text-[#e04040] text-xs"> School Name field is empty</p>}

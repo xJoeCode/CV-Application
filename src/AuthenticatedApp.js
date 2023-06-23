@@ -83,12 +83,12 @@ function AuthenticatedApp() {
         </div>
         
     </div>
-  <div className=' bg-[#ebebeb] h-screen flex flex-col  justify-center items-center'>
+  <div className=' bg-beige h-fit flex flex-col justify-start items-center'>
   
   <ResumeLoader setCvDisplay={setCvDisplay} />
   <CreateResumeButtons setShowEditButtons={showEditButtonsHandler} setExpandedState={ExpandedStateHandler} />
   <MainButtons setShowEditButtons={showEditButtonsHandler} setExpandedState={ExpandedStateHandler} setCvDisplayState={CvDisplayHandler} />
-  <FormsContainer className={expandedState ?'w-3/4 h-auto flex justify-center items-center bg-beige':'w-3/4 h-1 bg-beige'}>
+  <FormsContainer className={expandedState ?'w-11/12 h-auto flex items-center justify-center bg-[#e4e4e4] overflow-auto':'w-11/12 h-0 bg-[#e4e4e4]'}>
     <MainForms formId={formId} setCvDisplay={CvDisplayHandler} expandedState={expandedState} setExpandedState={ExpandedStateHandler} />
   </FormsContainer>
   {cvDisplay && <CvContainer>

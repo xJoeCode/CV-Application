@@ -29,7 +29,7 @@ export default function SignInForm (props) {
 
         if(isSuccess){
             setAcc(userCredential.user)
-            window.localStorage.setItem("currentUser", JSON.stringify(userCredential))
+            window.localStorage.setItem("currentUser", JSON.stringify(userCredential.user))
             navigate("/CV-Application")
         }
 
@@ -41,13 +41,15 @@ export default function SignInForm (props) {
             if(error.message.includes('user-not-found')){
                 setError('email',{type:'custom', message:'User not Found'})
             }
+            if(error.message.includes('many failed login attempts')){
+                setError('password',{type:'custom', message:error.message})
+            }
         }
 
     },[navigate,props.auth,result,setAcc,setUserPass,signIn,userPass,setError])
 
 
     const submitHandler = ({email,password},e) =>{
-        console.log(errors)
         e.preventDefault()
         setUserPass({email,password})
 

@@ -10,7 +10,9 @@ module.exports = {
             darkYellow:'#8E8A00',
             brightYellow:'#FCF600',
             brightPink: '#B48A8D',
-            green:'#7A9975'
+            green:'#7A9975',
+            white:'#ebebeb',
+            brightBlue:'#3587A4',
         },
         fontFamily:{
           'serif':['Source Serif Pro', 'serif']

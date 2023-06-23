@@ -4,6 +4,7 @@ import SelectInput from "../Inputs/SelectInput";
 import { useEffect } from "react";
 import Checkbox from "../Inputs/Checkbox";
 import Button from "../UI/Button";
+import TextBox from "../Inputs/TextBox";
 
 
 
@@ -55,9 +56,9 @@ export default function WorkInfoForm(props){
 
     return(
         <div className="font-serif text-6xl m-2 p-5 text-ultraDarkBlue">
-            <form onSubmit={handleSubmit(submitHandler)} className="flex flex-col">
-                <h1>{props.formName}</h1>
-                <ul>
+            <form onSubmit={handleSubmit(submitHandler)} className="grid grid-cols-2 grid-rows-[1fr,3fr,1fr] h-3/4 ">
+                <h1 className="col-span-2 text-center h-24 border-b-4 border-brightPink  pt-6 rounded-2xl ">{props.formName}</h1>
+                <ul className="flex flex-col items-center " >
                     <Input register={{...register('jobTitle', {required:true})}} labelName="Job Title" inputData={{ type: "text", id: "jobTitle", placeholder:"e.g Retail Sales Associate", defaultValue:props.data?.jobTitle  }}> </Input>
                     {errors.jobTitle &&  <p className="text-[#e04040] text-xs"> Job Title field is empty</p>}
                     <Input register={{...register('employer', {required:true})}} labelName="Employer" inputData={{ type: "text", id: "employer", placeholder:"e.g H&M", defaultValue:props.data?.employer  }}> </Input>
@@ -69,9 +70,17 @@ export default function WorkInfoForm(props){
                     {watch('currentlyWorking') || <Input register={{...register('endDate', {required:true})}} labelName="End Date" inputData={{ type: "date", id: "endDate", defaultValue:newEndDate}}> </Input>}
                     {errors.endDate?.type === 'required' &&  <p className="text-[#e04040] text-xs"> End Date field is empty</p>}
                     {errors.endDate?.type === 'custom' && <p className="text-[#e04040] text-xs"> {`${errors.endDate.message}`}</p>}
-                    <Checkbox register={{...register('currentlyWorking' )}} labelName="I currently work here" inputData={{ type: "checkbox", id: "currentlyWorking"}}> </Checkbox>
+                    
+                </ul>
+                <ul>
+                    <TextBox register={{...register('jobDescription')}} labelName='Job Description' inputData={{id:'jobDescription', defaultValue:props.data?.jobDescription}} />
+                </ul>
+                <ul className="col-span-2 flex flex-col items-center">
+                <Checkbox register={{...register('currentlyWorking' )}} labelName="I currently work here" inputData={{ type: "checkbox", id: "currentlyWorking"}}> </Checkbox>
+                <div>
                     <Button bgColor='bg-green' onClick={handleSubmit(submitHandler)}>Submit</Button>
                     <Button bgColor='bg-green' onClick={cancelHandler}>Cancel</Button>
+                </div>
                 </ul>
                 
             </form>

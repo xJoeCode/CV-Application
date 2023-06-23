@@ -14,7 +14,7 @@ export default function EducationInfo(props){
 
     return (
 
-        <motion.div variants={props.animation}  className=" flex flex-col items-center m-3">
+        <motion.div variants={props.animation}  className=" flex flex-col items-start m-3">
             <p  className="font-serif text-center text-ultraDarkBlue text-xl">{`School: ${props.schoolName}`}</p>
             <p   className="font-serif text-ultraDarkBlue text-center text-xl">{`Location: ${props.schoolLocation}`}</p>
             <p   className="font-serif text-ultraDarkBlue text-center text-xl">{`Qualifications: ${props.qualifications.value}`}</p>

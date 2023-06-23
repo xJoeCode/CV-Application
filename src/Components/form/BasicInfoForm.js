@@ -46,7 +46,7 @@ export default function BasicInfoForm(props) {
 
 
     return (
-        <div className="p-5">
+        <div className="p-5 bg-[#e4e4e4]">
             <h1 className="font-serif text-6xl m-2 text-center text-ultraDarkBlue">{props.formName}</h1>
             <form onSubmit={handleSubmit(submitHandler)} className="flex flex-col items-center content-between text-center">
                 <Input  register={{...register('name', {required:true})}} labelName="Name" inputData={{ type: "text", id: "name", defaultValue:props.data?.name }}></Input>
@@ -84,8 +84,8 @@ export default function BasicInfoForm(props) {
                     <ButtonSmall className='relative top-3' onClick={(e)=>deleteSocialLinksHandler(socialsData,e,entry[0])}>Remove</ButtonSmall>
                 </div>))}
                 
-                <Button onClick={handleSubmit(submitHandler)} bgColor='bg-green'>Submit</Button>
-                <Button onClick={cancelHandler} bgColor='bg-green'>Cancel</Button>
+                <Button onClick={handleSubmit(submitHandler)} bgColor='bg-brightBlue'>Submit</Button>
+                <Button onClick={cancelHandler} bgColor='bg-brightBlue'>Cancel</Button>
             
             </form>
         </div>

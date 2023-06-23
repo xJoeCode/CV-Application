@@ -5,7 +5,6 @@ import { collection, addDoc, setDoc, getDoc, doc } from "firebase/firestore";
 export const apiSlice = createApi({
     reducerPath:'api',
     baseQuery: fakeBaseQuery(),
-    tagTypes:['Register'],
     keepUnusedDataFor: 30,
     endpoints: (build) => ({
         registerUser: build.query({
@@ -32,7 +31,6 @@ export const apiSlice = createApi({
 
                 try{
                     const userCredential = await signInWithEmailAndPassword(auth,email,password)
-                    console.log(userCredential)
                     return {data:userCredential}
                 }
                 catch(error){

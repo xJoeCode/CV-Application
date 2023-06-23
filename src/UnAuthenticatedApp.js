@@ -1,8 +1,8 @@
 import MainBackground from "./Components/UI/MainBackground"
 import { Routes, Route, Navigate} from 'react-router-dom'
 import MainAuthButtons from "./Components/Main/MainAuthButtons"
-import RegistrationForm from "./Components/Main/RegistrationForm"
-import SignInForm from "./Components/Main/SignInForm"
+import RegistrationForm from "./Components/form/RegistrationForm"
+import SignInForm from "./Components/form/SignInForm"
 
 
 

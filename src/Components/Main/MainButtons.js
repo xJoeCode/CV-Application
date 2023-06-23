@@ -33,9 +33,9 @@ function MainButtons(props) {
 
  return(
     <div>
-        {mainButtonsDisplay && <Button onClick={()=>clickHandler('displayEducationInfoForm')} bgColor='bg-green'> Add Education </Button>}
-        {mainButtonsDisplay && <Button onClick={()=>clickHandler('displayWorkHistoryForm')} bgColor='bg-green'> Add Work </Button>}
-        {mainButtonsDisplay && <Button onClick={showEditButtonsHandler} bgColor='bg-green'> Edit/Remove </Button>}
+        {mainButtonsDisplay && <Button onClick={()=>clickHandler('displayEducationInfoForm')} bgColor='bg-brightBlue'> Add Education </Button>}
+        {mainButtonsDisplay && <Button onClick={()=>clickHandler('displayWorkHistoryForm')} bgColor='bg-brightBlue'> Add Work </Button>}
+        {mainButtonsDisplay && <Button onClick={showEditButtonsHandler} bgColor='bg-brightBlue'> Edit/Remove </Button>}
   </div>
  )   
 }

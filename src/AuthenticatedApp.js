@@ -9,6 +9,7 @@ import MainButtons from './Components/Main/MainButtons';
 import MainForms from './Components/Main/MainForms';
 import CreateResumeButtons from './Components/Main/CreateResumeButtons';
 import Logo from './Components/UI/Logos/Logo';
+import Banner from './Components/Main/Banner';
 import { useAccount } from './Components/Context/accountContext';
 import ResumeLoader from './Components/Main/ResumeLoader';
 import { useNavigate } from "react-router-dom"
@@ -29,14 +30,7 @@ function AuthenticatedApp() {
   const navigate = useNavigate()
 
 
-
-
-
- 
     console.log('current account details',acc)
-
-
-
 
 
     const ExpandedStateHandler = useCallback((options) =>{
@@ -70,30 +64,20 @@ function AuthenticatedApp() {
     }
 
 
-  
 
   return (
   <FormsProvider>
-    <div className='flex w-full h-auto bg-[#ebebeb] m-0 p-0 '>
-        <Logo />
-        <div className='flex flex-col justify-center'>
-        <p>Welcome</p>
-        <p>{acc.email}</p>
-        <a className=' text-[#e04040] cursor-pointer' onClick={signOut} href="/">Sign Out</a>
-        </div>
-        
-    </div>
+    <Banner acc={acc} signOut={signOut} />
   <div className=' bg-beige h-fit flex flex-col justify-start items-center'>
-  
-  <ResumeLoader setCvDisplay={setCvDisplay} />
-  <CreateResumeButtons setShowEditButtons={showEditButtonsHandler} setExpandedState={ExpandedStateHandler} />
-  <MainButtons setShowEditButtons={showEditButtonsHandler} setExpandedState={ExpandedStateHandler} setCvDisplayState={CvDisplayHandler} />
-  <FormsContainer className={expandedState ?'w-11/12 h-auto flex items-center justify-center bg-[#e4e4e4] overflow-auto':'w-11/12 h-0 bg-[#e4e4e4]'}>
-    <MainForms formId={formId} setCvDisplay={CvDisplayHandler} expandedState={expandedState} setExpandedState={ExpandedStateHandler} />
-  </FormsContainer>
-  {cvDisplay && <CvContainer>
-    <MainCv cvDisplay={cvDisplay} showEditButtons={showEditButtons} setformId={setformIdHandler} setShowEditButtons={showEditButtonsHandler} setExpandedState={ExpandedStateHandler}  setCvDisplay={CvDisplayHandler} />
-  </CvContainer>}
+    <ResumeLoader setCvDisplay={setCvDisplay} />
+    <CreateResumeButtons setShowEditButtons={showEditButtonsHandler} setExpandedState={ExpandedStateHandler} />
+    <MainButtons setShowEditButtons={showEditButtonsHandler} setExpandedState={ExpandedStateHandler} setCvDisplayState={CvDisplayHandler} />
+    <FormsContainer className={expandedState ?'w-11/12 h-auto flex items-center justify-center bg-[#e4e4e4] overflow-auto':'w-11/12 h-0 bg-[#e4e4e4]'}>
+      <MainForms formId={formId} setCvDisplay={CvDisplayHandler} expandedState={expandedState} setExpandedState={ExpandedStateHandler} />
+    </FormsContainer>
+    {cvDisplay && <CvContainer>
+      <MainCv cvDisplay={cvDisplay} showEditButtons={showEditButtons} setformId={setformIdHandler} setShowEditButtons={showEditButtonsHandler} setExpandedState={ExpandedStateHandler}  setCvDisplay={CvDisplayHandler} />
+    </CvContainer>}
 </div>
 </FormsProvider>
   );

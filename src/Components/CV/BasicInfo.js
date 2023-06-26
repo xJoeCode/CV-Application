@@ -11,7 +11,7 @@ import { memo } from "react"
 
 
     return(
-    <div className=" bg-brightPink w-full h-full text-center ">
+    <div className=" bg-brightPink w-full h-full text-center rounded-sm">
         <h1 className="font-serif m-8 capitalize text-ultraDarkBlue text-3xl">{props.name}</h1>
         <p className="font-serif text-ultraDarkBlue text-xl">{props.email}</p>
         <p className="font-serif text-ultraDarkBlue text-xl">{props.profession}</p>

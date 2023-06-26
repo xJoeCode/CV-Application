@@ -78,8 +78,8 @@ export default function WorkInfoForm(props){
                 <ul className="col-span-2 flex flex-col items-center">
                 <Checkbox register={{...register('currentlyWorking' )}} labelName="I currently work here" inputData={{ type: "checkbox", id: "currentlyWorking"}}> </Checkbox>
                 <div>
-                    <Button bgColor='bg-green' onClick={handleSubmit(submitHandler)}>Submit</Button>
-                    <Button bgColor='bg-green' onClick={cancelHandler}>Cancel</Button>
+                    <Button bgColor='bg-brightBlue' onClick={handleSubmit(submitHandler)}>Submit</Button>
+                    <Button bgColor='bg-brightBlue' onClick={cancelHandler}>Cancel</Button>
                 </div>
                 </ul>
                 

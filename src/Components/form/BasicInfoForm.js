@@ -12,12 +12,14 @@ export default function BasicInfoForm(props) {
 
     const {register, unregister, formState: { errors }, control, handleSubmit} = useForm()
     const [socialLinks,setSocialLinks] = useState([])
+    const [skills, setSkills] = useState([])
+    const [skillsInput, setSkillsInput] = useState('')
     const [editedSocialLinks,setEditedSocialLinks]=useState( props.data && Object.entries(props.data)?.filter(entry=>(entry[0].includes('socials_') && entry[1].link)))
 
 
     const submitHandler = (data,e) =>{
-        //console.log(data)
         e.preventDefault()
+        data.skills = [...skills]
         props.basicFormData(data)
     }
 
@@ -37,13 +39,23 @@ export default function BasicInfoForm(props) {
         console.log(data)
         id && unregister(id)
         socialLinks.length !== 0 ? setSocialLinks(prevLinks =>([...(prevLinks.slice(0,-1))])) : setEditedSocialLinks(prevLinks =>([...(prevLinks.filter(entry=> !entry[0].includes(id)))]))
-  
+    }
+
+    const setSkillsHandler = (e) =>{
+        e.preventDefault()
+        if (!skills.includes(skillsInput)){
+            setSkills((prevskills) =>[...prevskills, skillsInput])
+        }
+        setSkillsInput('')
+    }
+
+    const removeSkillsHandler = skill =>{
+        setSkills((prevskills)=>prevskills.filter(skills=> !skills.includes(skill)))
     }
 
     const socialWebsites = [{label:'Twitter',value:'Twitter'},{label:'Linkedin', value:'Linkedin'},{label:'Website',value:'Website'}]
     const socialsData = props.data && Object.entries(props.data)?.filter(entry=>(entry[0].includes('socials_')))
     
-
 
     return (
         <div className="p-5 bg-[#e4e4e4]">
@@ -83,6 +95,22 @@ export default function BasicInfoForm(props) {
                     <Input register={{...register(`${entry[0]}.link`)}} labelName="Social Link" inputData={{ type: "text", id: `socialLink_${entry[0]}`, required:"required", defaultValue:entry[1].link }} ></Input>
                     <ButtonSmall className='relative top-3' onClick={(e)=>deleteSocialLinksHandler(socialsData,e,entry[0])}>Remove</ButtonSmall>
                 </div>))}
+                
+                <div className="flex">
+                    <Input value={skillsInput} onChange={(e) => setSkillsInput(e.target.value)} labelName="Skills" inputData={{ type: "text", id: "skills", defaultValue:props.data?.skills}}></Input>
+                    <ButtonSmall className='relative top-8' onClick={(e)=>setSkillsHandler(e)}>Add</ButtonSmall>
+                </div>
+
+                <div className="flex flex-col">
+                    {skills.length > 0 && <p>Skills: </p>}
+                    <div className="flex w-[24rem] justify-center flex-wrap">
+                        {skills.length > 0 && skills.map(skill=>(
+                        <p key={skill} onClick={()=>removeSkillsHandler(skill)} className={ 'border-2 rounded-sm m-1 p-1 cursor-pointer hover:line-through'} >{` ${skill} `}</p>
+                        ))}
+                    </div>
+                </div>
+                
+                
                 
                 <Button onClick={handleSubmit(submitHandler)} bgColor='bg-brightBlue'>Submit</Button>
                 <Button onClick={cancelHandler} bgColor='bg-brightBlue'>Cancel</Button>

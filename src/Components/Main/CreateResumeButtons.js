@@ -15,9 +15,9 @@ const CreateResumeButtons = (props) =>{
 
 
     return(
-        <>
-        {!formStates.cvIncludes?.includes('BasicInfo') && <Button bgColor='bg-green' onClick={()=>clickHandler('displayBasicInfoForm')}>Create Resume</Button>}
-        </>
+        <div className='mt-16'>
+        {!formStates.cvIncludes?.includes('BasicInfo') && <Button bgColor='bg-brightBlue' onClick={()=>clickHandler('displayBasicInfoForm')}>Create Resume</Button>}
+        </div>
     )
 }
 

@@ -30,7 +30,7 @@ function MainCv({ setShowEditButtons, setExpandedState, setCvDisplay,cvDisplay, 
 
     }, [formStates,cvDisplay,dispatchForms]);
 
-    const clickHandler = useCallback(
+    const basicInfoHandler = useCallback(
         (data) => {
             setShowEditButtons(false);
             setExpandedState("swap");
@@ -95,7 +95,7 @@ function MainCv({ setShowEditButtons, setExpandedState, setCvDisplay,cvDisplay, 
         <>
             {
                 <BasicInfo
-                    onClick={useCallback(() => clickHandler("editBasicInfoForm"), [clickHandler])}
+                    onClick={useCallback(() => basicInfoHandler("editBasicInfoForm"), [basicInfoHandler])}
                     showButtons={props.showEditButtons}
                     {...basicInfoData[0]}
                 ></BasicInfo>

@@ -57,7 +57,9 @@ export default function WorkInfoForm(props){
     return(
         <div className="font-serif text-6xl m-2 p-5 text-ultraDarkBlue">
             <form onSubmit={handleSubmit(submitHandler)} className="grid grid-cols-2 grid-rows-[1fr,3fr,1fr] h-3/4 ">
-                <h1 className="col-span-2 text-center h-24 border-b-4 border-brightPink  pt-6 rounded-2xl ">{props.formName}</h1>
+                <div className="col-span-2 flex justify-center">
+                <h1 className=" w-fit h-24 border-b-4 border-brightPink  pt-6 rounded-2xl ">{props.formName}</h1>
+                </div>
                 <ul className="flex flex-col items-center " >
                     <Input register={{...register('jobTitle', {required:true})}} labelName="Job Title" inputData={{ type: "text", id: "jobTitle", placeholder:"e.g Retail Sales Associate", defaultValue:props.data?.jobTitle  }}> </Input>
                     {errors.jobTitle &&  <p className="text-[#e04040] text-xs"> Job Title field is empty</p>}

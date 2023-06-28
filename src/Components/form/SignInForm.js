@@ -28,7 +28,8 @@ export default function SignInForm (props) {
         }
 
         if(isSuccess){
-            setAcc(userCredential.user)
+
+            setAcc({...userCredential.user, testUser:false})
             window.localStorage.setItem("currentUser", JSON.stringify(userCredential.user))
             navigate("/CV-Application")
         }

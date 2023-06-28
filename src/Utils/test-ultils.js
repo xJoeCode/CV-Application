@@ -24,7 +24,7 @@ const buildFormData = () => {
             profession: faker.name.jobTitle(),
             phoneNumber: faker.phone.number("+65########"),
             address: faker.address.city(),
-            socials_b4fdbfd: { link: `${faker.internet.url()}`, website: { label: "Website", value: "Website" } },
+            socialLinks: [{ link: `${faker.internet.url()}`, website: 'Website' }],
         };
     }
 

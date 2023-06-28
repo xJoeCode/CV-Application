@@ -30,6 +30,8 @@ function AuthenticatedApp() {
   const navigate = useNavigate()
 
 
+
+
     console.log('current account details',acc)
 
 

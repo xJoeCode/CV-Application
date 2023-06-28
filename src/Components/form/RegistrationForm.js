@@ -40,8 +40,10 @@ export default function RegistrationForm (props) {
         }
 
         if (isSuccess){
-            setAcc(userCredential)
-            window.localStorage.setItem("currentUser", JSON.stringify(userCredential))
+
+            const userDetails = {...userCredential, testUser:false}
+            setAcc(userDetails)
+            window.localStorage.setItem("currentUser", JSON.stringify(userDetails))
             navigate("/CV-Application")
         }
 

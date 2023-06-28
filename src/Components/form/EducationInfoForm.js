@@ -84,7 +84,7 @@ export default function EducationInfoForm(props){
                     { watch('currentlyAttending') || <Input register={{...register('graduationEndDate', {required:true})}} labelName="Graduation End Date" inputData={{ type: "date", id: "graduationEndDate", value:newEndDate}}> </Input>}
                     {errors.graduationEndDate?.type === 'custom' && <p className="text-[#e04040] text-xs"> {`${errors.graduationEndDate.message}`}</p>}
                     {errors.graduationEndDate?.type === 'required' && <p className="text-[#e04040] text-xs"> Graduation End Date field is empty</p>}
-                    <Checkbox register={{...register('currentlyAttending')}} labelName="I currently attend here" inputData={{ type: "checkbox", id: "currentlyAttending"}}> </Checkbox>
+                    <Checkbox register={{...register('currentlyAttending')}} labelName="I currently study here" inputData={{ type: "checkbox", id: "currentlyAttending"}}> </Checkbox>
                     
                     <Button bgColor='bg-brightBlue' onClick={handleSubmit(submitHandler)}>Submit</Button>
                     <Button bgColor='bg-brightBlue' onClick={cancelHandler}>Cancel</Button>

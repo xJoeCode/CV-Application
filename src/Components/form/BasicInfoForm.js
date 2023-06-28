@@ -12,10 +12,10 @@ export default function BasicInfoForm(props) {
    
 
     const {register, formState: { errors }, handleSubmit} = useForm()
-    const [skills, setSkills] = useState(()=> props.data.skills || [])
+    const [skills, setSkills] = useState(()=> props.data?.skills || [])
     const [skillsInput, setSkillsInput] = useState('')
     const [socialLinksInput, setSocialLinksInput] = useState({website:'Twitter', link:''})
-    const [socialLinks,setSocialLinks] = useState(() => props.data.socialLinks || [])
+    const [socialLinks,setSocialLinks] = useState(() => props.data?.socialLinks || [])
     const {acc} = useAccount()
 
 
@@ -71,8 +71,6 @@ export default function BasicInfoForm(props) {
 
 
 
-    console.log('socialLinks', socialLinks)
-
     
 
     return (
@@ -91,23 +89,6 @@ export default function BasicInfoForm(props) {
                 {errors?.phoneNumber?.type === 'pattern' && <p className="text-[#e04040]"> Please Enter a valid Phone Number</p>}
                 <Input register={{...register('address', {required:true})}} labelName="Address" inputData={{ type: "text", id: "address", defaultValue:props.data?.address }}></Input>
                 {errors?.address?.type === 'required' && <p className="text-[#e04040]"> Address field is missing</p>}
-                <ButtonSmall onClick={addSocialLinksHandler}>Add Social Links</ButtonSmall>
-
-            
-                
-                <div className="flex">
-                    <Input value={skillsInput} onChange={(e) => setSkillsInput(e.target.value)} labelName="Skills" inputData={{ type: "text", id: "skills"}}></Input>
-                    <ButtonSmall className='relative top-8' onClick={(e)=>setSkillsHandler(e)}>Add</ButtonSmall>
-                </div>
-
-                <div className="flex flex-col">
-                    {skills.length > 0 && <p>Skills: </p>}
-                    <div className="flex w-[24rem] justify-center flex-wrap">
-                        {skills.length > 0 && skills.map(skill=>(
-                        <p key={skill} onClick={()=>removeSkillsHandler(skill)} className={ 'border-2 rounded-sm m-1 p-1 cursor-pointer hover:line-through'} >{` ${skill} `}</p>
-                        ))}
-                    </div>
-                </div>
                 
                 <p className="mt-2">Social Link: </p>
                 <div className="flex flex-row">
@@ -125,6 +106,20 @@ export default function BasicInfoForm(props) {
                     <div className="flex w-[24rem] justify-center flex-wrap">
                         {socialLinks.length > 0 && socialLinks.map(socialLink=>(
                         <p key={socialLink.link} onClick={()=>removeSocialLinksHandler(socialLink)} className={ 'border-2 rounded-sm m-1 p-1 cursor-pointer hover:line-through'} >{` ${socialLink.website}: ${socialLink.link} `}</p>
+                        ))}
+                    </div>
+                </div>
+
+                <div className="flex">
+                    <Input value={skillsInput} onChange={(e) => setSkillsInput(e.target.value)} labelName="Skills" inputData={{ type: "text", id: "skills"}}></Input>
+                    <ButtonSmall className='relative top-8' onClick={(e)=>setSkillsHandler(e)}>Add</ButtonSmall>
+                </div>
+
+                <div className="flex flex-col">
+                    {skills.length > 0 && <p>Skills: </p>}
+                    <div className="flex w-[24rem] justify-center flex-wrap">
+                        {skills.length > 0 && skills.map(skill=>(
+                        <p key={skill} onClick={()=>removeSkillsHandler(skill)} className={ 'border-2 rounded-sm m-1 p-1 cursor-pointer hover:line-through'} >{` ${skill} `}</p>
                         ))}
                     </div>
                 </div>

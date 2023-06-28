@@ -4,19 +4,37 @@ import BasicInfoForm from '../form/BasicInfoForm'
 import EducationInfoForm from '../form/EducationInfoForm'
 import WorkInfoForm from '../form/WorkInfoForm'
 import {useEffect, useState} from 'react'
-import {useUpdateResumeMutation} from '../../features/api/apiSlice'
 import useDbStatusState from '../../hooks/useDbStatusState'
+import { buildFormData } from '../../Utils/test-ultils'
 
 
 const MainForms = (props)=> {
 
     const [formStates,dispatchForms] = useForms()
     const {setDbStatus} = useDbStatusState({formStates})
+    const {acc} = useAccount()
+    const [generatedDataInstance, setGeneratedDataInstance] = useState(false)
+
+    
+    
+
+
+    useEffect(()=>{
+      if (acc.testUser && !generatedDataInstance){
+        const tempBasicInfoData = buildFormData().basicInfo();
+        dispatchForms({cvIncludes:'BasicInfo', formData:{...tempBasicInfoData, email:acc.email}})
+        dispatchForms({cvIncludes:'EducationInfo', formData:buildFormData().educationInfo()})
+        dispatchForms({cvIncludes:'WorkInfo', formData:buildFormData().workInfo()})
+        setGeneratedDataInstance(true)
+        props.setCvDisplay(true)
+        props.setExpandedState(false)
+      }
+    },[acc.testUser,dispatchForms,generatedDataInstance,props,acc.email])
 
 
     const basicFormDataHandler = (data) =>{
         dispatchForms({cvIncludes:'BasicInfo', formData:data})
-        setDbStatus('mutate')
+        !acc.testUser  && setDbStatus('mutate')
         props.setCvDisplay(true)
         props.setExpandedState(false)
       }
@@ -31,7 +49,7 @@ const MainForms = (props)=> {
         const dateOptions = { year:'numeric', month:'long', day:'numeric'}
         data.schoolName && (id ? dispatchForms({type:'editEducationInfo', formData:data, formId: id}) : dispatchForms({cvIncludes:'EducationInfo', formData:data}))
         data.jobTitle && (id ? dispatchForms({type:'editWorkInfo', formData:data, formId: id}) : dispatchForms({cvIncludes:'WorkInfo', formData:data}))
-        setDbStatus('mutate')
+        !acc.testUser  && setDbStatus('mutate')
         props.setCvDisplay(true)
         props.setExpandedState(false)
       }

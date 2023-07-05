@@ -7,7 +7,7 @@ import { getFirestore } from "firebase/firestore"
 import { useAccount } from "./Components/Context/accountContext";
 import {BrowserRouter, Routes, Route} from "react-router-dom"
 import {useEffect} from 'react'
-import {Configuration, OpenAIApi} from 'openai'
+
 
 
 const firebaseConfig = {
@@ -21,11 +21,6 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig)
 const db = getFirestore(app)
-
-const configuration = new Configuration({
-  apiKey: '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'
-})
-
 
 
 

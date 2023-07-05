@@ -67,10 +67,10 @@ export default function EducationInfoForm(props){
   
 
     return(
-        <div className="font-serif text-6xl m-2 p-5  text-ultraDarkBlue">
+        <div className=" m-2 p-5  text-ultraDarkBlue">
             <form  className="flex flex-col">
-            <h1 className=" border-b-4 border-brightPink h-24 pt-6 w-full rounded-2xl">{props.formName}</h1>
-                <ul>
+            <h1 className=" border-b-4 border-brightPink text-4xl  lg:text-6xl mb-4 h-auto font-serif text-center pt-6 w-full rounded-2xl">{props.formName}</h1>
+                <ul className="flex flex-col items-center">
                     <Input register={{...register('schoolName', {required:true})}} labelName="School Name" inputData={{ type: "text", id: "School Name", placeholder:"e.g James Cook Univeristy", value:props.data?.schoolName }}> </Input>
                     {errors.schoolName &&  <p className="text-[#e04040] text-xs"> School Name field is empty</p>}
                     <Input register={{...register('schoolLocation', {required:true})}} labelName="School Location" inputData={{ type: "text", id: "School Name", placeholder:"e.g Singapore", value:props.data?.schoolLocation }}> </Input>
@@ -85,9 +85,10 @@ export default function EducationInfoForm(props){
                     {errors.graduationEndDate?.type === 'custom' && <p className="text-[#e04040] text-xs"> {`${errors.graduationEndDate.message}`}</p>}
                     {errors.graduationEndDate?.type === 'required' && <p className="text-[#e04040] text-xs"> Graduation End Date field is empty</p>}
                     <Checkbox register={{...register('currentlyAttending')}} labelName="I currently study here" inputData={{ type: "checkbox", id: "currentlyAttending"}}> </Checkbox>
-                    
-                    <Button bgColor='bg-brightBlue' onClick={handleSubmit(submitHandler)}>Submit</Button>
-                    <Button bgColor='bg-brightBlue' onClick={cancelHandler}>Cancel</Button>
+                    <div className="flex flex-col lg:flex-row">
+                        <Button bgColor='bg-brightBlue' onClick={handleSubmit(submitHandler)}>Submit</Button>
+                        <Button bgColor='bg-brightBlue' onClick={cancelHandler}>Cancel</Button>
+                    </div>
                 </ul>
                 
             </form>

@@ -72,7 +72,7 @@ export default function RegistrationForm (props) {
 
     return(
             
-            <motion.div initial={{translateY:-500}} animate={{translateY:0}} transition={{duration:0.8, type:"spring", ease:"easeInOut"}} className="bg-[#ebebeb] p-6 mt-6 w-max h-max shadow-xl rounded-lg flex  flex-row  justify-center items-center'">
+            <motion.div initial={{translateY:-500}} animate={{translateY:0}} transition={{duration:0.8, type:"spring", ease:"easeInOut"}} className="bg-[#ebebeb] p-6 mt-6 w-auto h-max shadow-xl rounded-lg flex  flex-row  justify-center items-center'">
                 <form onSubmit={handleSubmit(submitHandler)}>
                     <h1 className=" font-serif m-8 capitalize text-center text-ultraDarkBlue text-3xl"> Register</h1>  
                     <Input  register={{...register('email', {required:true, pattern:/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/})}} labelName="Email" inputData={{ type: "email", id: "email" }}></Input>

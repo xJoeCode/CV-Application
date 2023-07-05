@@ -28,9 +28,9 @@ function MainAuthButtons(){
 
     return(
         <>
-        <div className="w-full h-screen flex justify-center items-center" >
-            <div  className={pathname !== '/CV-Application/' ? " bg-beige w-4/5 h-3/5 flex flex-row justify-center items-center rounded-md shadow-xl" : " bg-beige w-1/5 h-3/5 flex flex-col justify-center items-center rounded-md shadow-xl"}>
-                <div  className={pathname !== '/CV-Application/' ?'flex bg-brightPink h-full flex-col justify-center items-center w-2/5' : 'flex h-full flex-col justify-center items-center'}>
+        <div className="w-screen h-screen flex justify-center items-center" >
+            <div  className={pathname !== '/CV-Application/' ? " bg-beige w-4/5 h-auto lg:h-3/5 lg:p-0 p-8 flex flex-col lg:flex-row justify-center items-center rounded-md shadow-xl" : " bg-beige w-3/5  lg:w-1/5 h-3/5 flex flex-col justify-center items-center rounded-md shadow-xl"}>
+                <div  className={pathname !== '/CV-Application/' ?'flex bg-brightPink h-full lg:flex-col flex-row flex-wrap justify-center items-center w-cover' : 'flex h-full flex-col justify-center items-center'}>
                         <h1 className='font-serif m-8 capitalize text-ultraDarkBlue text-3xl text-center'>xJoeCode Resume Builder</h1>
                         <Link to='register'>
                             <Button2

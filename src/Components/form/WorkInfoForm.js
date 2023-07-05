@@ -55,10 +55,10 @@ export default function WorkInfoForm(props){
     
 
     return(
-        <div className="font-serif text-6xl m-2 p-5 text-ultraDarkBlue">
-            <form onSubmit={handleSubmit(submitHandler)} className="grid grid-cols-2 grid-rows-[1fr,3fr,1fr] h-3/4 ">
+        <div className="m-2 p-5 font-serif text-ultraDarkBlue">
+            <form onSubmit={handleSubmit(submitHandler)} className=" flex flex-col lg:grid lg:grid-cols-2 lg:grid-rows-[1fr,3fr,1fr] h-cover ">
                 <div className="col-span-2 flex justify-center">
-                <h1 className=" w-fit h-24 border-b-4 border-brightPink  pt-6 rounded-2xl ">{props.formName}</h1>
+                <h1 className=" w-fit h-3/5 border-b-4 border-brightPink text-4xl  lg:text-6xl text-center mb-4  pt-6 rounded-2xl ">{props.formName}</h1>
                 </div>
                 <ul className="flex flex-col items-center " >
                     <Input register={{...register('jobTitle', {required:true})}} labelName="Job Title" inputData={{ type: "text", id: "jobTitle", placeholder:"e.g Retail Sales Associate", defaultValue:props.data?.jobTitle  }}> </Input>
@@ -74,15 +74,15 @@ export default function WorkInfoForm(props){
                     {errors.endDate?.type === 'custom' && <p className="text-[#e04040] text-xs"> {`${errors.endDate.message}`}</p>}
                     
                 </ul>
-                <ul>
+                <ul className="flex flex-col items-center ">
                     <TextBox register={{...register('jobDescription')}} labelName='Job Description' inputData={{id:'jobDescription', defaultValue:props.data?.jobDescription}} />
                 </ul>
-                <ul className="col-span-2 flex flex-col items-center">
+                <ul className="col-span-2 flex flex-col items-center p-0">
                 <Checkbox register={{...register('currentlyWorking' )}} labelName="I currently work here" inputData={{ type: "checkbox", id: "currentlyWorking"}}> </Checkbox>
-                <div>
-                    <Button bgColor='bg-brightBlue' onClick={handleSubmit(submitHandler)}>Submit</Button>
-                    <Button bgColor='bg-brightBlue' onClick={cancelHandler}>Cancel</Button>
-                </div>
+                    <div className="flex flex-col lg:flex-row">
+                        <Button bgColor='bg-brightBlue' onClick={handleSubmit(submitHandler)}>Submit</Button>
+                        <Button bgColor='bg-brightBlue' onClick={cancelHandler}>Cancel</Button>
+                    </div>
                 </ul>
                 
             </form>

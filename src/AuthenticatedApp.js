@@ -70,7 +70,7 @@ function AuthenticatedApp() {
   return (
   <FormsProvider>
     <Banner acc={acc} signOut={signOut} />
-  <div className=' bg-beige h-fit min-h-screen flex flex-col justify-start items-center'>
+  <div className=' bg-beige h-fit w-full min-h-screen flex flex-col justify-start items-center'>
     <ResumeLoader setCvDisplay={setCvDisplay} />
     <CreateResumeButtons setShowEditButtons={showEditButtonsHandler} setExpandedState={ExpandedStateHandler} />
     <MainButtons setShowEditButtons={showEditButtonsHandler} setExpandedState={ExpandedStateHandler} setCvDisplayState={CvDisplayHandler} />

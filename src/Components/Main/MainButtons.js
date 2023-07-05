@@ -32,7 +32,7 @@ function MainButtons(props) {
 
 
  return(
-    <div>
+    <div className='flex flex-wrap justify-center '>
         {mainButtonsDisplay && <Button onClick={()=>clickHandler('displayEducationInfoForm')} bgColor='bg-brightBlue'> Add Education </Button>}
         {mainButtonsDisplay && <Button onClick={()=>clickHandler('displayWorkHistoryForm')} bgColor='bg-brightBlue'> Add Work </Button>}
         {mainButtonsDisplay && <Button onClick={showEditButtonsHandler} bgColor='bg-brightBlue'> Edit/Remove </Button>}

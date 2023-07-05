@@ -15,15 +15,15 @@ export default function EducationInfo(props){
     return (
 
         <motion.div variants={props.animation}  className=" flex flex-col items-start m-3">
-            <p  className="font-serif text-center text-ultraDarkBlue text-xl">{`School: ${props.schoolName}`}</p>
-            <p   className="font-serif text-ultraDarkBlue text-center text-xl">{`Location: ${props.schoolLocation}`}</p>
-            <p   className="font-serif text-ultraDarkBlue text-center text-xl">{`Qualifications: ${props.qualifications.value}`}</p>
+            <p  className="font-serif text-center text-ultraDarkBlue sm:text-sm lg:text-xl">{`School: ${props.schoolName}`}</p>
+            <p   className="font-serif text-ultraDarkBlue text-center sm:text-sm lg:text-xl">{`Location: ${props.schoolLocation}`}</p>
+            <p   className="font-serif text-ultraDarkBlue text-center sm:text-sm lg:text-xl">{`Qualifications: ${props.qualifications.value}`}</p>
             <ul  className=" flex justify-center m-4">
                 <li>
-                    <p className="font-serif text-ultraDarkBlue  text-xl">{`${props.graduationStartDate} -`}</p>
+                    <p className="font-serif text-ultraDarkBlue  sm:text-sm lg:text-xl">{`${props.graduationStartDate} -`}</p>
                 </li>
                 <li>
-                    <p className="font-serif text-ultraDarkBlue mx-2 text-xl">{props.graduationEndDate}</p>
+                    <p className="font-serif text-ultraDarkBlue mx-2 sm:text-sm lg:text-xl">{props.graduationEndDate}</p>
                 </li>
             </ul>
             <div>

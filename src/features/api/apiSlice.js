@@ -1,6 +1,6 @@
 import { createApi, fakeBaseQuery } from '@reduxjs/toolkit/query/react'
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword} from 'firebase/auth'
-import { collection, addDoc, setDoc, getDoc, doc } from "firebase/firestore"; 
+import {  setDoc, getDoc, doc } from "firebase/firestore"; 
 
 export const apiSlice = createApi({
     reducerPath:'api',
@@ -70,7 +70,8 @@ export const apiSlice = createApi({
                     throw new Error(error.message)
                 }
             }
-        })
+        }),
+
     })
 
 })

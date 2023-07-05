@@ -4,10 +4,11 @@ import Button2 from "../UI/Button2"
 import { useAccount } from '../Context/accountContext'
 import { buildFormData } from '../../Utils/test-ultils'
 import {useForms} from '../Context/formContext'
+import {memo} from 'react'
 
 
 
-export default function MainAuthButtons(){
+function MainAuthButtons(){
 
     const basicInfoData = buildFormData().basicInfo();
     const {email, ...otherData } = basicInfoData
@@ -50,3 +51,7 @@ export default function MainAuthButtons(){
     </>
     )
 }
+
+MainAuthButtons = memo(MainAuthButtons)
+
+export default MainAuthButtons

@@ -1,8 +1,8 @@
 import Logo from "../UI/Logos/Logo"
+import {memo} from 'react'
 
 
-
-export default function Banner({acc, signOut, ...props}){
+function Banner({acc, signOut, ...props}){
 
 
     return(
@@ -17,3 +17,7 @@ export default function Banner({acc, signOut, ...props}){
     </div>
     )
 }
+
+Banner = memo(Banner)
+
+export default  Banner

@@ -57,13 +57,13 @@ function AuthenticatedApp() {
       setformId(id)
     },[])
 
-    const signOut = (e) =>{
+    const signOut = useCallback((e) =>{
       e.preventDefault()
       setAcc(null)
       window.localStorage.removeItem('currentUser')
       window.localStorage.removeItem('formStates')
       window.localStorage.removeItem('cvDisplay')
-    }
+    },[setAcc])
 
 
 

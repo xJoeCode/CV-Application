@@ -17,7 +17,7 @@ export default function UnAuthenticatedApp(props){
         <>
         <div className="flex justify-center items-center">
             <Routes>
-                <Route path='/' element={<Navigate to='/CV-Application'/>} />
+                <Route path='/' element={<Navigate to='/CV-Application/'/>} />
                 <Route path='*' element={<h2>404 Page Not Found</h2>} />
                 <Route path="/CV-Application" element={<MainAuthButtons />}  > 
                     <Route path="register" element={<RegistrationForm auth={props.auth} />} />

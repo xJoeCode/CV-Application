@@ -2,10 +2,8 @@ import Input from "../Inputs/Input";
 import Button from "../UI/Button";
 import ButtonSmall from "../UI/ButtonSmall";
 import {useForm, Controller} from 'react-hook-form'
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAccount } from "../Context/accountContext";
-import uuid from "react-uuid";
-import Select from "react-select";
 
 export default function BasicInfoForm(props) {
 
@@ -17,6 +15,8 @@ export default function BasicInfoForm(props) {
     const [socialLinksInput, setSocialLinksInput] = useState({website:'Twitter', link:''})
     const [socialLinks,setSocialLinks] = useState(() => props.data?.socialLinks || [])
     const {acc} = useAccount()
+   
+
 
 
     const submitHandler = (data,e) =>{

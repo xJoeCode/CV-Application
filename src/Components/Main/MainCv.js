@@ -103,7 +103,7 @@ function MainCv({ setShowEditButtons, setExpandedState, setCvDisplay,cvDisplay, 
             <motion.div variants={parentAnimation} initial="hidden" animate="show" className="col-span-3 flex flex-col h-full p-3">
                 
                 {formStates.cvIncludes.includes("EducationInfo") && (
-                    <motion.h1 variants={childAnimation} className="font-serif text-ultraDarkBlue mt-2 border-b-2 text-3xl">
+                    <motion.h1 variants={childAnimation} className="font-serif text-ultraDarkBlue mt-2 border-b-2 text-xl lg:text-3xl">
                         Education
                     </motion.h1>
                 )}
@@ -119,7 +119,7 @@ function MainCv({ setShowEditButtons, setExpandedState, setCvDisplay,cvDisplay, 
                         ></EducationInfo>
                     ))}
                 {formStates.cvIncludes.includes("WorkInfo") && (
-                    <motion.h1 variants={childAnimation} className="font-serif text-ultraDarkBlue mt-2 border-b-2 text-3xl">
+                    <motion.h1 variants={childAnimation} className="font-serif text-ultraDarkBlue mt-2 border-b-2 text-xl lg:text-3xl">
                         Work
                     </motion.h1>
                 )}

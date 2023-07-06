@@ -14,10 +14,10 @@ import { memo } from "react"
     return(
     <div className=" bg-brightPink min-h-screen w-full h-full text-center rounded-sm break-words">
         <h1 className="font-serif m-4 capitalize text-ultraDarkBlue sm:text-xl lg:text-3xl">{props.name}</h1>
-        <p className="font-serif text-ultraDarkBlue sm:text-sm lg:text-xl ">{props.email}</p>
-        <p className="font-serif text-ultraDarkBlue sm:text-sm lg:text-xl">{props.profession}</p>
-        <p className="font-serif text-ultraDarkBlue sm:text-sm lg:text-xl">{props.phoneNumber}</p>
-        <p className="font-serif text-ultraDarkBlue sm:text-sm lg:text-xl">{props.address}</p>
+        <p className="font-serif m-2 text-ultraDarkBlue text-sm lg:text-xl ">{props.email}</p>
+        <p className="font-serif m-2 text-ultraDarkBlue text-sm lg:text-xl">{props.profession}</p>
+        <p className="font-serif m-2 text-ultraDarkBlue text-sm lg:text-xl">{props.phoneNumber}</p>
+        <p className="font-serif m-2 text-ultraDarkBlue text-sm lg:text-xl">{props.address}</p>
         {/*socials && socials.map(entry=><p key={entry[0]} className="font-serif text-ultraDarkBlue mt-3 text-xl" >{`${entry[1].website.value}: ${entry[1].link}`}</p>) */}
 
         <ul className="mt-2">

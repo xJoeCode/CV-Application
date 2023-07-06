@@ -30,9 +30,9 @@ function MainAuthButtons(){
     return(
         <>
         <div className="w-screen h-screen flex justify-center items-center" >
-            <div  className={pathname !== '/CV-Application/' ? " bg-beige w-4/5 h-auto lg:h-3/5 lg:pb-0 pb-8 flex flex-col lg:flex-row justify-center items-center rounded-md shadow-xl" : " bg-beige w-3/5  lg:w-1/5 h-3/5 flex flex-col justify-center items-center rounded-md shadow-xl"}>
-                <div  className={pathname !== '/CV-Application/' ?'flex bg-brightPink h-full lg:flex-col flex-row  justify-center items-center w-cover' : 'flex h-full flex-col justify-center items-center'}>
-                    <Logo styles='w-5/12 bg-transparent' />
+            <div  className={pathname !== '/CV-Application/' ? " bg-beige w-full lg:w-4/5 h-auto lg:h-3/5 lg:pb-0 pb-8 flex flex-col lg:flex-row justify-center items-center rounded-md shadow-xl" : " bg-beige w-3/5  lg:w-1/5 h-3/5 flex flex-col justify-center items-center rounded-md shadow-xl"}>
+                <div  className={pathname !== '/CV-Application/' ?'flex bg-brightPink h-full lg:flex-col flex-col justify-center items-center w-cover' : 'flex h-full flex-col justify-center items-center'}>
+                    <Logo styles=' w-0 lg:w-5/12 bg-transparent' />
                         <h1 className='font-serif m-8 capitalize text-ultraDarkBlue text-3xl text-center'>xJoeCode Resume Builder</h1>
                         <div className='flex justify-center  flex-wrap'>
                             <Link to='register'>
